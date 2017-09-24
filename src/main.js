@@ -6,6 +6,7 @@ import router from './router'
 import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.min.css'
 import Axios from 'axios'
+import store from './vuex/store'
 Axios.defaults.baseURL = 'http://localhost/20170918/thinkphp5/public'
 
 Vue.use(MintUI)
@@ -16,6 +17,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: { App }
 })
