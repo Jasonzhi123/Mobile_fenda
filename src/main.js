@@ -7,9 +7,12 @@ import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.min.css'
 import Axios from 'axios'
 import store from './vuex/store'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-default/index.css'
 Axios.defaults.baseURL = 'http://localhost/20170918/thinkphp5/public'
 
 Vue.use(MintUI)
+Vue.use(ElementUI)
 Vue.prototype.$http = Axios
 
 Vue.config.productionTip = false

@@ -2,12 +2,14 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Index from '@/view/index'
 import Login from '@/view/login'
-import Find from '@/view/find'
 import Ask from '@/view/ask'
 import Expert from '@/view/ask/expert_page'
-import question from '@/view/ask/questions'
 import start from '@/view/start'
 import smalltalk from '@/view/small_talk/small_talk'
+import listen from '@/view/listen/listen'
+import lisDetailQue from '@/view/listen/detailQue'
+import bought from '@/view/bought'
+import my from '@/view/my'
 Vue.use(Router)
 
 export default new Router({
@@ -25,8 +27,8 @@ export default new Router({
           component: start
         },
         {
-          path: 'Find',
-          component: Find
+          path: 'listen',
+          component: listen
         },
         {
           path: 'Ask',
@@ -37,18 +39,26 @@ export default new Router({
           component: Expert
         },
         {
-          path: 'question',
-          component: question
+          path: '/my',
+          component: my
         }
       ]
     },
     {
-      path: '/Login',
-      component: Login
-    },
-    {
       path: '/smalltalk',
       component: smalltalk
+    },
+    {
+      path: '/lisDetailQue',
+      component: lisDetailQue
+    },
+    {
+      path: '/bought',
+      component: bought
+    },
+    {
+      path: '/Login',
+      component: Login
     }
   ]
 })
