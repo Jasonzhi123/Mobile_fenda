@@ -3,13 +3,14 @@ import Router from 'vue-router'
 import Index from '@/view/index'
 import Login from '@/view/login'
 import Ask from '@/view/ask'
-import Expert from '@/view/ask/expert_page'
 import start from '@/view/start'
 import smalltalk from '@/view/small_talk/small_talk'
 import listen from '@/view/listen/listen'
 import lisDetailQue from '@/view/listen/detailQue'
 import bought from '@/view/bought'
 import my from '@/view/my'
+import expert from '@/view/expert/expert'
+import headlines from '@/view/headlines'
 Vue.use(Router)
 
 export default new Router({
@@ -35,8 +36,8 @@ export default new Router({
           component: Ask
         },
         {
-          path: 'Expert/:id',
-          component: Expert
+          path: '/bought',
+          component: bought
         },
         {
           path: '/my',
@@ -53,12 +54,16 @@ export default new Router({
       component: lisDetailQue
     },
     {
-      path: '/bought',
-      component: bought
-    },
-    {
       path: '/Login',
       component: Login
+    },
+    {
+      path: '/expert',
+      component: expert
+    },
+    {
+      path: '/headlines',
+      component: headlines
     }
   ]
 })

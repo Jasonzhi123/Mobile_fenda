@@ -19,7 +19,7 @@
 
 		<!--按钮导航-->
 		<div class="btn">
-			<router-link to="/" class="btn_menu">
+			<router-link to="/expert" class="btn_menu">
 				<img src="../assets/icon_nav_article.png" />
 				<p>找专家</p>
 			</router-link>
@@ -42,7 +42,7 @@
 			<div class="headlines">
 				<h3>分答头条 | 免费</h3>
 				<div class="headtop">
-					<img src="../../../thinkphp5/public/static/admin/avatar1.jpg" />
+					<img src="../assets/profile.jpg" />
 					<div class="head_right">
 						<p>标题</p>
 						<div class="author">
@@ -62,7 +62,7 @@
 					</li>
 				</ul>
 				<el-badge :value="5" :max="5" class="head_tip">
-					<p>今日未读</p>
+					<p @click="openHeadlines">今日未读</p>
 				</el-badge>
 			</div>
 
@@ -72,7 +72,7 @@
 					<h3>社区 | 牛人的主题学习圈</h3>
 				</div>
 				<div class="item">
-					<img src="https://medias.zaih.com/360452fdb3a3776dba224016c997_252x339.png?imageMogr2/thumbnail/160x" />
+					<img src="../assets/profile.jpg" />
 					<div class="right">
 						<div style="position: relative;">
 							<strong>知识管理训练营</strong>
@@ -93,7 +93,7 @@
 					</div>
 				</div>
 				<div class="item">
-					<img src="https://medias.zaih.com/360452fdb3a3776dba224016c997_252x339.png?imageMogr2/thumbnail/160x" />
+					<img src="../assets/profile.jpg" />
 					<div class="right">
 						<div>
 							<strong>知识管理训练营</strong>
@@ -130,8 +130,8 @@
 						<mt-tab-item id="1">推荐</mt-tab-item>
 						<mt-tab-item id="2">职场·成长</mt-tab-item>
 						<mt-tab-item id="3">理财·房产</mt-tab-item>
-						<mt-tab-item id="3">生活·教育</mt-tab-item>
-						
+						<mt-tab-item id="4">生活·教育</mt-tab-item>
+
 					</mt-navbar>
 
 					<!-- tab-container -->
@@ -175,10 +175,44 @@
 							</div>
 						</mt-tab-container-item>
 						<mt-tab-container-item id="2">
-							<mt-cell v-for="n in 4" :title="'测试 ' + n" />
+							<div class="select_item">
+								<img src="../assets/logo.png"/>
+								<div class="right">
+									<div class="r_item">
+										<el-badge value="专题"  class="item"></el-badge>
+									<span>破除3大误区，一招提升读书动力</span>
+									</div>
+									<div class="author">
+										<div class="author_name">
+											陈章鱼  知乎60万关注的读书人，分答首批答主
+										</div>
+										<div class="classification">
+											<span class="one">职场·成长</span>
+											<span>888人参加</span>
+										</div>
+									</div>
+								</div>
+							</div>
 						</mt-tab-container-item>
 						<mt-tab-container-item id="3">
-							<mt-cell v-for="n in 6" :title="'选项 ' + n" />
+							<div class="select_item">
+								<img src="../assets/logo.png"/>
+								<div class="right">
+									<div class="r_item">
+										<el-badge value="专题"  class="item"></el-badge>
+									<span>破除3大误区，一招提升读书动力</span>
+									</div>
+									<div class="author">
+										<div class="author_name">
+											陈章鱼  知乎60万关注的读书人，分答首批答主
+										</div>
+										<div class="classification">
+											<span class="one">职场·成长</span>
+											<span>888人参加</span>
+										</div>
+									</div>
+								</div>
+							</div>
 						</mt-tab-container-item>
 					</mt-tab-container>
 				<!--</div>-->
@@ -194,28 +228,33 @@
 </template>
 
 <script type="es6">
-	
-	export default { 
-		data () { 
+
+	export default {
+		data () {
 			return {
 				value : '' ,
-				selected :'0'
-			} 
-		} 
+				selected :'1'
+			}
+		},
+        methods:{
+            openHeadlines:function(){
+                this.$router.push('/headlines')
+            }
+        }
 	}
-	
+
 </script>
 
 <style lang="scss">
 	/*body,html,div,p,span,ul,li,a,img,h3{
   margin: 0rem;padding: 0rem;
 }*/
-	
+
 	* {
 		margin: 0rem;
 		padding: 0rem;
 	}
-	
+
 	.index {
 		width: 100%;
 		height: 100%;

@@ -12,7 +12,7 @@
           <li @click="openDetailQue">
             <div class="listen_title">
               <a href="#"><img src="../../assets/7.jpg">情感专家栗子姐&nbsp;&nbsp;</a>
-              <span><a href="/#/listen/detailQue">来自话题：分答精选</a></span>
+              <span><a href="#/lisDetailQue">来自话题：分答精选</a></span>
             </div>
             <p class="listen_content">我在老婆怀孕期间，和另一个女孩发生了关系，并被老婆发现了，如何挽回她的心？</p>
             <div class="listen_foot">
