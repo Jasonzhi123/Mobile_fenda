@@ -22,7 +22,7 @@
       </div>
       <ul class="list">
         <li>开通答主<span>></span></li>
-        <li>我的分币<span>></span></li>
+        <li>我的分币<span>></span><i class="fenbi">0</i></li>
         <li>兑换码<span>></span></li>
         <li>我的下载<span>></span></li>
         <li>结算说明<span>></span></li>
@@ -69,7 +69,7 @@ a{
 .my .list >li{
   height: 2.4rem;
   line-height: 2.4rem;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   color: #3f3f3f;
   border-bottom: 1px solid #DED9D9;
   clear: both;
@@ -79,7 +79,7 @@ a{
 }
 .my{
   text-align: left;
-  padding: 0 0.6rem;
+  padding: 0 1rem;
 }
 .my .before .title{
   width: 100%;
@@ -105,7 +105,7 @@ a{
 .my .after .title{
   width: 100%;
   text-align: left;
-  font-size: 0.8rem;
+  font-size: 1rem;
   padding: 1.2rem 0;
   border-bottom: 1px solid #DED9D9;
 }
@@ -124,11 +124,17 @@ a{
   line-height: 2rem;
 }
 .my .after .title .income{
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   color: #3f3f3f;
 }
 .my .after .title .tip{
   font-size: 0.6rem;
   color: #999;
+}
+.my .after .list .fenbi{
+  color: #F85F48;
+  float: right;
+  font-style: unset;
+  margin-right: 0.8rem;
 }
 </style>

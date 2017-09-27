@@ -18,7 +18,8 @@
         <p class="question">在银行柜台当柜员已经八年有余，身边有背景的人纷纷升职，有能力的本科很多还在坚守，到了事业瓶颈期，现在想脱产读硕考cpa还是不现实吗？学的是法律，如何转型呢？谢谢</p>
         <div class="answer">
           <img src="../../assets/7.jpg">
-          <play-button class="color_blue btn">限时免费听</play-button>
+          <div class="btn" @click.stop="play()" style="display: inline-block;">
+              <play-button class="color_green">限时免费听</play-button></div>
           59"
         </div>
         <div class="foot">
@@ -42,7 +43,8 @@
         <p class="question">在银行柜台当柜员已经八年有余，身边有背景的人纷纷升职，有能力的本科很多还在坚守，到了事业瓶颈期，现在想脱产读硕考cpa还是不现实吗？学的是法律，如何转型呢？谢谢</p>
         <div class="answer">
           <img src="../../assets/7.jpg">
-          <play-button class="color_blue btn">限时免费听</play-button>
+          <div class="btn" @click.stop="play()" style="display: inline-block;">
+              <play-button class="color_green">限时免费听</play-button></div>
           59"
         </div>
         <div class="foot">
@@ -58,7 +60,7 @@
         </div>
       </li>
     </ul>
-    <a class="expert">
+    <a class="expert" href="/#/answerPage">
       <img src="../../assets/7.jpg">
       <p>
         张百忍<br>
@@ -81,7 +83,7 @@
       </div>
     </div>
     <p class="attent"><span>关注「分答」微信公众号，才能接收提问、结算通知</span>
-      <br><br>步骤：打开微信 - 点击右上角 + 添加朋友 - 公众号 -
+      <br>步骤：打开微信 - 点击右上角 + 添加朋友 - 公众号 -
       <br>搜索：zaihang360 - 关注</p>
   </div>
 </template>
@@ -98,6 +100,11 @@ export default {
   },
   components: {
     PlayButton
+  },
+  methods: {
+    play: function () {
+
+    }
   }
 }
 </script>
@@ -117,32 +124,32 @@ a{
   background: #f4f4f4;
 }
 .detailQue>h5{
-  font-size: 0.68rem;
+  font-size: 0.8rem;
   font-weight: normal;
   color: #999;
-  height: 1.84rem;
-  line-height: 1.84rem;
-  padding: 0 0.5rem;
+  height: 2rem;
+  line-height: 2rem;
+  padding: 0 1rem;
 }
 .detailQue>h5>span{
   color: #6880B4;
 }
 .detailQue .content_list{
   background: #fff;
-  padding: 0 0.5rem;
-  margin-bottom: 0.64rem;
+  padding: 0 1rem;
+  margin-bottom: 0.8rem;
 }
 .detailQue .content_list .content .asker{
-  height: 1.6rem;
-  line-height: 1.6rem;
+  height: 2rem;
+  line-height: 2rem;
   padding: 0.5rem 0;
   clear: both;
-  font-size: 0.64rem;
+  font-size: 0.8rem;
   color: #999;
 }
 .detailQue .content_list .content .asker>img{
-  width: 1.6rem;
-  height: 1.6rem;
+  width: 2rem;
+  height: 2rem;
   float: left;
   display: inline-block;
   border-radius: 100%;
@@ -153,27 +160,27 @@ a{
   color: #F85F48;
 }
 .detailQue .content_list .content .question{
-  font-size: 0.64rem;
+  font-size: 0.8rem;
   margin-left: 2rem;
 }
 .detailQue .content_list .content .answer{
-  height: 1.6rem;
-  padding: 0.5rem 0;
+  height: 2rem;
+  padding: 0.8rem 0;
   clear: both;
   color: #999;
-  font-size: 0.64rem;
+  font-size: 0.8rem;
   border-bottom: 1px solid #DED9D9;
 }
 /*.detailQue .content_list .content .answer .btn{
   width: 11rem;
 }*/
 .detailQue .content_list .content .answer>img{
-  width: 1.6rem;
-  height: 1.6rem;
+  width: 2rem;
+  height: 2rem;
   float: left;
   display: inline-block;
   border-radius: 100%;
-  margin-right: 0.5rem;
+  margin-right: 0.8rem;
 }
 .detailQue .content_list .content .foot{
   font-size: 0.56rem;
@@ -200,9 +207,9 @@ a{
 .detailQue .expert{
   display: block;
   clear: both;
-  padding: 0.5rem 0.5rem;
+  padding: 0.8rem 1rem;
   background: #fff;
-  margin-bottom: 0.64rem;
+  margin-bottom: 0.8rem;
 }
 .detailQue .expert >img{
   width: 2.4rem;
@@ -213,7 +220,7 @@ a{
   margin-right: 0.5rem;
 }
 .detailQue .expert>p{
-  font-size: 0.64rem;
+  font-size: 0.8rem;
   color: #3F3F3F;
   display: inline-block;
 }
@@ -238,10 +245,10 @@ a{
 }
 .detailQue .worth_listen{
   background: #fff;
-  font-size: 0.64rem;
+  font-size: 0.8rem;
   color: #3f3f3f;
-  padding: 0.5rem 0.5rem;
-  margin-bottom: 0.64rem;
+  padding: 0.8rem 1rem;
+  margin-bottom: 0.8rem;
 }
 .detailQue .worth_listen >span{
   color: #999;
@@ -262,12 +269,15 @@ a{
   margin-right: 0.5rem;
 }
 .detailQue .attent{
-  padding: 0.8rem 0.5rem;
-  font-size: 0.64rem;
+  padding: 0.8rem 1rem;
+  font-size: 0.8rem;
   background: #fff;
+  text-align: center;
   /*margin-bottom: 0.64rem;*/
 }
 .detailQue .attent >span{
+  display: inline-block;
   color: #F85F48;
+  margin-bottom: 0.5rem;
 }
 </style>

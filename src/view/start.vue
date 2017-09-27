@@ -42,7 +42,7 @@
 			<div class="headlines">
 				<h3>分答头条 | 免费</h3>
 				<div class="headtop">
-					<img src="../../../thinkphp5/public/static/admin/avatar1.jpg" />
+					<img src="" />
 					<div class="head_right">
 						<p>标题</p>
 						<div class="author">

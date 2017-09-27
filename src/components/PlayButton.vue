@@ -4,7 +4,7 @@
  -->
 <template>
 	<div class="playButton">
-		<a @click="clickPlay">
+		<a>
 			<img src="../assets/voice.png">
 			<slot></slot>
 			<span><i></i></span>
@@ -13,7 +13,7 @@
 </template>
 <style type="text/css">
 .playButton{
-	font-size: 0.774rem;
+	font-size: 0.9rem;
 	display: inline-block;
 }
 .playButton >a{
@@ -21,7 +21,7 @@
 	height: 1.6rem;
 	line-height: 1.6rem;
 	position: relative;
-	padding: 0 1.6rem;
+	padding: 0.3rem 2.4rem;
 	text-align: center;
 	background: #28AEF5;
 	color: #fff;
@@ -33,7 +33,7 @@
 	position: absolute;
 	top: 50%;
 	margin-top: -0.4rem;
-	left: 0.4rem;
+	left: 0.64rem;
 }
 .playButton >a >span{
 	display: inline-block;
@@ -66,5 +66,9 @@
 </style>
 <script type="text/javascript">
 export default{
+  data () {
+    return {
+    }
+  }
 }
 </script>

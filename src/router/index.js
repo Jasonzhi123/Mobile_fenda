@@ -10,6 +10,10 @@ import listen from '@/view/listen/listen'
 import lisDetailQue from '@/view/listen/detailQue'
 import bought from '@/view/bought'
 import my from '@/view/my'
+import answerPage from '@/view/answerPage'
+import ansPageSearch from '@/view/ansPageSearch'
+import kuaiwen from '@/view/kuaiwen/kuaiwen'
+import kuaiwenOne from '@/view/kuaiwen/kuaiwenOne'
 Vue.use(Router)
 
 export default new Router({
@@ -41,6 +45,14 @@ export default new Router({
         {
           path: '/my',
           component: my
+        },
+        {
+          path: '/kuaiwen',
+          component: kuaiwen
+        },
+        {
+          path: '/kuaiwenOne',
+          component: kuaiwenOne
         }
       ]
     },
@@ -59,6 +71,14 @@ export default new Router({
     {
       path: '/Login',
       component: Login
+    },
+    {
+      path: '/answerPage',
+      component: answerPage
+    },
+    {
+      path: '/ansPageSearch',
+      component: ansPageSearch
     }
   ]
 })
