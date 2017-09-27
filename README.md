@@ -1,30 +1,23 @@
-# my-project
+命名：
+components模板的页面：
+组件：
+	loginayer：登录页
+	Collections：合辑
 
-> A Vue.js project
 
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
-```
-
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+view视图下的页面：
+	ask：快问
+	expert：找专家
+	listen：收听
+	small_talk:小讲
+	
+	bought：已购
+	headlines 头条
+	login ：登录
+	my: 我的
+		download 下载
+		openandanswer 开通答主
+		cents ；分币
+		redeemcode 兑换码
+		settlementstatement
+	start ：首页

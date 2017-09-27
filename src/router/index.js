@@ -3,17 +3,26 @@ import Router from 'vue-router'
 import Index from '@/view/index'
 import Login from '@/view/login'
 import Ask from '@/view/ask'
-import Expert from '@/view/ask/expert_page'
 import start from '@/view/start'
 import smalltalk from '@/view/small_talk/small_talk'
 import listen from '@/view/listen/listen'
 import lisDetailQue from '@/view/listen/detailQue'
 import bought from '@/view/bought'
 import my from '@/view/my'
+<<<<<<< HEAD
 import answerPage from '@/view/answerPage'
 import ansPageSearch from '@/view/ansPageSearch'
 import kuaiwen from '@/view/kuaiwen/kuaiwen'
 import kuaiwenOne from '@/view/kuaiwen/kuaiwenOne'
+=======
+import expert from '@/view/expert/expert'
+import workplace from '@/view/expert/workplace'
+import polularScience from '@/view/expert/polular_Science'
+import health from '@/view/expert/health'
+import all from '@/view/expert/all'
+import headlines from '@/view/headlines'
+import openandanswer from '@/view/my/openandanswer'
+>>>>>>> 4c9d4b4b44f7a5fb771c6e149be3dc6fe1ca515a
 Vue.use(Router)
 
 export default new Router({
@@ -39,8 +48,8 @@ export default new Router({
           component: Ask
         },
         {
-          path: 'Expert/:id',
-          component: Expert
+          path: '/bought',
+          component: bought
         },
         {
           path: '/my',
@@ -65,20 +74,45 @@ export default new Router({
       component: lisDetailQue
     },
     {
-      path: '/bought',
-      component: bought
-    },
-    {
       path: '/Login',
       component: Login
     },
     {
+<<<<<<< HEAD
       path: '/answerPage',
       component: answerPage
     },
     {
       path: '/ansPageSearch',
       component: ansPageSearch
+=======
+      path: '/expert',
+      component: expert
+    },
+    {
+      path: '/headlines',
+      component: headlines
+    },
+    {
+      path: '/workplace',
+      component: workplace
+    },
+    {
+      path: '/polularScience',
+      component: polularScience
+    },
+    {
+      path: '/health',
+      component: health
+    },
+    {
+      path: '/all',
+      component: all
+    },
+    {
+      path: '/openandanswer',
+      component: openandanswer
+>>>>>>> 4c9d4b4b44f7a5fb771c6e149be3dc6fe1ca515a
     }
   ]
 })
