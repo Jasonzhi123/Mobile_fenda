@@ -21,7 +21,7 @@
         <p class="tip">收入90%归你，每夜结算，自动入库微信钱包</p>
       </div>
       <ul class="list">
-        <li>开通答主<span>></span></li>
+        <li @click="openandanswer">开通答主<span>></span></li>
         <li>我的分币<span>></span></li>
         <li>兑换码<span>></span></li>
         <li>我的下载<span>></span></li>
@@ -35,7 +35,7 @@
   </div>
 </template>
 
-<script>
+<script type="es6">
 export default {
   name: 'my',
   data () {
@@ -46,6 +46,9 @@ export default {
   methods: {
     openLoginPage: function () {
       this.$router.push('/login')
+    },
+    openandanswer:function (){
+      this.$router.push('/openandanswer')
     }
   }
 }
@@ -60,6 +63,9 @@ p,html,body,ul,li,a,i,div,h5,h1{
 }
 a{
   text-decoration: none;
+}
+.my{
+	margin-bottom: 3rem;
 }
 .my .title img{
   width: 2rem;

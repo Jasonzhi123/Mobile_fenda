@@ -1,18 +1,18 @@
 <template>
 	<div class="expert">
-		<mt-header>
+		<mt-header fixed title="全部头条">
 		  <router-link to="/" slot="left">
 		    <mt-button icon="back">返回</mt-button>
 		  </router-link>
 		</mt-header>
 		<div class="special_item">
-			<router-link to="/expert" class="special_menu">
+			<router-link to="/health" class="special_menu">
 				<img src="../../assets/kang.png" />
 				<p>健康</p>
-			</router-link><router-link to="/expert" class="special_menu">
+			</router-link><router-link to="/workplace" class="special_menu">
 				<img src="../../assets/zhi.png" />
 				<p>职场</p>
-			</router-link><router-link to="/expert" class="special_menu">
+			</router-link><router-link to="/polularScience" class="special_menu">
 				<img src="../../assets/ke.png" />
 				<p>科普</p>
 			</router-link>
@@ -26,7 +26,7 @@
 				<li><a href="">心理</a></li>
 				<li><a href="">育儿</a></li>
 				<li><a href="">学术</a></li>
-				<li><a href="">全部</a></li>
+				<li><a href="/#/all">全部</a></li>
 			</ul>
 		</div>
 		<div class="collection">
@@ -93,28 +93,31 @@
 	li{
 		list-style: none;
 	}
+	p{
+		font-size: 0.8rem;
+	}
 	.expert{
 		width: 100%;
 		background: #F5F5F5;
 		color: #3F3F3F;
+		margin-top: 2rem;
 		.special_item{
 			width: 100%;
 			display:flex;
 			justify-content: space-between;
-			margin-top: 0.5rem;
 			.special_menu{
 				flex: 1;				
 				background: #fff;
-				padding: 1rem 0rem 2rem;
-				height: 2.5rem;
+				padding: 0.5rem 0rem 2rem;
+				height: 2rem;
 				text-align: center;
 				margin-right: 0.5rem;
 				&:nth-child(3){
-				margin-right: 0rem;
+					margin-right: 0rem;
 				}
 				img{
-					width: 2.5rem;
-					height: 2.5rem;
+					width: 2.3rem;
+					height: 2.3rem;
 				}
 			}
 		}
@@ -124,14 +127,14 @@
 			display: flex;
 			justify-content: space-around;
 			flex-wrap: wrap;
-			width: 100%;
 				li{
 					width: 24%;
-					height: 2rem;
+					height: 1.5rem;
 					background: #fff;
 					text-align: center;
-					line-height: 2rem;
+					line-height: 1.5rem;
 					margin-bottom: 0.2rem;
+					font-size: 0.8rem;
 					a{
 						width: 100%;
 						height: 100%;
@@ -141,7 +144,7 @@
 			}
 		}
 		.collection{
-			margin-top: 1rem;
+			margin-top: 0.5rem;
 			background: #fff;
 			padding: 0rem 1rem;
 			.title{
@@ -151,12 +154,13 @@
 				border-bottom: 1px solid #E5E5E5;
 			}
 			.btn{
-				height: 3rem;
+				height: 2rem;
 				color: #F85F48;
 				display: flex;
+				padding: 0rem 1rem;
 				justify-content: space-between;
-				line-height: 3rem;
-				font-size: 0.8rem;
+				line-height: 2rem;
+				font-size: 0.7rem;
 			}
 		}
 	}

@@ -82,7 +82,6 @@ export default {
       this.$router.push('/lisDetailQue')
     },
     clickPlay: function (index) {
-      console.log(this.text[index], index)
       if (this.text[index] === '点击播放') {
         this.text[index] = '点击暂停'
       } else {

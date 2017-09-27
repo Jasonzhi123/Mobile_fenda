@@ -10,7 +10,12 @@ import lisDetailQue from '@/view/listen/detailQue'
 import bought from '@/view/bought'
 import my from '@/view/my'
 import expert from '@/view/expert/expert'
+import workplace from '@/view/expert/workplace'
+import polularScience from '@/view/expert/polular_Science'
+import health from '@/view/expert/health'
+import all from '@/view/expert/all'
 import headlines from '@/view/headlines'
+import openandanswer from '@/view/my/openandanswer'
 Vue.use(Router)
 
 export default new Router({
@@ -64,6 +69,26 @@ export default new Router({
     {
       path: '/headlines',
       component: headlines
+    },
+    {
+      path: '/workplace',
+      component: workplace
+    },
+    {
+      path: '/polularScience',
+      component: polularScience
+    },
+    {
+      path: '/health',
+      component: health
+    },
+    {
+      path: '/all',
+      component: all
+    },
+    {
+      path: '/openandanswer',
+      component: openandanswer
     }
   ]
 })
