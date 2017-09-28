@@ -1,12 +1,12 @@
 <template>
-	<div >
-		<mt-header title="登录注册">
-	  		<router-link to="/" slot="left">
-	    		<mt-button icon="back">返回</mt-button>
-	  		</router-link>
-	  		<mt-button icon="more" slot="right"></mt-button>
-		</mt-header>
-		<div class="login">
+	<div class="login">
+		<mt-header title="登录注册" class="header">
+		  	<router-link to="/" slot="left">
+		   		<mt-button icon="back">返回</mt-button>
+		  	</router-link>
+		  	<mt-button icon="more" slot="right"></mt-button>
+			</mt-header>
+		<div class="body">
 			<div class="item">
 				手机号<input type="text">
 				<span>发送验证码</span>
@@ -22,18 +22,36 @@
 				<br>微信快速登录
 			</div>
 			<p class="littleTip lasttip">注册表明您同意<span>分答用户协议</span></p>
+			</div>
 		</div>
-	</div>
 </template>
 <script type="text/javascript">
 export default {
 }
 </script>
 <style type="text/css">
+p,html,body,ul,li,a,i,div,h5{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+a{
+  text-decoration: none;
+  color: #191919;
+  display: inline-block;
+}
 .login{
 	text-align: left;
 	font-size: 0.8rem;
-	padding: 0.5rem;
+	/*padding: 0.5rem;*/
+}
+.login .header{
+  background: #fff;
+  color: #3f3f3f;
+  border-bottom: 1px solid #DED9D9;
+}
+.login .body{
+	padding: 0 0.8rem;
 }
 .login .item{
 	height: 2.4rem;
@@ -42,6 +60,7 @@ export default {
 	color: #999;
 	border-bottom: 1px solid #DED9D9;
 	clear: both;
+	margin-top: 2.
 }
 .login .item>input{
 	border: none;

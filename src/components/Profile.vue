@@ -26,6 +26,9 @@ export default{
 		margin: 0rem;
 		padding: 0rem;
 	}
+	p{
+		font-size: 0.8rem;
+	}
 	.profile{
 		display: flex;
 		align-items: center;
@@ -45,11 +48,13 @@ export default{
 		.mid{
 			margin-left:1rem;
 			flex:auto;
-			width: 100%;
+			width: calc(100% - 8rem);
 			overflow: hidden;
 			.name{
-				font-size: 1rem;
-				line-height: 2rem;
+				line-height: 1.5rem;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
 			}
 			.description{
 				color: #AAAAAA;
@@ -61,8 +66,8 @@ export default{
 			}
 		}
 		.right{
-			width:2rem;
-			height: 2rem;
+			width:1.5rem;
+			height: 1.5rem;
 			margin:0rem 1rem;
 			flex:none;
 			img{

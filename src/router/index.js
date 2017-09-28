@@ -14,8 +14,23 @@ import listen from '@/view/listen/listen'
 import lisDetailQue from '@/view/listen/detailQue'
 import bought from '@/view/bought'
 import my from '@/view/my'
+import answerPage from '@/view/answerPage'
+import ansPageSearch from '@/view/ansPageSearch'
+import kuaiwen from '@/view/kuaiwen/kuaiwen'
+import kuaiwenTopic from '@/view/kuaiwen/kuaiwenTopic'
+import kwenDetail from '@/view/kuaiwen/kwenDetail'
+import kwenAsk from '@/view/kuaiwen/kwenAsk'
 import expert from '@/view/expert/expert'
+import workplace from '@/view/expert/workplace'
+import polularScience from '@/view/expert/polular_Science'
+import health from '@/view/expert/health'
+import all from '@/view/expert/all'
 import headlines from '@/view/headlines'
+import openandanswer from '@/view/my/openandanswer'
+import cents from '@/view/my/cents'
+import setup from '@/view/my/set/setup'
+import validate from '@/view/my/set/validate'
+import binding from '@/view/my/set/binding'
 Vue.use(Router)
 
 export default new Router({
@@ -47,6 +62,22 @@ export default new Router({
         {
           path: '/my',
           component: my
+        },
+        {
+          path: '/kuaiwen',
+          component: kuaiwen
+        },
+        {
+          path: '/kuaiwenTopic',
+          component: kuaiwenTopic
+        },
+        {
+          path: '/kwenDetail',
+          component: kwenDetail
+        },
+        {
+          path: '/kwenAsk',
+          component: kwenAsk
         }
       ]
     },
@@ -83,12 +114,56 @@ export default new Router({
       component: Login
     },
     {
+      path: '/answerPage',
+      component: answerPage
+    },
+    {
+      path: '/ansPageSearch',
+      component: ansPageSearch
+    },
+    {
       path: '/expert',
       component: expert
     },
     {
       path: '/headlines',
       component: headlines
+    },
+    {
+      path: '/workplace',
+      component: workplace
+    },
+    {
+      path: '/polularScience',
+      component: polularScience
+    },
+    {
+      path: '/health',
+      component: health
+    },
+    {
+      path: '/all',
+      component: all
+    },
+    {
+      path: '/openandanswer',
+      component: openandanswer
+    },
+    {
+      path: '/cents',
+      component: cents
+    },
+    {
+      path: '/setup',
+      component: setup
+    },
+    {
+      path: '/validate',
+      component: validate
+    },
+    {
+      path: '/binding',
+      component: binding
     }
   ]
 })
