@@ -23,7 +23,7 @@
 				<img src="../assets/icon_nav_article.png" />
 				<p>找专家</p>
 			</router-link>
-			<router-link to="/" class="btn_menu">
+			<router-link to="/kuaiwen" class="btn_menu">
 				<img src="../assets/icon_nav_article.png" />
 				<p>快问</p>
 			</router-link>
@@ -42,11 +42,7 @@
 			<div class="headlines">
 				<p>分答头条 | 免费</p>
 				<div class="headtop">
-<<<<<<< HEAD
-					<img src="" />
-=======
 					<img src="../assets/profile.jpg" />
->>>>>>> 4c9d4b4b44f7a5fb771c6e149be3dc6fe1ca515a
 					<div class="head_right">
 						<p>标题</p>
 						<div class="author">

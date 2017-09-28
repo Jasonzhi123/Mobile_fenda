@@ -21,13 +21,10 @@
         <p class="tip">收入90%归你，每夜结算，自动入库微信钱包</p>
       </div>
       <ul class="list">
-<<<<<<< HEAD
         <li>开通答主<span>></span></li>
         <li>我的分币<span>></span><i class="fenbi">0</i></li>
-=======
         <li @click="openandanswer">开通答主<span>></span></li>
         <li>我的分币<span>></span></li>
->>>>>>> 4c9d4b4b44f7a5fb771c6e149be3dc6fe1ca515a
         <li>兑换码<span>></span></li>
         <li>我的下载<span>></span></li>
         <li>结算说明<span>></span></li>
