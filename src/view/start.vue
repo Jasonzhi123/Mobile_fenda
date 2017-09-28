@@ -42,7 +42,11 @@
 			<div class="headlines">
 				<p>分答头条 | 免费</p>
 				<div class="headtop">
+<<<<<<< HEAD
+					<img src="" />
+=======
 					<img src="../assets/profile.jpg" />
+>>>>>>> 4c9d4b4b44f7a5fb771c6e149be3dc6fe1ca515a
 					<div class="head_right">
 						<p>我们谈论谢娜怀孕时，到底在谈论什么？</p>
 						<div class="author">
