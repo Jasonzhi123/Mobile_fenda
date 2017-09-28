@@ -24,8 +24,9 @@
 	import profile from '../../components/Profile'
 	export default {
 		data () {
-		            return {
-		            }
+	            return {
+	            	
+	            }
 		        },
 		components:{
 			profile
