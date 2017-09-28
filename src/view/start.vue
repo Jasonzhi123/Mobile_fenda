@@ -44,21 +44,21 @@
 				<div class="headtop">
 					<img src="../assets/profile.jpg" />
 					<div class="head_right">
-						<p>标题</p>
+						<p>我们谈论谢娜怀孕时，到底在谈论什么？</p>
 						<div class="author">
-							<span class="name">jason</span>
-							<p>人物介绍人物介绍人物介绍</p>
+							<span class="name">潘幸知</span> |
+							<p>一大波情感咨询师的管理者</p>
 						</div>
 					</div>
 				</div>
 				<ul>
 					<li>
 						<img src="../assets/icon_nav_article.png" />
-						<p>标题111111111</p>
+						<p>香蕉和枣一起吃，会看到人生走马灯？</p>
 					</li>
 					<li>
 						<img src="../assets/icon_nav_article.png" />
-						<p>标题111111111</p>
+						<p>立的flag总是坚持不下去？原因可能是……</p>
 					</li>
 				</ul>
 				<el-badge :value="5" :max="5" class="head_tip">
@@ -71,33 +71,12 @@
 				<div class="title">
 					<p>社区 | 牛人的主题学习圈</p>
 				</div>
-				<div class="item">
+				<div class="item" v-for="n in 3">
 					<img src="../assets/profile.jpg" />
 					<div class="right">
-						<div style="position: relative;">
+						<div class="r_title">
 							<p class="title">知识管理训练营</p>
-							<p style="position: absolute; right: 0px;top: 0px; color: orangered;">¥99/21节课</p>
-						</div>
-						<div class="sub-title">
-							21天，升级你的大脑OS
-						</div>
-						<div class="name">
-							陈华伟
-						</div>
-						<div class="update">
-							4小时前更新：
-						</div>
-						<div class="update-time">
-							周六，周日直播的回看链接
-						</div>
-					</div>
-				</div>
-			<div class="item">
-					<img src="../assets/profile.jpg" />
-					<div class="right">
-						<div style="position: relative;">
-							<p class="title">知识管理训练营</p>
-							<p style="position: absolute; right: 0px;top: 0px; color: orangered;">¥99/21节课</p>
+							<p class="price">¥99/21节课</p>
 						</div>
 						<div class="sub-title">
 							21天，升级你的大脑OS
@@ -115,7 +94,7 @@
 				</div>
 				<div class="more">
 					<router-link to="/smalltalk" class="btn_menu">
-						查看更多》》》
+						查看更多 >
 					</router-link>
 				</div>
 			</div>
@@ -123,7 +102,7 @@
 			<!--小讲-->
 			<div class="community small_talk">
 				<div class="title">
-					<p>社区 | 牛人的主题学习圈</p>
+					<p>小讲 | 30分钟精品语音干货</p>
 				</div>
 				<!--<div class="item">-->
 					<mt-navbar v-model="selected">
@@ -218,7 +197,7 @@
 				<!--</div>-->
 				<div class="more">
 					<router-link to="/smalltalk" class="btn_menu">
-						查看更多》》》
+						查看更多>
 					</router-link>
 				</div>
 			</div>
@@ -256,7 +235,7 @@
 	.index {
 		width: 100%;
 		height: 100%;
-		margin-bottom: 2rem;
+		margin-bottom: 1.5rem;
 		font-size: #191919;
 		.search {
 			height: 1.6rem;
@@ -303,13 +282,22 @@
 					}
 					.head_right {
 						margin-left: 0.75rem;
-						width: calc(100% - 4.8rem);
+						width: calc(100% - 5rem);
+						p{
+							overflow: hidden;
+								white-space: nowrap;
+								text-overflow: ellipsis;
+						}
 						.author {
 							display: flex;
 							color: #999;
 							font-size: 0.6rem;
 							height: 2rem;
 							line-height: 1.5rem;
+							.name{
+								display: block;
+								width: 3rem;
+							}
 							p {
 								margin-left: 0.5rem;
 								overflow: hidden;
@@ -332,6 +320,9 @@
 						}
 						p {
 							margin-left: 0.5rem;
+							overflow: hidden;
+								white-space: nowrap;
+								text-overflow: ellipsis;
 						}
 					}
 				}
@@ -353,15 +344,24 @@
 					border-bottom: 1px solid #ccc;
 					padding-bottom: 1rem;
 					img {
-						width: 84px;
-						height: 112px;
+						margin-top: 0.7rem;
+						width: 4rem;
+						height: 5.5rem;
 					}
 					.right {
 						margin-left: 0.75rem;
 						width: 100%;
 						line-height: 1.1rem;
-						.title{
-							color: #191919;
+						.r_title{
+							display: flex;
+							.title{
+								color: #191919;
+								width: 60%;
+							}
+							.price{
+								color: orangered;
+								font-size: .6rem;
+							}
 						}
 						.name{
 							font-size: 0.7rem;
@@ -389,6 +389,7 @@
 					text-align: center;
 					line-height: 1.5rem;
 					margin-top: 0.5rem;
+					font-size: 0.7rem;
 					color: #90ABDA;
 					.btn_menu {
 						text-decoration: none;
