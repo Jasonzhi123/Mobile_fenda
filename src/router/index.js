@@ -9,12 +9,12 @@ import listen from '@/view/listen/listen'
 import lisDetailQue from '@/view/listen/detailQue'
 import bought from '@/view/bought'
 import my from '@/view/my'
-<<<<<<< HEAD
 import answerPage from '@/view/answerPage'
 import ansPageSearch from '@/view/ansPageSearch'
 import kuaiwen from '@/view/kuaiwen/kuaiwen'
-import kuaiwenOne from '@/view/kuaiwen/kuaiwenOne'
-=======
+import kuaiwenTopic from '@/view/kuaiwen/kuaiwenTopic'
+import kwenDetail from '@/view/kuaiwen/kwenDetail'
+import kwenAsk from '@/view/kuaiwen/kwenAsk'
 import expert from '@/view/expert/expert'
 import workplace from '@/view/expert/workplace'
 import polularScience from '@/view/expert/polular_Science'
@@ -22,14 +22,10 @@ import health from '@/view/expert/health'
 import all from '@/view/expert/all'
 import headlines from '@/view/headlines'
 import openandanswer from '@/view/my/openandanswer'
-<<<<<<< HEAD
 import cents from '@/view/my/cents'
 import setup from '@/view/my/set/setup'
 import validate from '@/view/my/set/validate'
 import binding from '@/view/my/set/binding'
-=======
->>>>>>> 4c9d4b4b44f7a5fb771c6e149be3dc6fe1ca515a
->>>>>>> 22b6e7c4c080cea0642c7f78c42dfb17d8c7ba4c
 Vue.use(Router)
 
 export default new Router({
@@ -67,8 +63,16 @@ export default new Router({
           component: kuaiwen
         },
         {
-          path: '/kuaiwenOne',
-          component: kuaiwenOne
+          path: '/kuaiwenTopic',
+          component: kuaiwenTopic
+        },
+        {
+          path: '/kwenDetail',
+          component: kwenDetail
+        },
+        {
+          path: '/kwenAsk',
+          component: kwenAsk
         }
       ]
     },
@@ -85,14 +89,14 @@ export default new Router({
       component: Login
     },
     {
-<<<<<<< HEAD
       path: '/answerPage',
       component: answerPage
     },
     {
       path: '/ansPageSearch',
       component: ansPageSearch
-=======
+    },
+    {
       path: '/expert',
       component: expert
     },
@@ -119,7 +123,6 @@ export default new Router({
     {
       path: '/openandanswer',
       component: openandanswer
-<<<<<<< HEAD
     },
     {
       path: '/cents',
@@ -136,9 +139,6 @@ export default new Router({
     {
       path: '/binding',
       component: binding
-=======
->>>>>>> 4c9d4b4b44f7a5fb771c6e149be3dc6fe1ca515a
->>>>>>> 22b6e7c4c080cea0642c7f78c42dfb17d8c7ba4c
     }
   ]
 })

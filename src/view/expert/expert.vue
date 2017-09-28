@@ -1,6 +1,6 @@
 <template>
 	<div class="expert">
-		<mt-header fixed title="全部头条">
+		<mt-header fixed title="全部头条" class="header">
 		  <router-link to="/" slot="left">
 		    <mt-button icon="back">返回</mt-button>
 		  </router-link>
@@ -82,6 +82,11 @@
     }
 </script>
 <style lang="scss">
+	.expert .header{
+	  background: #fff;
+	  color: #3f3f3f;
+	  border-bottom: 1px solid #DED9D9;
+	}
 	* {
 		margin: 0rem;
 		padding: 0rem;
