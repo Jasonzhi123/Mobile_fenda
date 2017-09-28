@@ -169,16 +169,17 @@ a{
 }
 .answerPage .box .title .answer{
   height: 3rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.8rem;
 }
 .answerPage .box .title .answer >img{
   width: 3rem;
   height: 3rem;
 }
 .answerPage .box .title p.name{
-	font-size: 1rem;
-	font-weight: 590;
+	font-size: 0.9rem;
+	font-weight: 600;
 	display: inline-block;
+	margin-top: 0.3rem;
 }
 .answerPage .box .title p.name >span{
 	font-size: 0.7rem;
@@ -191,10 +192,11 @@ a{
 .answerPage .box .title >a{
 	border: 1px solid #999;
 	color: #999;
-	padding: 0.2rem 0.5rem;
-	border-radius: 1rem;
+	padding: 0.1rem 0.4rem;
+	border-radius: 0.25rem;
 	display: inline-block;
 	margin-top: 0.5rem;
+	font-size: 0.64rem;
 }
 /*问答*/
 .answerPage .ask{
@@ -202,10 +204,12 @@ a{
 	clear: both;
 }
 .answerPage .ask .title{
-  font-size: 1rem;
-  font-weight: 500;
+  font-size: 0.9rem;
+  font-weight: 600;
   clear: both;
   margin-bottom: 0.5rem;
+  height: 1rem;
+  line-height: 1rem;
 }
 .answerPage .ask .title >span{
 	float: right;
@@ -275,6 +279,10 @@ a{
 .answerPage .ask .askQue >li{
 	border-bottom: 1px solid #DED9D9;
 	margin-top: 1rem;
+}
+.answerPage .ask .askQue >li .asker >p{
+	display: block;
+	margin-left: 2.24rem;
 }
 .answerPage .ask .askQue .price{
 	margin: 0.5rem 0;
