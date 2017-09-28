@@ -89,6 +89,24 @@
             <p class="relice" v-for="n in 2"><span class="nickname">mike</span>:<span>这是评论</span></p>
         </div>
     </div>
+                
+
+    <!-- 本小讲收录于xx专题 -->
+    <div class="speech-block">
+                <div class="intro-img">
+                    <img src="https://medias.zaih.com/e12a8f9d10b8cf39889a21df9404_558x558.jpg">
+                </div>
+                <div class="item-container">
+                    <h3>
+                        <span class="sp-topic">专题</span>
+                        <span>轻松吃出好身材</span>
+                    </h3>
+                    <div class="item-respondent">仰望尾迹云主讲</div>
+                    <div class="item-participants">
+                        <span>共4次,23423参加</span>
+                    </div>
+                </div>
+            </div>
         <Joincourse v-show="!joincoursestatus" v-on:hideBox='hideBox'></Joincourse>
         <Gift v-show="giftstatus" v-on:changeGiftstatus="changeGiftstatus"
         v-on:notchangeGiftstatus="notchangeGiftstatus"></Gift>
@@ -460,5 +478,7 @@ export default {
                 }
             }
         }
+
 }
+
 </style>
