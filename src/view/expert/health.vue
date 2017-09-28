@@ -1,7 +1,7 @@
 <template>
 
 	<div class="health">
-		<mt-header fixed title="健康">
+		<mt-header fixed title="健康" class="header">
 		 <router-link to="/" slot="left">
     		<mt-button icon="back"></mt-button>
   		</router-link>
@@ -60,6 +60,11 @@
 </script>
 
 <style lang="scss">
+.health .header{
+  background: #fff;
+  color: #3f3f3f;
+  border-bottom: 1px solid #DED9D9;
+}
 *{
 	margin:0;padding:0;
 }

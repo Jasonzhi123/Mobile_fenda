@@ -23,7 +23,7 @@
 				<img src="../assets/icon_nav_article.png" />
 				<p>找专家</p>
 			</router-link>
-			<router-link to="/" class="btn_menu">
+			<router-link to="/kuaiwen" class="btn_menu">
 				<img src="../assets/icon_nav_article.png" />
 				<p>快问</p>
 			</router-link>
@@ -42,9 +42,7 @@
 			<div class="headlines">
 				<p>分答头条 | 免费</p>
 				<div class="headtop">
-
 					<img src="../assets/profile.jpg" />
-
 					<div class="head_right">
 						<p>我们谈论谢娜怀孕时，到底在谈论什么？</p>
 						<div class="author">

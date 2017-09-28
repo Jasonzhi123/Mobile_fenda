@@ -1,7 +1,7 @@
 <template>
 	
 	<div class="workplace">
-		<mt-header fixed title="职场">
+		<mt-header fixed title="职场" class="header">
 		 <router-link to="/" slot="left">
     		<mt-button icon="back"></mt-button>
   		</router-link>
@@ -37,6 +37,11 @@
 </script>
 
 <style lang="scss">
+.workplace .header{
+  background: #fff;
+  color: #3f3f3f;
+  border-bottom: 1px solid #DED9D9;
+}
 *{
 	margin:0;padding:0;
 }

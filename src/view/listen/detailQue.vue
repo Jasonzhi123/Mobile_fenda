@@ -1,6 +1,6 @@
 <template>
   <div class="detailQue">
-  	<mt-header title="分答精选">
+  	<mt-header title="分答精选" class="header">
   		<router-link to="listen" slot="left">
     		<mt-button icon="back">返回</mt-button>
   		</router-link>
@@ -123,21 +123,27 @@ a{
   text-align: left;
   background: #f4f4f4;
 }
+.detailQue .header{
+  background: #fff;
+  color: #3f3f3f;
+  border-bottom: 1px solid #DED9D9;
+}
+/*分答精选*/
 .detailQue>h5{
   font-size: 0.8rem;
   font-weight: normal;
   color: #999;
   height: 2rem;
   line-height: 2rem;
-  padding: 0 1rem;
+  padding: 0 0.8rem;
 }
 .detailQue>h5>span{
   color: #6880B4;
 }
 .detailQue .content_list{
   background: #fff;
-  padding: 0 1rem;
-  margin-bottom: 0.8rem;
+  padding: 0 0.8rem;
+  margin-bottom: 0.5rem;
 }
 .detailQue .content_list .content .asker{
   height: 2rem;
@@ -204,12 +210,13 @@ a{
   background: url(../../assets/zan.png) no-repeat;
   background-size: 100% 100%;
 }
+/*专家简介*/
 .detailQue .expert{
   display: block;
   clear: both;
-  padding: 0.8rem 1rem;
+  padding: 0.8rem 0.8rem;
   background: #fff;
-  margin-bottom: 0.8rem;
+  margin-bottom: 0.5rem;
 }
 .detailQue .expert >img{
   width: 2.4rem;
@@ -240,6 +247,7 @@ a{
   width: 0.64rem;
   height: 0.64rem;
 }
+/*值得一听*/
 .detailQue .worth_listen_title{
   margin-top: 1.5rem;
 }
@@ -247,8 +255,8 @@ a{
   background: #fff;
   font-size: 0.8rem;
   color: #3f3f3f;
-  padding: 0.8rem 1rem;
-  margin-bottom: 0.8rem;
+  padding: 0.8rem 0.8rem;
+  margin-bottom: 0.5rem;
 }
 .detailQue .worth_listen >span{
   color: #999;
@@ -268,8 +276,9 @@ a{
   float: right;
   margin-right: 0.5rem;
 }
+/*attent*/
 .detailQue .attent{
-  padding: 0.8rem 1rem;
+  padding: 0.8rem 0.8rem;
   font-size: 0.8rem;
   background: #fff;
   text-align: center;

@@ -12,7 +12,9 @@ import my from '@/view/my'
 import answerPage from '@/view/answerPage'
 import ansPageSearch from '@/view/ansPageSearch'
 import kuaiwen from '@/view/kuaiwen/kuaiwen'
-import kuaiwenOne from '@/view/kuaiwen/kuaiwenOne'
+import kuaiwenTopic from '@/view/kuaiwen/kuaiwenTopic'
+import kwenDetail from '@/view/kuaiwen/kwenDetail'
+import kwenAsk from '@/view/kuaiwen/kwenAsk'
 import expert from '@/view/expert/expert'
 import workplace from '@/view/expert/workplace'
 import polularScience from '@/view/expert/polular_Science'
@@ -61,8 +63,16 @@ export default new Router({
           component: kuaiwen
         },
         {
-          path: '/kuaiwenOne',
-          component: kuaiwenOne
+          path: '/kuaiwenTopic',
+          component: kuaiwenTopic
+        },
+        {
+          path: '/kwenDetail',
+          component: kwenDetail
+        },
+        {
+          path: '/kwenAsk',
+          component: kwenAsk
         }
       ]
     },

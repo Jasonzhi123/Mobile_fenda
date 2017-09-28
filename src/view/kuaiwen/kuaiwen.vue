@@ -1,46 +1,51 @@
 <template>
 	<div class="kuaiwen">
 		<ul class="up">
-			<li><a href="/#/kuaiwenOne">
+			<li><a @click="openKWTopic()">
 				<img src="../../assets/7.jpg">
 				<div class="center">
 					身体小毛病，快速问医生<br>
 					<span>专业 及时解答</span>
 				</div>
-				<a class="ask">提问</a>
+				<a class="ask" @click.stop="askQue()">提问</a>
 			</a></li>
-			<li><a href="/#/kuaiwenOne">
+			<li><a @click="openKWTopic()">
 				<img src="../../assets/7.jpg">
 				<div class="center">
 					情感小烦恼，专家来开导<br>
 					<span>私密 多角度</span>
 				</div>
-				<a class="ask">提问</a>
+				<a class="ask" @click.stop="askQue()">提问</a>
 			</a></li>
-			<li><a href="/#/kuaiwenOne">
+			<li><a @click="openKWTopic()">
 				<img src="../../assets/7.jpg">
 				<div class="center">
 					大小纠纷事，律师评评理<br>
 					<span>专业律师 快速响应</span>
 				</div>
-				<a class="ask">提问</a>
+				<a class="ask" @click.stop="askQue()">提问</a>
 			</a></li>
-			<li><a href="/#/kuaiwenOne">
+			<li><a @click="openKWTopic()">
 				<img src="../../assets/7.jpg">
 				<div class="center">
 					育儿经验谈，达人来支招<br>
 					<span>达人指路 少走弯路</span>
 				</div>
-				<a class="ask">提问</a>
+				<a class="ask" @click.stop="askQue()">提问</a>
 			</a></li>
 		</ul>
 		<ul class="down">
-			<p><span>最新</span><span>已解答</span></p>
+			<p>
+				<span class="newest" :class="{isTrue:isThis}" @click="isChangeNew()">最新</span>
+				<span class="solved" :class="{isTrue:!isThis}" @click="isChangeSol()">已解答</span>
+			</p>
 			<li>
-				<a><div class="title">匿名用户<span>￥10</span></div>
+				<a href="/#/kwenDetail">
+					<div class="title">匿名用户<span>￥10</span></div>
 				<p>老婆工作很辛苦经常一天一夜值班，我工作也很忙管理一个部门，业务涉及近百万群众福利，晚上还经常应酬，她老是抱怨我给她关心不够。但我有心却越来越没时间，答应陪她出去转转总是请不到假。想问怎么办？很困惑。</p>
 				<div class="foot">还剩47小时  1人已抢答
-					<a>抢答</a></div>
+					<!-- <a>抢答</a> -->
+				</div>
 				</a>
 				<div class="expert">
 					<span class="exp">紫竹姐姐｜国家二级心理咨询师，高级培训师</span>
@@ -48,10 +53,12 @@
 				</div>
 			</li>
 			<li>
-				<a><div class="title">匿名用户<span>￥10</span></div>
+				<a href="/#/kwenDetail">
+					<div class="title">匿名用户<span>￥10</span></div>
 				<p>老婆工作很辛苦经常一天一夜值班，我工作也很忙管理一个部门，业务涉及近百万群众福利，晚上还经常应酬，她老是抱怨我给她关心不够。但我有心却越来越没时间，答应陪她出去转转总是请不到假。想问怎么办？很困惑。</p>
 				<div class="foot">还剩47小时  1人已抢答
-					<a>抢答</a></div>
+					<!-- <a>抢答</a> -->
+				</div>
 				</a>
 				<div class="expert">
 					<span class="exp">紫竹姐姐｜国家二级心理咨询师，高级培训师</span>
@@ -63,6 +70,25 @@
 </template>
 <script type="text/javascript">
 export default {
+  data () {
+    return {
+      isThis: true
+    }
+  },
+  methods: {
+    isChangeNew: function () {
+      this.isThis = true
+    },
+    isChangeSol: function () {
+      this.isThis = false
+    },
+    openKWTopic: function () {
+      this.$router.push('/kuaiwenTopic')
+    },
+    askQue: function () {
+      this.$router.push('/kwenAsk')
+    }
+  }
 }
 </script>
 <style type="text/css">
@@ -89,22 +115,22 @@ a{
 	border-bottom: 1px solid #DED9D9;
 }
 .kuaiwen .up >li >a{
-	padding: 1.1rem 1rem;
-	width: calc(100% - 2rem);
+	padding: 0.9rem 0.8rem;
+	width: calc(100% - 1.6rem);
 }
 .kuaiwen .up >li a >img{
-	width: 2.6rem;
-	height: 2.6rem;
+	width: 2.4rem;
+	height: 2.4rem;
 	float: left;
 	display: inline-block;
-	margin-right: 0.8rem;
+	margin-right: 0.64rem;
 }
 .kuaiwen .up >li a .center{
-	font-size: 1.1rem;
+	font-size: 0.9rem;
 	display: inline-block;
 }
 .kuaiwen .up >li a .center >span{
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: #999;
 }
 .kuaiwen .up >li a a.ask{
@@ -114,8 +140,9 @@ a{
 	border-radius: 1rem;
 	padding: 0.3rem 0.7rem;
 }
+/*down*/
 .kuaiwen .down{
-	margin-top: 0.64rem;
+	margin-top: 0.5rem;
 	margin-bottom: 3rem;
 }
 .kuaiwen .down >p{
@@ -128,16 +155,19 @@ a{
 	padding: 0rem 1rem;
 	color: #999;
 }
+.kuaiwen .down >p >span.isTrue{
+	color: #F85F48;
+}
 .kuaiwen .down >p >span:first-child{
 	border-right: 1px solid #343434;
 }
 .kuaiwen .down >li{
 	background: #fff;
-	margin-bottom: 0.64rem;
+	margin-bottom: 0.5rem;
 }
 .kuaiwen .down >li a{
 	clear: both;
-	padding: 1rem;
+	padding: 1rem 0.8rem;
 	border-bottom: 1px solid #DED9D9;
 }
 .kuaiwen .down >li a .title{
@@ -152,8 +182,8 @@ a{
 	margin-bottom: 0.6rem; 
 }
 .kuaiwen .down >li a >p{
-	height: 4rem;
-	font-size: 1rem;
+	height: 3.6rem;
+	font-size: 0.9rem;
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 3;
@@ -164,19 +194,19 @@ a{
 	color: #999;
 	clear: both;
 }
-.kuaiwen .down >li a .foot >a{
+/*.kuaiwen .down >li a .foot >a{
 	float: right;
 	color: #F85F48;
 	border: 1px solid #F85F48;
 	border-radius: 1rem;
 	padding: 0.3rem 0.7rem;
-}
+}*/
 .kuaiwen .down >li .expert{
-	padding: 0.8rem 1rem;
+	padding: 0.8rem 0.8rem;
 	color: #999;
 }
 .kuaiwen .down >li .expert .exp{
-	width: 70%;
+	width: 60%;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;

@@ -1,6 +1,6 @@
 <template>
   <div class="answerPage">
-  	<mt-header title="于哲的分答" :fixed="true">
+  	<mt-header title="于哲的分答" :fixed="true" class="header">
 	  <router-link to="/listen" slot="left">
 	  <mt-button icon="back">返回</mt-button>
 	  </router-link>
@@ -12,19 +12,19 @@
 		    <img src="../assets/7.jpg">
 		    <p class="name">周国平<br><span>49670人收听</span></p>
 		  </div>
-		  <p>感受者，思考者，俗称哲学家<br>生命的困惑，情感的苦恼，伦理的冲突，我未必能给你答案，但一定会和你一起诚实地面对。</p>
+		  <p><span>感受者，思考者，俗称哲学家</span><br>生命的困惑，情感的苦恼，伦理的冲突，我未必能给你答案，但一定会和你一起诚实地面对。</p>
 		  <a href="#">学术</a>
 		</div>
 		<div class="ask">
 			<p class="title">问答<span>168问答&nbsp;听过56650</span></p>
 			<a href="/#/ansPageSearch"><img src="../assets/search.png">搜索Ta的回答</a>
-			<span @click="defaultShow()">默认
+			<span @click="defaultShow()">{{iscurArr[iscur-1]}}
 				<span class="sanjiaoDown" v-if="defaultShowStatus==1"></span>
 				<span class="sanjiaoUp" v-if="defaultShowStatus==0">
 					<ul>
-						<li :class="{cur:iscur}">默认</li>
-						<li>最新</li>
-						<li>热门</li>
+						<li :class="{cur:iscur==1}" @click="tabLi(0)">{{iscurArr[0]}}</li>
+						<li :class="{cur:iscur==2}" @click="tabLi(1)">{{iscurArr[1]}}</li>
+						<li :class="{cur:iscur==3}" @click="tabLi(2)">{{iscurArr[2]}}</li>
 					</ul>
 				</span>
 			</span>
@@ -94,7 +94,8 @@ export default {
     return {
       footWordShow: 1,
       defaultShowStatus: 1,
-      iscur: true
+      iscur: 1,
+      iscurArr: ['默认', '最新', '热门']
     }
   },
   components: {
@@ -120,6 +121,9 @@ export default {
     },
     play: function () {
 
+    },
+    tabLi: function (index) {
+      this.iscur = index + 1
     }
   }
 }
@@ -139,7 +143,7 @@ a{
   font-size: 0.8rem;
 }
 .answerPage .box{
-  padding: 1rem;
+  padding: 1rem 0.8rem;
 }
 .answerPage img{
   border-radius: 100%;
@@ -151,6 +155,12 @@ a{
 }
 .answerPage span{
   display: inline-block;
+}
+
+.answerPage .header{
+	background: #fff;
+	color: #3f3f3f;
+	border-bottom: 1px solid #DED9D9;
 }
 /*title*/
 .answerPage .box{
@@ -166,13 +176,17 @@ a{
   height: 3rem;
 }
 .answerPage .box .title p.name{
-	font-size: 1.2rem;
+	font-size: 1rem;
+	font-weight: 590;
 	display: inline-block;
 }
 .answerPage .box .title p.name >span{
-	font-size: 0.8rem;
+	font-size: 0.7rem;
 	color: #999;
 	line-height: none;
+}
+.answerPage .box .title >p span{
+	margin-bottom: 0.3rem;
 }
 .answerPage .box .title >a{
 	border: 1px solid #999;
@@ -188,13 +202,14 @@ a{
 	clear: both;
 }
 .answerPage .ask .title{
-  font-size: 1.2rem;
+  font-size: 1rem;
+  font-weight: 500;
   clear: both;
   margin-bottom: 0.5rem;
 }
 .answerPage .ask .title >span{
 	float: right;
-	font-size: 0.8rem;
+	font-size: 0.7rem;
 	color: #999;
 }
 .answerPage .ask >a{

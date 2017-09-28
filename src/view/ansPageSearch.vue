@@ -70,7 +70,7 @@
 					<p>回答者：叶璇 | 演员</p>
 				</a></li>
 				<li class="more"><a>
-					查看更多问题<span>></span>
+					查看更多问题<span></span>
 				</a></li>
 			</ul>
 		</div>
@@ -116,7 +116,7 @@ a{
   background: #f4f4f4;
 }
 .ansPageSearch .box{
-  padding: 1rem;
+  padding: 1rem 0.8rem;
 }
 .ansPageSearch img{
   border-radius: 100%;
@@ -137,22 +137,24 @@ a{
 	right: 0;
 	background: #fff;
 	border-bottom: 1px solid #DED9D9;
-	height: 2rem;
-	padding: 0 1rem;
+	height: 2.4rem;
+	padding: 0 0.8rem;
 	clear: both;
 }
 .ansPageSearch .search >input{
 	width: 80%;
 	max-width: 15rem;
+	height: 1rem;
 	border-radius: 1rem;
 	border: 1px solid #999;
 	padding: 0.2rem 0.5rem;
-	margin-top: 0.2rem;
+	margin-top: 0.4rem;
+	outline: none;
 }
 .ansPageSearch .search >span{
 	color: #F85F48;
 	float: right;
-	margin-top: 0.5rem;
+	margin-top: 0.6rem;
 }
 /*找到*/
 .ansPageSearch .askQue{
@@ -162,8 +164,8 @@ a{
 .ansPageSearch .askQue >li{
 	background: #fff;
 	/*border-bottom: 1px solid #DED9D9;*/
-	margin-top: 0.6rem;
-	padding: 1rem;
+	margin-bottom: 0.5rem;
+	padding: 1rem 0.8rem;
 }
 .ansPageSearch .askQue .price{
 	margin: 0.5rem 0;
@@ -207,21 +209,22 @@ a{
 .ansPageSearch .nofound .title>input{
 	background: #F85F48;
 	color: #fff;
-	padding: 0.2rem 0.5rem;
+	padding: 0.2rem 0.7rem;
 	margin: 1rem 0 2rem 0;
 	border: none;
 	border-radius: 1rem;
+	font-size: 0.9rem;
 }
 .ansPageSearch .nofound .list >li{
 	border-bottom: 1px solid #DED9D9;
 }
 .ansPageSearch .nofound .list >li a{
-	padding: 0.7rem 1rem;
+	padding: 0.7rem 0.8rem;
 	display: block;
 	overflow: hidden;
 }
 .ansPageSearch .nofound .list >li a>h5{
-	font-size: 1rem;
+	font-size: 0.9rem;
 	font-weight: normal;
 	overflow: hidden;
 	white-space: nowrap;
@@ -237,9 +240,30 @@ a{
 	clear: both;
 	height: 2.2rem;
 	line-height: 2.2rem;
-	font-size: 1rem;
+	font-size: 0.9rem;
 }
 .ansPageSearch .nofound .list >li.more a >span{
 	float: right;
+	position: relative;
+}
+.ansPageSearch .nofound .list >li.more a >span:before{
+	content: '';
+	width: 0.7rem;
+	height: 0.1rem;
+	background: #F85F48;
+	position: absolute;
+	top: 0.923rem;
+	left: -0.8rem;
+	transform: rotate(-150deg);
+}
+.ansPageSearch .nofound .list >li.more a >span:after{
+	content: '';
+	width: 0.7rem;
+	height: 0.1rem;
+	background: #F85F48;
+	top: 1.25rem;
+	left: -0.8rem;
+	position: absolute;
+	transform: rotate(150deg);
 }
 </style>
