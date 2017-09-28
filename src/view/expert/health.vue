@@ -130,7 +130,7 @@ p{
 			    font-size: .65rem;
 		}
 		.special{
-			margin-top: 1rem;
+			margin-top: 0.5rem;
 			background: #fff;
 			p{
 				text-align: center;
@@ -156,8 +156,11 @@ p{
 		}
 		.profile{
 			background: #fff;
-			margin-top: 1rem;
+			margin-top: 0.5rem;
 			width: 100%;
+			& + .profile{
+				margin-top: 0rem;
+			}
 		}
 	}
 
