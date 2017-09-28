@@ -58,7 +58,7 @@ import PlayButton from '../../components/PlayButton'
 export default {
   data () {
     return {
-      hasAnswer: false
+      hasAnswer: true
     }
   },
   components: {
@@ -211,6 +211,7 @@ a{
 	color: #999;
 	margin-bottom: 0.3rem;
 }
+.kwenDetail .answer .play .btn{width: 10rem;}
 .kwenDetail .answer .foot{
   font-size: 0.56rem;
   color: #999;

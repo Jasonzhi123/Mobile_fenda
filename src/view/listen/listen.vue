@@ -46,13 +46,38 @@
           <ul class="dazhu_list">
             <li @click="openAnsPage()"><a>
               <img src="../../assets/7.jpg">
-              <i>周国平</i>
-              <p>感受者，思考者，俗称哲学家</p>
+              <div class="right">
+                <i>周国平</i>
+                <p>感受者，思考者，俗称哲学家
+                  <br>65个回答，听过</p>
+              </div>
             </a></li>
             <li @click="openAnsPage()"><a>
               <img src="../../assets/7.jpg">
-              <i>周国平</i>
-              <p>感受者，思考者，俗称哲学家</p>
+              <div class="right">
+                <i>周国平</i>
+                <p>感受者，思考者，俗称哲学家
+                  <br>65个回答，听过</p>
+              </div>
+            </a></li>
+          </ul>
+          <p class="recommend">为您推荐</p>
+          <ul class="dazhu_list">
+            <li @click="openAnsPage()"><a>
+              <img src="../../assets/7.jpg">
+              <div class="right">
+                <i>周国平</i>
+                <p>感受者，思考者，俗称哲学家
+                  <br>65个回答，听过</p>
+              </div>
+            </a></li>
+            <li @click="openAnsPage()"><a>
+              <img src="../../assets/7.jpg">
+              <div class="right">
+                <i>周国平</i>
+                <p>感受者，思考者，俗称哲学家
+                  <br>65个回答，听过</p>
+              </div>
             </a></li>
           </ul>
         </div>
@@ -123,21 +148,21 @@ a{
 }
 .listen_content_list .listen_title >a{
   clear: both;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   color: #999;
-  height: 2rem;
-  line-height: 2rem;
+  height: 1.6rem;
+  line-height: 1.6rem;
 }
 .listen_content_list .listen_title img{
-  width: 2rem;
-  height: 2rem;
+  width: 1.6rem;
+  height: 1.6rem;
   border-radius: 100%;
   display: inline-block;
   float: left;
   margin-right: 0.8rem;
 }
 .listen_content_list .listen_title span{
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   display: inline-block;
   height: 1.6rem;
   line-height: 1.6rem;
@@ -146,9 +171,9 @@ a{
   color: #999;
 }
 .listen_content_list .listen_content{
-  font-size: 0.9rem;
-  line-height: 1.4rem;
-  margin-top: 0.6rem;
+  font-size: 0.8rem;
+  line-height: 1.2rem;
+  margin-top: 0.3rem;
 }
 .listen_content_list .listen_foot{
   clear: both;
@@ -161,7 +186,7 @@ a{
 .listen_content_list .listen_foot>span{
   float: right;
   color: #999;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   margin-top: 0.6rem;
 }
 /*答主页面*/
@@ -181,21 +206,34 @@ a{
   display: block;
   clear: both;
   padding: 0 0.8rem;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   color: #999;
 }
 .listen_dazhu .dazhu_list>li>a>img{
-  width: 2rem;
-  height: 2rem;
+  width: 2.4rem;
+  height: 2.4rem;
   border-radius: 100%;
+  /*vertical-align: middle;*/
   float: left;
-  display: inline-block;
   margin-right: 0.6rem;
+  margin-top: 0.3rem;
 }
-.listen_dazhu .dazhu_list>li>a>i{
-  font-size: 1rem;
+.listen_dazhu .dazhu_list>li>a .right{
+  display: inline-block;
+}
+.listen_dazhu .dazhu_list>li>a .right>i{
+  font-size: 0.9rem;
   font-weight: 400;
   font-style: normal;
   color: #000;
+}
+.listen_dazhu .recommend{
+  width: 100%;
+  height: 4rem;
+  line-height: 4rem;
+  font-size: 0.7rem;
+  color: #999;
+  text-align: center;
+  border-bottom: 1px solid #DED9D9;
 }
 </style>

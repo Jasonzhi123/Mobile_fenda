@@ -154,7 +154,7 @@ a{
 			}
 		}
 		.list{
-			margin-top: 0.75rem;
+			margin-top: 0.5rem;
 			background: #fff;
 			padding: 0.5rem 1rem;
 			li{
@@ -169,7 +169,5 @@ a{
 			}
 		}
 	}
-	
-	
 }
 </style>
