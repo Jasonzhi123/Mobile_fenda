@@ -1,7 +1,7 @@
 <template>
     <div class="index">
         <div class="top">
-            <p class="back">返回</p>
+            <p class="back" @click="goback()">返回</p>
             <p class="allsmalltalk">全部小讲</p>
             <p class="share">分享</p>
         </div>
@@ -279,6 +279,9 @@ export default {
     },
     to_detal: function () {
       this.$router.push('/newcourse')
+    },
+    goback: function () {
+      this.$router.go(-1)
     }
   }
 }

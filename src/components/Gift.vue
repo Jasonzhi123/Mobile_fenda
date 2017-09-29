@@ -48,6 +48,7 @@
 <style type="text/css">
 
 .giftmain{
+    z-index:999;
     position: fixed;
     width: 100%;
     height: 100%;

@@ -171,6 +171,8 @@ export default {
             background: url(../../assets/playlist.png) no-repeat;
             background-size:.75rem auto;
             background-position: 0 50%;
+            outline: none;
+
         }
         .btn-wrap{
             display: inline-block;
@@ -191,6 +193,7 @@ export default {
                 background: url(../../assets/pre-btn.png) no-repeat;
                 background-size:.75rem auto;
                 background-position: 50%;
+                outline: none;
             }
             .play-icon{
                 background: url(../../assets/play-con.png) no-repeat;
@@ -198,8 +201,10 @@ export default {
                 background-position: 50%;
                 border: 1px solid #ccc;
                 border-radius: 100%;
+                outline: none;
             }
             .pause-icon{
+                outline: none;
                 background: url(../../assets/pause-btn.png) no-repeat;
                 background-size:.55rem auto;
                 background-position: 50%;
@@ -210,6 +215,8 @@ export default {
                 background: url(../../assets/next-btn.png) no-repeat;
                 background-size:.75rem auto;
                 background-position: 50%;
+                outline: none;
+
             }
         }
         .like-btn-gray{
@@ -217,12 +224,16 @@ export default {
             background-size:.75rem auto;
             background-position: 50%;
             position: relative;
+                outline: none;
+
         }
         .like-btn-red{
             background: url(../../assets/like-btn-red.png) no-repeat;
             background-size:.75rem auto;
             background-position: 50%;
             position: relative;
+                outline: none;
+
         }
 
 
