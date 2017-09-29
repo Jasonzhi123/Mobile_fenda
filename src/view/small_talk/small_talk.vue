@@ -9,7 +9,7 @@
 		<!-- tab-container -->
 		<mt-tab-container v-model="selected" :swipeable="true" v-infinite-scroll="loadMore"
 		  infinite-scroll-distance="10">
-			  <mt-tab-container-item :id="key" v-for="(item,key) in cate_list">
+			  <mt-tab-container-item :id="key" v-for="(item,key) in cate_list" >
 			     	<mt-cell :title="item_class.class_name" v-for="item_class in class_list[key]">
 						{{item_class.id}}
 					</mt-cell>

@@ -16,8 +16,8 @@
             </div>
             <p class="listen_content">我在老婆怀孕期间，和另一个女孩发生了关系，并被老婆发现了，如何挽回她的心？</p>
             <div class="listen_foot">
-              <div class="listen_play" @click.stop= "clickPlay(0)">
-                <play-button class="color_blue">点击播放</play-button>
+              <div class="listen_play" @click.stop= "clickPlay()">
+                <play-button class="color_blue">{{text}}</play-button>
               </div>
               <span>听过26</span>
             </div>
@@ -29,7 +29,7 @@
             </div>
             <p class="listen_content">我在老婆怀孕期间，和另一个女孩发生了关系，并被老婆发现了，如何挽回她的心？</p>
             <div class="listen_foot">
-              <div class="listen_play" @click.stop="clickPlay(1)">
+              <div class="listen_play" @click.stop="clickPlay()">
                 <play-button class="color_blue">点击播放</play-button>
               </div>
               <span>听过26</span>
@@ -83,19 +83,39 @@
         </div>
       </mt-tab-container-item>
     </mt-tab-container>
+    <audio id="audio" v-audio="playsStatus">
+      <source src="/static/skyCity.mp3" type="audio/mp3">
+    </audio>
   </div>
 </template>
 
 <script>
 import PlayButton from '../../components/PlayButton'
 import loginlayer from '../../components/Loginlayer'
+import Vue from 'vue'
+
+// 音频的播放与暂停
+Vue.directive('audio', {
+  bind: function (el) {
+    console.log(el)
+  },
+  update: function (el, binding) {
+    console.log(binding)
+    if (binding.value === true) {
+      el.play()
+    } else {
+      el.pause()
+    }
+  }
+})
 export default {
   name: 'listen',
   data () {
     return {
       selected: '1',
       listenShow: 2,
-      text: ['点击播放']
+      text: '点击播放',
+      playsStatus: false
     }
   },
   components: {
@@ -106,11 +126,13 @@ export default {
     openDetailQue: function () {
       this.$router.push('/lisDetailQue')
     },
-    clickPlay: function (index) {
-      if (this.text[index] === '点击播放') {
-        this.text[index] = '点击暂停'
+    clickPlay: function () {
+      if (this.playsStatus === true) {
+        this.text = '点击播放'
+        this.playsStatus = false
       } else {
-        this.text[index] = '点击播放'
+        this.text = '点击暂停'
+        this.playsStatus = true
       }
     },
     openAnsPage: function () {
