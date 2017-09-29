@@ -1,10 +1,19 @@
 <template>
     <div class="index">
+<<<<<<< HEAD
         <div class="top">
             <p class="back" @click="goback()">返回</p>
             <p class="allsmalltalk">全部小讲</p>
             <p class="share">分享</p>
         </div>
+=======
+       <mt-header fixed title="个人资料" class="header">
+		 <router-link to="/" slot="left">
+    		<mt-button icon="back"></mt-button>
+  		</router-link>
+ 	 <mt-button icon="more" slot="right"></mt-button>
+	</mt-header>
+>>>>>>> a8fc34c15ab60e5dcfd07db251d09f72fcf53eea
         <div class="albums">
             <div class="albums-header">
                 <span class="title">专题</span>
@@ -98,6 +107,11 @@
 </template>
 
 <style type="text/css">
+.header{
+	  background: #fff;
+	  color: #3f3f3f;
+	  border-bottom: 1px solid #DED9D9;
+	}
 .top{
     width: 90%;
     padding: 0 1rem;
