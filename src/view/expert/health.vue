@@ -19,8 +19,8 @@
 			</div>
 		</div>
 		<ul class="health_item" :class="{fold : isfold}">
-			<li v-for="n in 16">
-				<a href="">儿童健康</a>
+			<li v-for="item in health_list">
+				<a href="">{{item.classification}}</a>
 			</li>
 		</ul>
 		<div class="btn" v-on:click="changefold" >
@@ -45,16 +45,27 @@
 	export default {
 		data () {
 	            return {
-	            	isfold: true
+	            	isfold: true,
+	            	health_list:''
 	            }
 		    },
 		components:{
 			profile
 		},
+		created:function(){
+			this.init();
+		},
 		methods:{
 			changefold:function(){
 				this.isfold=!this.isfold
+			},
+			init:function(){
+				this.$http.get('/api/health/index')
+				.then(rtnData=>{
+					this.health_list=rtnData.data
+				})
 			}
+
 		}
 	}
 </script>
@@ -80,7 +91,7 @@ p{
 			align-items: center;
 			padding: 0rem 0.5rem;
 			height: 3rem;
-			margin-top: 3rem;
+			margin-top: 2rem;
 			background: #fff;
 			img{
 				width: 2rem;

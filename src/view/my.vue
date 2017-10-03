@@ -2,8 +2,7 @@
   <div class="my">
     <div class="before" v-if="showLogin==0">
       <div class="title">
-        <img src="../assets/7.jpg">
-        <input type="button" value="登录" @click="openLoginPage()">
+         <input type="button" value="登录" @click="openLoginPage()">
       </div>
       <ul class="list">
         <li>兑换码<span>></span></li>
@@ -78,7 +77,7 @@ a{
 		  height: 10rem;
 		  text-align: center;
 		  padding-bottom: 1rem;
-		  border-bottom: 1px solid #DED9D9;
+		 
 		  position: relative;
 		  img{
 			  position: absolute;
