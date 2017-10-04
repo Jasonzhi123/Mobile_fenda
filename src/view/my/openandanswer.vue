@@ -85,7 +85,7 @@
 			padding: 1rem;
 			margin-top: .5rem;
 			display: flex;
-			border-bottom: 0.04rem solid #909090;
+			border-bottom: 1px solid #909090;
 			justify-content: space-between;
 			span{
 				font-size: 0.7rem;

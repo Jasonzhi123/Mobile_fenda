@@ -41,6 +41,9 @@
 		margin: 0;
 		padding: 0;
 	}
+	p{
+		font-size: 0.8rem
+	}
 	.setup{
 		width: 100%;
 		

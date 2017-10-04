@@ -41,10 +41,12 @@
 		<div class="container">
 			<div class="headlines">
 				<p>分答头条 | 免费</p>
+
+
 				<div class="headtop">
 					<img src="../assets/profile.jpg" />
 					<div class="head_right">
-						<p>我们谈论谢娜怀孕时，到底在谈论什么？</p>
+						<p>{{headlines_list[0].title}}</p>
 						<div class="author">
 							<span class="name">潘幸知</span> |
 							<p>一大波情感咨询师的管理者</p>
@@ -52,14 +54,11 @@
 					</div>
 				</div>
 				<ul>
-					<li>
+					<li v-for="item in headlines_list">
 						<img src="../assets/icon_nav_article.png" />
-						<p>香蕉和枣一起吃，会看到人生走马灯？</p>
+						<p>{{item.title}}</p>
 					</li>
-					<li>
-						<img src="../assets/icon_nav_article.png" />
-						<p>立的flag总是坚持不下去？原因可能是……</p>
-					</li>
+
 				</ul>
 				<el-badge :value="5" :max="5" class="head_tip">
 					<p @click="openHeadlines">今日未读</p>
@@ -212,10 +211,20 @@
 		data () {
 			return {
 				value : '' ,
-				selected :'1'
+				selected :'1',
+				headlines_list: []
 			}
 		},
+		created:function(){
+			this.init();
+		},
         methods:{
+        	init:function(){
+        		this.$http.get('/api/home/index').then(rtnData=>{
+        			this.headlines_list=rtnData.data;
+
+        		})
+        	},
             openHeadlines:function(){
                 this.$router.push('/headlines')
             }
@@ -240,6 +249,7 @@
 		.search {
 			height: 1.6rem;
 			width: 100%;
+			background: #fff;
 		}
 		.bannar {
 			margin-top: 1rem;
