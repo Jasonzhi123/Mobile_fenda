@@ -1,9 +1,9 @@
 <template>
-	<div class="index">
+	<div class="index" >
+
 		<!-- search-->
-		<div class="search" :fixed="true">
-			<mt-search v-model="value" cancel-text="取消" placeholder="搜索"></mt-search>
-		</div>
+
+		
 
 		<!-- bannar -->
 		<div class="bannar">
@@ -206,7 +206,7 @@
 </template>
 
 <script type="es6">
-
+import { Search,Icon  } from 'vux'
 	export default {
 		data () {
 			return {
@@ -214,6 +214,10 @@
 				selected :'1',
 				headlines_list: []
 			}
+		},
+		components:{
+			 Search,
+			 Icon
 		},
 		created:function(){
 			this.init();
@@ -285,13 +289,14 @@
 				margin-top: 1rem;
 				.headtop {
 					display: flex;
-					padding: 0.5rem 0rem;
+					padding: 0.5rem 0rem 0rem;
 					img {
-						width: 4.05rem;
-						height: 3rem;
+						width: 4rem;
+						height: 2.8rem;
+						border-radius: 0.5rem;
 					}
 					.head_right {
-						margin-left: 0.75rem;
+						margin-left: 0.5rem;
 						width: calc(100% - 5rem);
 						p{
 							overflow: hidden;
@@ -310,6 +315,7 @@
 							}
 							p {
 								margin-left: 0.5rem;
+								font-size:0.7rem;
 								overflow: hidden;
 								white-space: nowrap;
 								text-overflow: ellipsis;
@@ -322,11 +328,13 @@
 					border-bottom: 0.05rem solid #CCCCCC;
 					li {
 						display: flex;
+						margin-top:0.3rem;
 						height: 1.5rem;
 						font-size: 0.7rem;
+						    color: #191919;
 						img {
-							width: 0.8rem;
-							height: 0.8rem;
+							width: 0.9rem;
+							height: 0.9rem;
 						}
 						p {
 							margin-left: 0.5rem;
@@ -338,7 +346,7 @@
 				}
 				.head_tip {
 					width: 4rem;
-					height: 2.5rem;
+					height: 1.8rem;
 					text-align: center;
 					margin-top: 0.5rem;
 					margin-left: calc(50% - 2rem);
@@ -349,28 +357,30 @@
 				padding: 1rem 1.25rem 0.5rem;
 				background: #fff;
 				.item {
-					margin-top: 0.5rem;
+					margin-top: 0.7rem;
 					display: flex;
 					border-bottom: 1px solid #ccc;
-					padding-bottom: 1rem;
+					padding-bottom: 0.7rem;
 					img {
-						margin-top: 0.7rem;
 						width: 4rem;
 						height: 5.5rem;
+						border-radius: 0.5rem;
 					}
 					.right {
 						margin-left: 0.75rem;
-						width: 100%;
+						width: calc(100% - 5rem);
 						line-height: 1.1rem;
 						.r_title{
 							display: flex;
 							.title{
 								color: #191919;
 								width: 60%;
+								font-size: 0.8rem;
+								font-weight: 700;
 							}
 							.price{
 								color: orangered;
-								font-size: .6rem;
+								font-size: .65rem;
 							}
 						}
 						.name{
@@ -381,7 +391,7 @@
 							font-size: 14px;
 						}
 						.update {
-							margin-top: .3rem;
+							margin-top: .1rem;
 							color: #d3d3d3;
 							font-size: .65rem;
 						}
@@ -391,7 +401,7 @@
 							overflow: hidden;
 							white-space: nowrap;
 							text-overflow: ellipsis;
-							width: 90%;
+							
 						}
 					}
 				}
@@ -400,21 +410,22 @@
 					line-height: 1.5rem;
 					margin-top: 0.5rem;
 					font-size: 0.7rem;
-					color: #90ABDA;
+					
 					.btn_menu {
 						text-decoration: none;
+						color: #90abda;
 					}
 				}
 			}
 			.small_talk {
 				.select_item{
 					display: flex;
-					margin-top: 1rem;
+					margin-top: .7rem;
 					height: 5rem;
 					border-bottom: 1px solid #ccc;
-					padding-bottom: 0.5rem;
 					img{
 						width: 3rem;
+						border-radius: 0.5rem;
 						height: 4rem;
 					}
 					.right{
@@ -423,15 +434,17 @@
 						width: calc(100% - 4rem);
 						.r_item{
 							display: flex;
+							align-items: center;
 							.item{
 							   padding: 0rem;
 							   margin-top: 0rem;
 							   border-bottom: none;
 							}
 							span{
-								margin-left: 0.5rem;
+								margin-left: 0.3rem;
 								font-size: 0.8rem;
 								width: 90%;
+								font-weight: 700;
 								display: inline-block;
 								overflow: hidden;
 								white-space: nowrap;
