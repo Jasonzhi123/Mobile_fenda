@@ -3,11 +3,13 @@
 
 		<!-- search-->
 
-		
+	<div class="search" :fixed="true">
+			<mt-search v-model="value" cancel-text="取消" placeholder="搜索"></mt-search>
+</div>
 
 		<!-- bannar -->
 		<div class="bannar">
-			<mt-swipe :auto="11000" class="title">
+			<mt-swipe :auto="11000" >
 				<mt-swipe-item class="mint-swipe">
 					<img src="../assets/banner_1.png" alt="">
 				</mt-swipe-item>
@@ -206,7 +208,6 @@
 </template>
 
 <script type="es6">
-import { Search,Icon  } from 'vux'
 	export default {
 		data () {
 			return {
@@ -215,10 +216,7 @@ import { Search,Icon  } from 'vux'
 				headlines_list: []
 			}
 		},
-		components:{
-			 Search,
-			 Icon
-		},
+		
 		created:function(){
 			this.init();
 		},
