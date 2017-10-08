@@ -1,8 +1,6 @@
 <template>
 	<div class="index" >
-
 		<!-- search-->
-
 	<div class="search" :fixed="true">
 			<mt-search v-model="value" cancel-text="取消" placeholder="搜索"></mt-search>
 </div>
@@ -21,20 +19,21 @@
 
 		<!--按钮导航-->
 		<div class="btn">
+
 			<router-link to="/expert" class="btn_menu">
-				<img src="../assets/icon_nav_article.png" />
+				<Icon size="28" color="#FA725D" type="social-codepen-outline"></Icon>
 				<p>找专家</p>
 			</router-link>
 			<router-link to="/kuaiwen" class="btn_menu">
-				<img src="../assets/icon_nav_article.png" />
+				<Icon size="28" color="#28AEF5" type="ios-help"></Icon>
 				<p>快问</p>
 			</router-link>
 			<router-link to="/" class="btn_menu">
-				<img src="../assets/icon_nav_article.png" />
+				<Icon size="28" color="#F4A522" type="chatbubble-working"></Icon>
 				<p>社区</p>
 			</router-link>
 			<router-link to="/smalltalk" class="btn_menu">
-				<img src="../assets/icon_nav_article.png" />
+				<Icon size="28" color="#85C144" type="ios-list"></Icon>
 				<p>小讲</p>
 			</router-link>
 		</div>
@@ -43,20 +42,18 @@
 		<div class="container">
 			<div class="headlines">
 				<p>分答头条 | 免费</p>
-
-
-				<div class="headtop">
+				<div class="headtop" >
 					<img src="../assets/profile.jpg" />
 					<div class="head_right">
 						<p>{{headlines_list[0].title}}</p>
 						<div class="author">
-							<span class="name">潘幸知</span> |
-							<p>一大波情感咨询师的管理者</p>
+							<span class="name">{{headlines_list[0].expert_name}}</span> |
+							<p>{{headlines_list[0].introduction}}</p>
 						</div>
 					</div>
 				</div>
 				<ul>
-					<li v-for="item in headlines_list">
+					<li v-for="item in headlines_list.slice(0,2)">
 						<img src="../assets/icon_nav_article.png" />
 						<p>{{item.title}}</p>
 					</li>
@@ -85,6 +82,7 @@
 						<div class="name">
 							陈华伟
 						</div>
+
 						<div class="update">
 							4小时前更新：
 						</div>
@@ -107,88 +105,27 @@
 				</div>
 				<!--<div class="item">-->
 					<mt-navbar v-model="selected">
-						<mt-tab-item id="1">推荐</mt-tab-item>
-						<mt-tab-item id="2">职场·成长</mt-tab-item>
-						<mt-tab-item id="3">理财·房产</mt-tab-item>
-						<mt-tab-item id="4">生活·教育</mt-tab-item>
-
+						<mt-tab-item :id="index" v-for="(item,index) in smallList">{{item.name}}</mt-tab-item>
 					</mt-navbar>
 
 					<!-- tab-container -->
-					<mt-tab-container v-model="selected">
-						<mt-tab-container-item id="1">
-							<div class="select_item">
+					<mt-tab-container v-model="selected"   :swipeable="true">
+						<mt-tab-container-item :id="index"  v-for="(item,index) in smallList">
+							<div class="select_item"  v-for="item in small_talk.slice(0,3)">
 								<img src="../assets/logo.png"/>
-								<div class="right">
+								<div  class="right">
+
 									<div class="r_item">
 										<el-badge value="专题" class="item"></el-badge>
-									<span>破除3大误区，一招提升读书动力</span>
+									<span>{{item.topic_name}}</span>
 									</div>
 									<div class="author">
 										<div class="author_name">
-											陈章鱼  知乎60万关注的读书人，分答首批答主
+											{{item.expert_name}}  {{item.introduction}}
 										</div>
 										<div class="classification">
-											<span class="one">职场·成长</span>
-											<span>888人参加</span>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="select_item">
-								<img src="../assets/logo.png"/>
-								<div class="right">
-									<div class="r_item">
-										<el-badge value="专题"  class="item"></el-badge>
-									<span>破除3大误区，一招提升读书动力</span>
-									</div>
-									<div class="author">
-										<div class="author_name">
-											陈章鱼  知乎60万关注的读书人，分答首批答主
-										</div>
-										<div class="classification">
-											<span class="one">职场·成长</span>
-											<span>888人参加</span>
-										</div>
-									</div>
-								</div>
-							</div>
-						</mt-tab-container-item>
-						<mt-tab-container-item id="2">
-							<div class="select_item">
-								<img src="../assets/logo.png"/>
-								<div class="right">
-									<div class="r_item">
-										<el-badge value="专题"  class="item"></el-badge>
-									<span>破除3大误区，一招提升读书动力</span>
-									</div>
-									<div class="author">
-										<div class="author_name">
-											陈章鱼  知乎60万关注的读书人，分答首批答主
-										</div>
-										<div class="classification">
-											<span class="one">职场·成长</span>
-											<span>888人参加</span>
-										</div>
-									</div>
-								</div>
-							</div>
-						</mt-tab-container-item>
-						<mt-tab-container-item id="3">
-							<div class="select_item">
-								<img src="../assets/logo.png"/>
-								<div class="right">
-									<div class="r_item">
-										<el-badge value="专题"  class="item"></el-badge>
-									<span>破除3大误区，一招提升读书动力</span>
-									</div>
-									<div class="author">
-										<div class="author_name">
-											陈章鱼  知乎60万关注的读书人，分答首批答主
-										</div>
-										<div class="classification">
-											<span class="one">职场·成长</span>
-											<span>888人参加</span>
+											<span class="one">{{item.name}}</span>
+											<span>{{item.number}}人参加</span>
 										</div>
 									</div>
 								</div>
@@ -197,7 +134,7 @@
 					</mt-tab-container>
 				<!--</div>-->
 				<div class="more">
-					<router-link to="/smalltalk" class="btn_menu">
+					<router-link to="/smalltalk"  class="btn_menu">
 						查看更多>
 					</router-link>
 				</div>
@@ -212,18 +149,27 @@
 		data () {
 			return {
 				value : '' ,
-				selected :'1',
-				headlines_list: []
+				selected : 0,
+				headlines_list: [],
+				small_talk: [],
+				smallList: []
 			}
 		},
-		
-		created:function(){
+		created(){
 			this.init();
 		},
-        methods:{
+        methods: {
         	init:function(){
         		this.$http.get('/api/home/index').then(rtnData=>{
         			this.headlines_list=rtnData.data;
+        			console.log(this.headlines_list);
+        		})
+        		this.$http.get('api/home/smalltalk').then(rtnData=>{
+        			this.small_talk=rtnData.data;
+
+        		})
+        		this.$http.get('api/home/smallList').then(rtnData=>{
+        			this.smallList=rtnData.data;
 
         		})
         	},
@@ -254,7 +200,7 @@
 			background: #fff;
 		}
 		.bannar {
-			margin-top: 1rem;
+			margin-top: 0.5rem;
 			height: 5rem;
 			img {
 				width: 100%;
@@ -291,7 +237,7 @@
 					img {
 						width: 4rem;
 						height: 2.8rem;
-						border-radius: 0.5rem;
+						border-radius: 0.3rem;
 					}
 					.head_right {
 						margin-left: 0.5rem;
@@ -362,7 +308,7 @@
 					img {
 						width: 4rem;
 						height: 5.5rem;
-						border-radius: 0.5rem;
+						border-radius: 0.3rem;
 					}
 					.right {
 						margin-left: 0.75rem;
@@ -399,7 +345,7 @@
 							overflow: hidden;
 							white-space: nowrap;
 							text-overflow: ellipsis;
-							
+
 						}
 					}
 				}
@@ -408,7 +354,7 @@
 					line-height: 1.5rem;
 					margin-top: 0.5rem;
 					font-size: 0.7rem;
-					
+
 					.btn_menu {
 						text-decoration: none;
 						color: #90abda;
@@ -423,7 +369,7 @@
 					border-bottom: 1px solid #ccc;
 					img{
 						width: 3rem;
-						border-radius: 0.5rem;
+						border-radius: 0.2rem;
 						height: 4rem;
 					}
 					.right{
@@ -433,6 +379,7 @@
 						.r_item{
 							display: flex;
 							align-items: center;
+							align-self: center;
 							.item{
 							   padding: 0rem;
 							   margin-top: 0rem;

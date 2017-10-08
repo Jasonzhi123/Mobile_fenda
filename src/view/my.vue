@@ -1,6 +1,6 @@
 <template>
   <div class="my">
-    <div class="before" v-if="showLogin==0">
+    <div class="before" v v-if="showLogin==0">
       <div class="title">
          <input type="button" value="登录" @click="openLoginPage()">
       </div>
@@ -11,13 +11,14 @@
         <li>关于<span>></span></li>
       </ul>
     </div>
-    <div class="after" v-if="showLogin==1">
+
+    <div class="after"   v-if="showLogin==1">
       <div class="title">
         <div class="top">
           <img src="../assets/7.jpg">
           <p>大声叫</p>
         </div>
-        <p class="income">总收入￥<span>0</span>&nbsp;&nbsp;&nbsp;总收益￥<span>0</span></p>
+        <p class="income">总收入￥<span>0</span>&nbsp&nbsp;&nbsp总收益￥<span>0</span></p>
         <p class="tip">收入90%归你，每夜结算，自动入库微信钱包</p>
       </div>
       <ul class="list">
@@ -77,7 +78,7 @@ a{
 		  height: 10rem;
 		  text-align: center;
 		  padding-bottom: 1rem;
-		 
+
 		  position: relative;
 		  img{
 			  position: absolute;
@@ -122,7 +123,7 @@ a{
 			}
 		}
 	}
-	
+
 	.after{
 		margin-bottom: 3rem;
 		background: #F5F5F5;
@@ -145,7 +146,7 @@ a{
 					margin-left: 1rem;
 					font-size: 0.9rem;
 				}
-				
+
 			}
 			.tip{
 				color: #B4B4B4;
