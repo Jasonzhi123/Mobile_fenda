@@ -26,7 +26,7 @@
 		</div>
 </template>
 <script type="es6">
-import {mapMutations} from 'vuex'
+// import {mapMutations} from 'vuex'
 export default {
 	data(){
 		return {
@@ -45,22 +45,22 @@ export default {
 		}
 	},
 	methods: {
-		...mapMutations(['setLogin']),
+		// ...mapMutations(['setLogin']),
 		login: function(){
-			var params={
-				withCredentials: true
-			}
 			if(this.phone !== '' && this.captcha !== '' && !this.state){
 				this.state = true;
-				this.$http.post('/api/login/login',{
-					'phone': this.phone,
-					'pwd' : this.captcha,
-				},{
-					params: params
+				this.$http.request({
+					url: '/api/login/login',
+					method: 'POST',
+					data: {
+						'phone': this.phone,
+						'pwd' : this.captcha,
+					},
+					withCredentials: true
 				}).then((repsonse)=>{
 					this.state = false;
 					if(repsonse.data.status == 0){
-						this.setLogin(true);
+						// this.setLogin(true);
 						this.$router.push('/my');
 					}
 				}).catch(()=>{

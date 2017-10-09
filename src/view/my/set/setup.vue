@@ -9,18 +9,19 @@
 	
 		<div class="change" @click="changes">
 			<p>更换手机号码</p>
-			<p>13513513512 ></p>
+			<p>13513513512 <Icon type="ios-arrow-right"></Icon></p>
 		</div>
 		<div class="about">
 			<p>关于</p>
-			<p>></p>
+			<p><Icon type="ios-arrow-right"></Icon></p>
 		</div>
-		<p class="quit">退出登录</p>
+		<p class="quit" @click="logout">退出登录</p>
 	</div>
 	
 </template>
 
 <script type="es6">
+	import {mapMutations} from 'vuex'
 	export default{
 		data(){
 			return {
@@ -28,7 +29,19 @@
 			}
 		},
 
-		methods:{	
+		methods:{
+			...mapMutations(['setLogout']),
+			logout: function(){
+				this.$http.request({
+					url: '/api/login/logout',
+					withCredentials: true
+				}).then((response)=>{
+					if(response.data.status === 0){
+						this.setLogout()
+						this.$router.push('/my')
+					}
+				})
+			},
 			changes:function(){
 				 this.$router.push('/validate')
 			}

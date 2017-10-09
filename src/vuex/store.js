@@ -18,6 +18,9 @@ const Store = new Vuex.Store({
     },
     setLogin: function (state, content) {
       state.login = content
+    },
+    setLogout: function (state) {
+      state.login = false
     }
   }
 })
