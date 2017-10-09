@@ -27,6 +27,7 @@
 </template>
 <script type="es6">
 // import {mapMutations} from 'vuex'
+import { Toast, Indicator } from 'mint-ui';
 export default {
 	data(){
 		return {
@@ -49,6 +50,7 @@ export default {
 		login: function(){
 			if(this.phone !== '' && this.captcha !== '' && !this.state){
 				this.state = true;
+				Indicator.open('正在登录');
 				this.$http.request({
 					url: '/api/login/login',
 					method: 'POST',
@@ -59,12 +61,16 @@ export default {
 					withCredentials: true
 				}).then((repsonse)=>{
 					this.state = false;
+					Indicator.close();
 					if(repsonse.data.status == 0){
 						// this.setLogin(true);
 						this.$router.push('/my');
+					}else{
+						Toast(repsonse.data.message);
 					}
 				}).catch(()=>{
 					this.state = false;
+					Indicator.close();
 				})
 			}
 		},

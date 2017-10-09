@@ -5,10 +5,10 @@
          <input type="button" value="登录" @click="openLoginPage()">
       </div>
       <ul class="list">
-        <li>兑换码<span>></span></li>
-        <li>帮助<span>></span></li>
-        <li>在线客服<span>></span></li>
-        <li>关于<span>></span></li>
+        <li>兑换码<span><Icon type="ios-arrow-right"></Icon></span></li>
+        <li>帮助<span><Icon type="ios-arrow-right"></Icon></span></li>
+        <li>在线客服<span><Icon type="ios-arrow-right"></Icon></span></li>
+        <li>关于<span><Icon type="ios-arrow-right"></Icon></span></li>
       </ul>
     </div>
 
