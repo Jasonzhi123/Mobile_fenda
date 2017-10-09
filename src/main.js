@@ -11,7 +11,7 @@ import ElementUI from 'element-ui'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
 import 'element-ui/lib/theme-default/index.css'
-Axios.defaults.baseURL = 'http://localhost/20170918/Mobile_fenda_server/public/'
+Axios.defaults.baseURL = 'http://localhost/group/fenda/public/'
 
 Vue.use(MintUI)
 Vue.use(ElementUI)

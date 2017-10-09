@@ -37,12 +37,16 @@
 </template>
 
 <script type="es6">
+import {mapState} from 'vuex'
 export default {
   name: 'my',
   data () {
     return {
-      showLogin: 1
+      showLogin: 0
     }
+  },
+  created(){
+  	this.showLogin = this.$store.state.login?1:0;
   },
   methods: {
     openLoginPage: function () {
