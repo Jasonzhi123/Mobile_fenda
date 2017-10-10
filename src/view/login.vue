@@ -57,8 +57,7 @@ export default {
 					data: {
 						'phone': this.phone,
 						'pwd' : this.captcha,
-					},
-					withCredentials: true
+					}
 				}).then((repsonse)=>{
 					this.state = false;
 					Indicator.close();
