@@ -33,8 +33,7 @@
 			...mapMutations(['setLogout']),
 			logout: function(){
 				this.$http.request({
-					url: '/api/login/logout',
-					withCredentials: true
+					url: '/api/login/logout'
 				}).then((response)=>{
 					if(response.data.status === 0){
 						this.setLogout()

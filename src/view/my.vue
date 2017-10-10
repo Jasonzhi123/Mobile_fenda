@@ -49,8 +49,7 @@ export default {
   created(){
   	if(this.showLogin !== 1){
   		this.$http.request({
-			url:'/api/login',
-			withCredentials: true
+			url:'/api/login'
 		}).then((response)=>{
 			if (response.data) {
 				this.setLogin(response.data)
