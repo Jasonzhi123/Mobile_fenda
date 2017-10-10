@@ -110,25 +110,29 @@
 
 					<!-- tab-container -->
 					<mt-tab-container v-model="selected"   :swipeable="true">
-						<mt-tab-container-item :id="index"  v-for="(item,index) in smallList">
-							<div class="select_item"  v-for="item in small_talk.slice(0,3)">
+						<mt-tab-container-item :id="index"  v-for="(items,index) in smallList">
+							
+								<div class="select_item" v-show="items.id==item.grade"  v-for="item in small_talk.slice(0,3)">
+
 								<img src="../assets/logo.png"/>
 								<div  class="right">
 
 									<div class="r_item">
 										<el-badge value="专题" class="item"></el-badge>
 									<span>{{item.topic_name}}</span>
+
 									</div>
 									<div class="author">
 										<div class="author_name">
 											{{item.expert_name}}  {{item.introduction}}
 										</div>
 										<div class="classification">
-											<span class="one">{{item.name}}</span>
+											<span class="one">{{items.name}}</span>
 											<span>{{item.number}}人参加</span>
 										</div>
 									</div>
 								</div>
+						
 							</div>
 						</mt-tab-container-item>
 					</mt-tab-container>
@@ -162,7 +166,7 @@
         	init:function(){
         		this.$http.get('/api/home/index').then(rtnData=>{
         			this.headlines_list=rtnData.data;
-        			console.log(this.headlines_list);
+
         		})
         		this.$http.get('api/home/smalltalk').then(rtnData=>{
         			this.small_talk=rtnData.data;
