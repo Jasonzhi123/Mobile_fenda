@@ -5,6 +5,11 @@ import Login from '@/view/login'
 import Ask from '@/view/ask'
 import start from '@/view/start'
 import smalltalk from '@/view/small_talk/small_talk'
+import topic from '@/view/small_talk/topic'
+import newcourse from '@/view/small_talk/newcourse'
+import pay from '@/view/small_talk/pay'
+import player from '@/view/small_talk/player'
+import alllist from '@/view/small_talk/alllist'
 import listen from '@/view/listen/listen'
 import lisDetailQue from '@/view/listen/detailQue'
 import bought from '@/view/bought'
@@ -81,15 +86,35 @@ export default new Router({
       component: smalltalk
     },
     {
-      path: '/lisDetailQue',
+      path: '/pay',
+      component: pay
+    },
+    {
+      path: '/topic',
+      component: topic
+    },
+    {
+      path: '/alllist',
+      component: alllist
+    },
+    {
+      path: '/lisDetailQue/:id',
       component: lisDetailQue
+    },
+    {
+      path: '/newcourse',
+      component: newcourse
+    },
+    {
+      path: '/player',
+      component: player
     },
     {
       path: '/Login',
       component: Login
     },
     {
-      path: '/answerPage',
+      path: '/answerPage/:id',
       component: answerPage
     },
     {
