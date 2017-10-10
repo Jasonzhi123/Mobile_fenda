@@ -14,11 +14,9 @@ export default {
 		}
 	},
 	created(){
-		var params = {
-			'withCredentials': true
-		};
-		this.$http.get('/api/login',{
-			params
+		this.$http.request({
+			url:'/api/login',
+			withCredentials: true
 		}).then((response)=>{
         if (response.data !== '') {
          	this.setLogin(response.data)
