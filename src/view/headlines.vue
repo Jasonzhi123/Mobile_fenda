@@ -9,20 +9,14 @@
 		<div class="headline_items">
 			<p class="time">今天</p>
 			<ul>
-				<li>
+				<li v-for="item in headlines_list">
 					<div class="item">
 						<img src="../assets/xiao.png"/>
-						<p>被微信换掉的那张背景图上，都泄露了什么秘密？</p>
+						<p>{{item.title}}</p>
 					</div>
-					<p><span>Ent</span> <span>科学松鼠会成员，果壳网主笔，脑洞专员</span></p>
+					<p><span>{{item.expert_name}}</span> <span>{{item.introduction}}</span></p>
 				</li>
-				<li>
-					<div class="item">
-						<img src="../assets/xiao.png"/>
-						<p>被微信换掉的那张背景图上，都泄露了什么秘密？</p>
-					</div>
-					<p><span>Ent</span> <span>科学松鼠会成员，果壳网主笔，脑洞专员</span></p>
-				</li>
+				
 			</ul>
 		</div>
 		<div class="headline_items">
@@ -45,7 +39,7 @@
 			</ul>
 		</div>
 		<div class="headline_items">
-			<p class="time">昨天</p>
+			<p class="time">前天</p>
 			<ul>
 				<li>
 					<div class="item">
@@ -66,7 +60,25 @@
 	</div>
 </template>
 
-<script>
+<script type="es6">
+	 export default {
+	 	data(){
+	 		return{
+	 			headlines_list:[]
+	 		}
+	 	},
+	 	created(){
+	 		this.init();
+	 	},
+	 	methods:{
+	 		init:function(){
+	 			this.$http.get('/api/headlines/index').then(rtnData=>{
+	 				this.headlines_list=rtnData.data
+	 			})
+	 		}
+	 	}
+
+	 }
 </script>
 
 <style lang="scss">

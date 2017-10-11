@@ -7,7 +7,6 @@
   		</router-link>
  	 <mt-button icon="more" slot="right"></mt-button>
 	</mt-header>
-
         <div class="albums">
             <div class="albums-header">
                 <span class="title">专题</span>

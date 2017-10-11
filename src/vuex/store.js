@@ -5,11 +5,22 @@ Vue.use(Vuex)
 
 const Store = new Vuex.Store({
   state: {
-    askContent: ''
+    login: false,
+    askContent: '',
+    joincoursestatus: ''
   },
   mutations: {
     setAskContent: function (state, content) {
       state.askContent = content
+    },
+    setJoinstatus: function (state, content) {
+      state.joincoursestatus = content
+    },
+    setLogin: function (state, content) {
+      state.login = content
+    },
+    setLogout: function (state) {
+      state.login = false
     }
   }
 })
