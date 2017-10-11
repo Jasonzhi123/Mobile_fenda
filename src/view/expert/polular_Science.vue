@@ -10,7 +10,6 @@
 <ul>
 		<li>
 			<profile></profile>
-
 		</li>
 	</ul>
 
