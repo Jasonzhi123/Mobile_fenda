@@ -102,7 +102,8 @@ export default new Router({
       component: lisDetailQue
     },
     {
-      path: '/newcourse',
+      path: '/newcourse/:id',
+      name: 'newcourse',
       component: newcourse
     },
     {

@@ -40,7 +40,6 @@
 
 
 <script type="es6">
-
 	export default {
 		
 	}

@@ -1,19 +1,13 @@
 <template>
     <div class="index">
-<<<<<<< HEAD
-        <div class="top">
-            <p class="back" @click="goback()">返回</p>
-            <p class="allsmalltalk">全部小讲</p>
-            <p class="share">分享</p>
-        </div>
-=======
-       <mt-header fixed title="个人资料" class="header">
+
+       <mt-header fixed title="小讲" class="header">
 		 <router-link to="/" slot="left">
     		<mt-button icon="back"></mt-button>
   		</router-link>
  	 <mt-button icon="more" slot="right"></mt-button>
 	</mt-header>
->>>>>>> a8fc34c15ab60e5dcfd07db251d09f72fcf53eea
+
         <div class="albums">
             <div class="albums-header">
                 <span class="title">专题</span>
@@ -26,15 +20,15 @@
         </div>
 
         <!-- 详细推荐 -->
-        <div class="info">
+<!--         <div class="info">
             <div class="noscroll">
                 <ul>
                     <li v-for="n in 6" @click="tolits_item(n)" :class="listIndex==n?'cur':''">nihao</li>
                 </ul>
             </div>
-        </div>
+        </div> -->
         <!-- 列表 -->
-        <ul class="speaches">
+<!--        <ul class="speaches">
             <li  @click="to_topic()" v-for="n in 5">
                 <div class="intro-img">
                     <img src="https://medias.zaih.com/e12a8f9d10b8cf39889a21df9404_558x558.jpg">
@@ -72,37 +66,38 @@
                 </div>
             </li>
 
-        </ul>
+        </ul> -->
 <!-- 组件方法实现 -->
-<!--     <mt-navbar v-model="selected">
-      <mt-tab-item :id="n" v-for="n in 6">模板{{n}}</mt-tab-item>
-    </mt-navbar> -->
-<!-- tab-container -->
-<!--     <mt-tab-container v-model="selected" swipeable="true">
-      <mt-tab-container-item :id="n" v-for="n in 6">
+    <mt-navbar v-model="selected" class="navbar">
+      <mt-tab-item :id="'tab'+n.id" v-for="n in categories">{{n.name}}</mt-tab-item>
+    </mt-navbar>
+
+    <mt-tab-container v-model="selected" swipeable=true>
+      <mt-tab-container-item :id="'tab'+n.id" v-for="n in categories">
         <ul class="speaches">
-            <li  @click="to_detal()" v-for="n in 6">
+            <li  @click="to_detal(m.topic,index+1,m.speechmakerid)" v-for="(m,index) in speciallist" 
+             v-show="m.grade == n.id" :id="index">
                 <div class="intro-img">
                     <img src="https://medias.zaih.com/e12a8f9d10b8cf39889a21df9404_558x558.jpg">
                 </div>
                 <div class="item-container">
                     <h3>
-                        <span >专题</span>
-                        <span>轻松吃出好身材</span>
+                        <span class="topic" v-show="!m.topic">专题</span>
+                        <span>{{m.topic_name}}</span>
                     </h3>
                     <div class="item-respondent">
-                        <p>三公子|理财,职场规划,开源节流合伙人</p>
+                        <p>{{m.expert_name}}|{{m.introduction}}</p>
                     </div>
                     <div class="item-participants">
-                        <span>职场成长</span>
-                        <span>共4次,23423参加</span>
+                        <!-- <span class="direction">{{m.name}}</span> -->
+                        <span>{{m.num}}人参加</span>
                     </div>
                 </div>
             </li>
 
         </ul>
       </mt-tab-container-item>
-    </mt-tab-container> -->
+    </mt-tab-container>
     </div>
 </template>
 
@@ -112,6 +107,10 @@
 	  color: #3f3f3f;
 	  border-bottom: 1px solid #DED9D9;
 	}
+    .navbar{
+        width: 90%;
+        margin: 0 auto;
+    }
 .top{
     width: 90%;
     padding: 0 1rem;
@@ -132,7 +131,7 @@
  .albums {
      background: #fff;
      padding:0 .85rem .675rem;
-     margin-top: -1rem;
+     margin-top: 1rem;
 }
  .albums > a{
      vertical-align: top;
@@ -220,7 +219,7 @@
      padding:.7rem 0;
 }
  .speaches li:nth-child(1){
-     margin-top: -0.22rem;
+     margin-top:.1rem;
 }
  .speaches li .intro-img{
      display: inline-block;
@@ -242,7 +241,7 @@
      margin:0;
      font-size: .7rem;
 }
- .speaches li .item-container h3 span.topic{
+ .speaches li .item-container h3 .topic{
      display: inline-block;
      padding:0.1rem 0.2rem;
      font-size: .55rem;
@@ -250,7 +249,7 @@
      background:rgb(248,95,72);
      color: white;
 }
- .speaches li .item-container h3 span.title{
+ .speaches li .item-container h3 .title{
      font-weight: bold;
      margin-left:0.25rem;
      font-size: .75rem;
@@ -258,9 +257,17 @@
  .speaches li .item-container .item-respondent,.item-participants{
      color: #ccc;
      font-size:.65rem;
+     padding-top:.1rem; 
 }
+ .speaches li .item-container .item-participants .direction{
+    border-radius: .5rem;
+    padding: 0 .1rem;
+    border:1px solid #ccc;
+    font-size:.5rem;
+ }
  .speaches li .item-container .item-respondent p{
     margin: 0;
+    font-size: .7rem;
  }
  .speaches li .item-container .item-participants span.topic{
      border-radius: 0.5rem;
@@ -272,16 +279,35 @@
 
 </style>
 
-<script type="text/javascript" type="es6">
-
+<script  type="es6">
+import Axios from 'axios'
 export default {
   data () {
     return {
       listIndex: 1,
-      active: ''
+      active: '',
+      selected: 'tab1',
+      categories:[],
+      expertlist:[],
+      speciallist:[]
     }
   },
+  created(){
+    this.init();
+  },
   methods: {
+    init:function(){
+       this.$http.get('/api/Smalltalk/index').then(rtnData=>{
+        this.categories =rtnData.data;
+       })
+       this.$http.get('/api/Smalltalk/expertlist').then(rtnData=>{
+        this.expertlist =rtnData.data;
+       })
+       this.$http.get('/api/Smalltalk/special').then(rtnData=>{
+        this.speciallist =rtnData.data;
+       })
+
+    },
     tolits_item: function (n) {
       this.listIndex = n
     },
@@ -291,8 +317,14 @@ export default {
     to_alllist: function () {
       this.$router.push('/alllist')
     },
-    to_detal: function () {
-      this.$router.push('/newcourse')
+    to_detal: function (topic,index,speechmakerid) {
+      if(topic == 1){
+        this.$router.push({name:'newcourse',params:{id:index,expertID:speechmakerid}})  //课程页面
+      }
+      else{
+        this.$router.push('/topic')   //专题页面
+
+      }
     },
     goback: function () {
       this.$router.go(-1)

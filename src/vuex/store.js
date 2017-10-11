@@ -5,15 +5,11 @@ Vue.use(Vuex)
 
 const Store = new Vuex.Store({
   state: {
-    askContent: '',
-    joincoursestatus: ''
+    askContent: ''
   },
   mutations: {
     setAskContent: function (state, content) {
       state.askContent = content
-    },
-    setJoinstatus: function (state, content) {
-      state.joincoursestatus = content
     }
   }
 })

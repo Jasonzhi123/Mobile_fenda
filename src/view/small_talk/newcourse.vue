@@ -34,7 +34,7 @@
     <div class="brief">
         <p >简介</p>
         <div class="description " :class="desc_status == false?'fold':''">
-            <p>html中两个p标签之间2010 本版专l中两个p标签之间2010 本版专l中两个p标签之间2010 本版专l中两个p标签之间2010 本版专l中两个p标签之间2010 本版专l中两个p标签之间2010 本版专l中两个p标签之间2010 本版专l中两个p标签之间2010 本版专</p>
+            <p>{{newcourselist[0].summary}}</p>
 
  
 
@@ -138,7 +138,7 @@
     <div class="footer">
         <div class="deliver" @click="changeGiftstatus()">赠送</div>
         <div class="con-listen" @click="toPlayer()">试听</div>
-        <div class="footer-btn" @click="toPay()">xxx参加</div>
+        <div class="footer-btn" @click="toPay()">¥{{newcourselist[0].price}}参加</div>
     </div>
     </div>
 </template>
@@ -152,10 +152,27 @@ export default {
       desc_status: false,
       joincoursestatus: true,
       giftstatus: false,
-      followed:true
+      followed:true,
+      newcourselist:[],
+      expert:[]
     }
   },
+  created(){
+    this.init()
+  },
   methods: {
+    init:function(){
+        var courseID = this.$route.params.id;
+        var expertID = this.$route.params.expertID;
+        console.log(expertID)
+        this.$http.get('/api/Newsource/Newsource',{params:{id:courseID}}).then(rtnData=>{
+        this.newcourselist =rtnData.data;
+        })
+        this.$http.get('/api/Newsource/speechmakerid',{params:{id:expertID}}).then(rtnData=>{
+        this.expert =rtnData.data;
+       })
+
+   },
     showall: function () {
       this.desc_status = true
     },

@@ -33,7 +33,7 @@
         </div>
       </a>
       <ul class="speeches">
-        <li v-for="r in 5" class="course-item">
+        <li v-for="r in 5" class="course-item" @click="tonewcourse()">
             <p class="course-title">练就清晰发音,更有职业范</p>
             <p class="course-info">xxxxx参加</p>
         </li>
@@ -64,6 +64,9 @@ export default {
   methods: {
     toPay: function () {
       this.$router.push('/pay')
+    },
+    tonewcourse: function () {
+      this.$router.push('/newcourse')
     }
   }
 }

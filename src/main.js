@@ -9,7 +9,7 @@ import Axios from 'axios'
 import store from './vuex/store'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
-Axios.defaults.baseURL = 'http://localhost/20170918/thinkphp5/public'
+Axios.defaults.baseURL = 'http://localhost/07180206/php/lesson_5/Mobile_fenda_server/public/'
 
 Vue.use(MintUI)
 Vue.use(ElementUI)
