@@ -1,9 +1,11 @@
 <template>
 	<div class="ansPageSearch">
 		<div class="search">
+			<span class="searchBtn" @click="answerSearch()">搜索</span>
 			<input type="text" placeholder="搜索Ta的回答">
-			<span @click="rtnansPage()">取消</span>
+			<span class="quit" @click="rtnansPage()">取消</span>
 		</div>
+		<div class="layer" v-if="layerStatus"></div>
 		<ul class="askQue" v-if="found==1">
 			<li @click="opendetailQue()">
 				<div class="asker">
@@ -81,7 +83,8 @@ import PlayButton from '../components/PlayButton'
 export default {
   data () {
     return {
-      found: 2
+      found: 2,
+      layerStatus: true // 遮盖层状态
     }
   },
   components: {
@@ -89,13 +92,18 @@ export default {
   },
   methods: {
     rtnansPage: function () {
-      this.$router.push('/answerPage')
+      this.$router.back(-1)
     },
     opendetailQue: function () {
       this.$router.push('/lisdetailQue')
     },
     play: function () {
       console.log(1)
+    },
+    answerSearch: function () {
+      this.layerStatus = false
+      // if 找到 this.found = 1
+      // else this.found =2
     }
   }
 }
@@ -140,10 +148,11 @@ a{
 	height: 2.4rem;
 	padding: 0 0.8rem;
 	clear: both;
+	z-index: 20;
 }
 .ansPageSearch .search >input{
-	width: 80%;
-	max-width: 15rem;
+	width: calc(100% - 6rem);
+	/*max-width: 15rem;*/
 	height: 1rem;
 	border-radius: 1rem;
 	border: 1px solid #999;
@@ -153,13 +162,31 @@ a{
 }
 .ansPageSearch .search >span{
 	color: #F85F48;
-	float: right;
 	margin-top: 0.6rem;
+}
+.ansPageSearch .search >span.quit{
+	float: right;
+}
+.ansPageSearch .search >span.searchBtn{
+	float: left;
+	margin-right: 0.8rem;
+}
+/*遮盖层*/
+.ansPageSearch .layer{
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	z-index: 19;
+	background: #fff;
 }
 /*找到*/
 .ansPageSearch .askQue{
 	margin-top: 3rem;
 	background: #f4f4f4;
+	/*position: relative;
+	z-index: 1;*/
 }
 .ansPageSearch .askQue >li{
 	background: #fff;
@@ -197,6 +224,8 @@ a{
 .ansPageSearch .nofound{
 	margin-top: 2rem;
 	background: #fff;
+	/*position: relative;
+	z-index: 1;*/
 }
 .ansPageSearch .nofound .title{
 	text-align: center;

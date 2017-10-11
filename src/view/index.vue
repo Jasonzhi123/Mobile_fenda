@@ -58,7 +58,7 @@ body,html,div,p,span,ul,li,a,img{
 }
 .index{
 	.footer{
-		
+
 		.menu{
 			width:25%;
 		}

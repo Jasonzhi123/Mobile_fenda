@@ -53,6 +53,7 @@
 	background: url(../assets/voice_1.png) no-repeat center;
 	background-size: 100% 100%;
 	border-right: 0.88rem solid transparent;
+	filter: drop-shadow(0.88rem 0 #28AEF5);/*默认色*/
 }
 
 .playButton.color_blue >a{background: #28AEF5;}
