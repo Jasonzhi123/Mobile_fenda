@@ -34,13 +34,13 @@
       <collections @click.native="opentop">
         <Icon  slot="pic" size="50" color="red"  type="ios-ionic-outline"></Icon>
     		<p class="name" slot="title">本周最受欢迎答主TOP100</p>
-				<p class="description" slot="author">你，我、他</p> 
+				<p class="description" slot="author">{{top_list}}等</p> 
 			</collections>
 			
       <collections @click.native="openonetoone"> 
         		<Icon  slot="pic" size="50" color="red"  type="ios-ionic-outline"></Icon>
         		<p class="name" slot="title">行家答主支持线下1对1约见</p>
-				<p class="description" slot="author">你，我、他</p> 
+				<p class="description" slot="author">{{one_list}}等</p> 
         	</collections>
         	<collections @click.native="openstrength"> 
         		<Icon slot="pic" color="red" size="50" type="android-arrow-dropdown-circle"></Icon>
@@ -52,7 +52,7 @@
 		<div class="collection">
 			<p class="title">新晋榜</p>
         	<introduce v-for="item in expert_list_new"> 
-        		<img slot="head_pic" src="" alt="" />
+        		<img slot="head_pic" v-lazy="" alt="" />
         		<p slot="name" class="name">{{item.expert_name}}</p>
 				<p slot="description" class="description">{{item.rank}}</p>
 				<p slot="description" class="descriptions">{{item.introduction}}</p>
@@ -71,7 +71,7 @@
 		<div class="collection">
 			<p class="title">才华榜</p>
         	<introduce v-for="item in expert_list_talent"> 
-        		<img slot="head_pic" src="" alt="" />
+        		<img slot="head_pic" v-lazy="" alt="" />
         		<p slot="name" class="name">{{item.expert_name}}</p>
 				<p slot="description" class="description">{{item.rank}}</p>
 				<p slot="description" class="descriptions"><span>100</span><span>个回答   </span><span>{{item.number}}</span><span>个收听</span></p>
@@ -96,7 +96,9 @@
         data () {
             return {
             	expert_list_new:[],
-            	expert_list_talent:[]
+            	expert_list_talent:[],
+            	top_list:'',
+            	one_list:''
             }
         },
         components:{
@@ -113,6 +115,20 @@
         		})
         		this.$http.get('/api/expert/talent').then(rtnData=>{
         			this.expert_list_talent=rtnData.data
+        		})
+        		this.$http.get('/api/expert/top').then(rtnData=>{
+        			let toplist=[]
+        			rtnData.data.forEach((item) => {
+        			  toplist.push(item.expert_name);
+        			})
+        			this.top_list=toplist.toString()
+        		})
+        		this.$http.get('api/expert/onetoone').then(res=>{
+        			let onelist=[]
+        			res.data.forEach((item) => {
+        			  onelist.push(item.expert_name);
+        			})
+        			this.one_list=onelist.toString("、")
         		})
         	},
         	opentop: function(){
@@ -158,6 +174,7 @@
 		background: #F5F5F5;
 		color: #3F3F3F;
 		margin-top: 2rem;
+		padding-bottom: 0.5rem;
 		.special_item{
 			width: 100%;
 			display:flex;

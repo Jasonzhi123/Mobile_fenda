@@ -2,7 +2,7 @@
 	
 	<div class="polular_science">
 		<mt-header fixed title="科普" class="header">
-		 <router-link to="/" slot="left">
+		 <router-link to="/export" slot="left">
     		<mt-button icon="back"></mt-button>
   		</router-link>
  	 <mt-button icon="more" slot="right"></mt-button>

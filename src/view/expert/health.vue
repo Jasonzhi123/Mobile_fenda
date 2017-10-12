@@ -37,14 +37,14 @@
 				</li>
 			</ul>
 		</div> 
-		<div class="health_item">
+		<div class="introduce">
 			<introduce v-for="item in healthList"> 
-    		<img slot="head_pic" src="" alt="" />
-    		<p slot="name" class="name">{{item.expert_name}}</p>
-				<p slot="description" class="description">{{item.rank}}</p>
-				<p slot="description" class="descriptions"><span>100</span><span>个回答   </span><span>{{item.number}}</span><span>个收听</span></p>
-				<Icon slot="right" size="25" color="red" type="headphone"></Icon>
-     </introduce>
+	    		<img slot="head_pic" src="" alt="" />
+	    		<p slot="name" class="name">{{item.expert_name}}</p>
+					<p slot="description" class="description">{{item.rank}}</p>
+					<p slot="description" class="descriptions"><span>100</span><span>个回答   </span><span>{{item.number}}</span><span>个收听</span></p>
+					<Icon slot="right" size="25" color="red" type="headphone"></Icon>
+     		</introduce>
 		</div>
 	</div>
 </template>
@@ -129,9 +129,10 @@ p{
 		}
 		.health_item{
 			background: #fff;
-			margin-top: 1rem;
+			margin-top: 0.5rem;
 			width: 100%;
 			overflow: hidden;
+			text-align: center;
 			li{
 				box-sizing: border-box;
     			display: inline-block;
@@ -155,10 +156,12 @@ p{
 			height: 5rem !important;
 		}
 		.btn{
-			    line-height: 2.1rem;
+			    line-height: 1.5rem;
 			    text-align: center;
 			    color: #f85f48;
-			    font-size: .65rem;
+			    p{
+			    	font-size: 0.6rem;
+			    }
 		}
 		.special{
 			margin-top: 0.5rem;
@@ -185,11 +188,12 @@ p{
 				}
 			}
 		}
-		.profile{
+		.introduce{
 			background: #fff;
 			margin-top: 0.5rem;
+			margin-bottom: 0.5rem;
 			width: 100%;
-			& + .profile{
+			& + .introduce{
 				margin-top: 0rem;
 			}
 		}

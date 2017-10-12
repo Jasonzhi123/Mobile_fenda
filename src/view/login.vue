@@ -26,7 +26,8 @@
 		</div>
 </template>
 <script type="es6">
-import {mapMutations} from 'vuex'
+// import {mapMutations} from 'vuex'
+import { Toast, Indicator } from 'mint-ui';
 export default {
 	data(){
 		return {
@@ -45,26 +46,30 @@ export default {
 		}
 	},
 	methods: {
-		...mapMutations(['setLogin']),
+		// ...mapMutations(['setLogin']),
 		login: function(){
-			var params={
-				withCredentials: true
-			}
 			if(this.phone !== '' && this.captcha !== '' && !this.state){
 				this.state = true;
-				this.$http.post('/api/login/login',{
-					'phone': this.phone,
-					'pwd' : this.captcha,
-				},{
-					params: params
+				Indicator.open('正在登录');
+				this.$http.request({
+					url: '/api/login/login',
+					method: 'POST',
+					data: {
+						'phone': this.phone,
+						'pwd' : this.captcha,
+					}
 				}).then((repsonse)=>{
 					this.state = false;
+					Indicator.close();
 					if(repsonse.data.status == 0){
-						this.setLogin(true);
+						// this.setLogin(true);
 						this.$router.push('/my');
+					}else{
+						Toast(repsonse.data.message);
 					}
 				}).catch(()=>{
 					this.state = false;
+					Indicator.close();
 				})
 			}
 		},

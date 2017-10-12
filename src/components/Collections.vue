@@ -49,8 +49,8 @@ export default{
 			}
 			.description{
 				color: #AAAAAA;
-				font-size: 0.8rem;
-				line-height: 1.5rem;
+				font-size: 0.7rem;
+				line-height: 1rem;
 				overflow: hidden;
 				white-space: nowrap;
 				text-overflow: ellipsis;

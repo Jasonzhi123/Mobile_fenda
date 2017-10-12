@@ -2,17 +2,16 @@
 	
 	<div class="workplace">
 		<mt-header fixed title="职场" class="header">
-		 <router-link to="/" slot="left">
+		 <router-link to="/export" slot="left">
     		<mt-button icon="back"></mt-button>
   		</router-link>
  	 <mt-button icon="more" slot="right"></mt-button>
 	</mt-header>
 	<div class="contaner">
 		
-		<ul>
+	<ul>
 		<li>
 			<profile></profile>
-
 		</li>
 	</ul>
 	</div>
