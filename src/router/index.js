@@ -103,7 +103,7 @@ export default new Router({
       component: alllist
     },
     {
-      path: '/lisDetailQue',
+      path: '/lisDetailQue/:id',
       component: lisDetailQue
     },
     {
@@ -119,7 +119,7 @@ export default new Router({
       component: Login
     },
     {
-      path: '/answerPage',
+      path: '/answerPage/:id',
       component: answerPage
     },
     {

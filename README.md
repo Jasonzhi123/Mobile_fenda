@@ -31,9 +31,10 @@ view视图下的页面：
 		settlementstatement
 	start ：首页
 
-	<!-- lizonglong -->
-	answerPage 收听的专家个人主页
-	ansPageSearch 收听的专家个人主页进入的搜索界面
-	kuaiwen 快问
-	kuaiwenTopic 快问主题详细页
-	kwenDetail 快问问题详情
+	|-answerPage 收听的专家个人主页
+	|-ansPageSearch 收听的专家个人主页进入的搜索界面
+	|-kuaiwen 快问
+		|-kuaiwen 快问主页
+		|-kuaiwenTopic 快问主题详细页
+		|-kwenDetail 快问问题详情
+		|-kwenAsk 快问提问页
