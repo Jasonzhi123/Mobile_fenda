@@ -14,17 +14,25 @@ export default {
 		}
 	},
 	created(){
-		this.$http.request({
-			url:'/api/login',
-			withCredentials: true
-		}).then((response)=>{
-        if (response.data !== '') {
-         	this.setLogin(response.data)
-        }
-      })
+        this.setLogin(this.$http)
+        if (window.plus) {
+			this.plusReady()
+		}else{
+			document.addEventListener("plusready",this.plusReady)
+		}
 	},
 	methods: {
-		...mapMutations(['setLogin'])
+		...mapMutations(['setLogin']),
+		plusReady(){
+			document.removeEventListener("plusready")
+			plus.key.addEventListener('backbutton',()=>{
+				if ((this.$route.path === '/start') || (this.$route.path ==='/listen') || (this.$route.path ==='/my')){
+					plus.runtime.quit()
+				} else {
+					this.$router.back(-1)
+				}
+			})
+		}
 	}
 }
 </script>

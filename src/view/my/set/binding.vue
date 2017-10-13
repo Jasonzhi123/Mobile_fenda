@@ -17,15 +17,15 @@
 				<p>验证新号码</p>	
 			</div>
 		</div>
-		<form class="ipt" action="" method="post">
-			<input class="one" type="text" name="" id=""placeholder="输入要绑定的新手机号码"/>
+		<form class="ipt">
+			<input class="one" type="text" v-model="phone" id=""placeholder="输入要绑定的新手机号码"/>
 			<div class="authentication">
-				<input type="text" name="" id="" value="" placeholder="验证码"/>
-				<p>获取验证码</p>
+				<input type="text" id="" v-model="phoneCode" placeholder="验证码"/>
+				<countdown @sendCode='changePhone' :message="flag">获取验证码</countdown>
 			</div>
 		</form>
 		
-		<a class="btn">
+		<a class="btn" @click="changePhoneClcik">
 			确认更换
 		</a>
 		
@@ -34,16 +34,123 @@
 </template>
 
 <script type="es6">
+	import Countdown from '../../../components/Countdown.vue'
+	import {mapState, mapMutations} from 'vuex'
+	import {Toast, Indicator} from 'mint-ui'
 	export default{
 		data(){
 			return{
-				tip:false
+				login: this.$store.state.login,
+				phone: '',
+				phoneCode: '',
+				tip:false,
+				isCheck: false,
+				flag: false,
+				block: false,
+				clock: false
+			}
+		},
+		beforeCreate(){
+			if(!this.$store.state.changePhone){
+				this.$router.push('/my')
+			}
+		},
+		created(){
+			this.setLogin(this.$http)
+			this.$store.state.changePhone = false
+		},
+		computed: {
+			getUserInfo(){
+				return this.$store.state.login
+			}
+		},
+		watch: {
+			getUserInfo(val){
+				this.login = val
+			},
+			login(){
+				if(!this.login){
+					this.$router.push('/my')
+				}
 			}
 		},
 		methods:{
+			...mapMutations(['setLogin']),
 			service:function(){
 				this.tip = !this.tip
+			},
+			changePhone: function(val){
+				if(val){
+					this.block = false;
+					this.flag = false;
+					return;
+				}
+				if(!this.block){
+					this.block = true
+					if(/^1[34578]\d{9}/.test(this.phone)){
+						Indicator.open({
+						  text: '发送中...',
+						  spinnerType: 'fading-circle'
+						});
+						this.$http.post('/api/user/phone',{
+							'phone': this.phone
+						}).then((response)=>{
+							Indicator.close();
+							if(response.data.status == 0){
+								this.flag = true;
+								Toast(response.data.message);
+							}else if(response.data.status == 3){
+								this.$router.push('my')
+							}else{
+								Toast(response.data.message)
+								this.block = false;
+							}
+						}).catch(function(){
+							Indicator.close();
+						});
+					}else{
+						this.block = false;
+						Toast('手机格式不正确！');
+					}
+				}
+					
+			},
+			changePhoneClcik: function(){
+				if(/^1[34578]\d{9}/.test(this.phone) && this.phoneCode.length === 6){
+					if(this.clock){
+						return;
+					}
+					this.clock = true
+					Indicator.open({
+					  text: '正在更改',
+					  spinnerType: 'fading-circle'
+					});
+					this.$http.post('/api/user/changePhone',{
+						'phone': this.phone,
+						'phoneCode': this.phoneCode
+					}).then((response)=>{
+						Indicator.close();
+						if(response.data.status == 0){
+							this.flag = true;
+							Toast(response.data.message);
+						}else if(response.data.status == 3){
+							this.$router.push('my')
+						}else{
+							Toast(response.data.message)
+							this.block = false;
+						}
+						this.clock = true;
+					}).catch(function(){
+						Indicator.close();
+						this.clock = true;
+					});
+				}else{
+					Toast('验证码错误');
+				}
 			}
+		},
+		components: {
+			Countdown
 		}
 	}
 	
@@ -108,7 +215,7 @@
 				width: 100%;
 				border-bottom: 1px solid #E5E5E5;
 				height: 2rem;
-				
+				align-items: center;
 				input{
 					border: none;
 				outline: none;

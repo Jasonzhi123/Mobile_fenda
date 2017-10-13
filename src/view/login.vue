@@ -15,7 +15,7 @@
 				验证码<input type="text" v-model="captcha">
 			</div>
 			<p class="item tip">未注册过的手机号将自动注册为分答用户</p>
-			<input type="button" @click="login()" :class="loginClass?'btn':'btn cur'" value="登录">
+			<input type="button" @click="loginUser()" :class="loginClass?'btn':'btn cur'" value="登录">
 			<p class="littleTip line">—————或者，您可以—————</p>
 			<div class="wx">
 				<img src="../assets/wxlogo.jpg">
@@ -26,15 +26,24 @@
 		</div>
 </template>
 <script type="es6">
-// import {mapMutations} from 'vuex'
+import {mapState, mapMutations} from 'vuex'
 import { Toast, Indicator } from 'mint-ui';
 export default {
 	data(){
 		return {
 			phone: '',
 			captcha: '',
+			login: this.$store.state.login,
 			state: false,
 			loginClass: false
+		}
+	},
+	created(){
+		this.setLogin(this.$http)
+	},
+	computed: {
+		getUserInfo(){
+			return this.$store.state.login
 		}
 	},
 	watch: {
@@ -43,11 +52,17 @@ export default {
 		},
 		captcha: function(){
 			this.setLoginClass()
+		},
+		getUserInfo(val){
+			this.login = val
+			if(this.login){
+				this.$router.push(this.$store.state.nextPage)
+			}
 		}
 	},
 	methods: {
-		// ...mapMutations(['setLogin']),
-		login: function(){
+		...mapMutations(['setLogin']),
+		loginUser: function(){
 			if(this.phone !== '' && this.captcha !== '' && !this.state){
 				this.state = true;
 				Indicator.open('正在登录');
@@ -62,14 +77,14 @@ export default {
 					this.state = false;
 					Indicator.close();
 					if(repsonse.data.status == 0){
-						// this.setLogin(true);
-						this.$router.push('/my');
+						this.setLogin(this.$http);
 					}else{
 						Toast(repsonse.data.message);
 					}
 				}).catch(()=>{
 					this.state = false;
 					Indicator.close();
+					Toast('登录失败！');
 				})
 			}
 		},
@@ -120,6 +135,8 @@ a{
 	border: none;
 	padding-left: 0.4rem;
 	outline: none;
+	width: 8rem;
+    height: 2rem;
 }
 .login .item >span{
 	float: right;
