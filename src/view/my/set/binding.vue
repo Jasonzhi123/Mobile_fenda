@@ -1,7 +1,7 @@
 <template>
 	<div class="validate">
 		<mt-header fixed title="全部头条">
-		  <router-link to="/" slot="left">
+		  <router-link to="/validate" slot="left">
 		    <mt-button icon="back">返回</mt-button>
 		  </router-link>
 		</mt-header>
@@ -25,7 +25,7 @@
 			</div>
 		</form>
 		
-		<a class="btn" @click="changePhoneClcik">
+		<a class="btn" @click="changePhoneClick">
 			确认更换
 		</a>
 		
@@ -115,7 +115,7 @@
 				}
 					
 			},
-			changePhoneClcik: function(){
+			changePhoneClick: function(){
 				if(/^1[34578]\d{9}/.test(this.phone) && this.phoneCode.length === 6){
 					if(this.clock){
 						return;
@@ -127,22 +127,21 @@
 					});
 					this.$http.post('/api/user/changePhone',{
 						'phone': this.phone,
-						'phoneCode': this.phoneCode
+						'code': this.phoneCode
 					}).then((response)=>{
 						Indicator.close();
 						if(response.data.status == 0){
-							this.flag = true;
 							Toast(response.data.message);
+							this.$router.push('/my')
 						}else if(response.data.status == 3){
-							this.$router.push('my')
+							this.$router.push('/my')
 						}else{
 							Toast(response.data.message)
-							this.block = false;
 						}
-						this.clock = true;
+						this.clock = false;
 					}).catch(function(){
 						Indicator.close();
-						this.clock = true;
+						this.clock = false;
 					});
 				}else{
 					Toast('验证码错误');
