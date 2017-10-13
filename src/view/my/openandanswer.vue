@@ -71,8 +71,6 @@
 					this.change = !this.change
 				}
 			},
-			changepic:function(){
-			},
 			selectPic: function(){
 				this.$refs.openFile.click()
 			},
@@ -104,7 +102,7 @@
 						data: formdata
 					}).then(function(reponse){
 						Indicator.close();
-						Toast('上传成功！');
+						Toast(response.data.message || '上传失败！');
 					}).catch(function(){
 						Indicator.close();
 						Toast('上传失败！');
@@ -112,6 +110,7 @@
 				}else{
 					Toast('选择的文件格式不正确！');
 				}
+				this.$refs.openFile.value = '';
 			}
 		}
 	}
@@ -187,6 +186,7 @@
 				line-height: 1rem;
 				border: none;
 				outline: none;
+				width: 7rem;
 			}
 		}
 		.shezhi{

@@ -18,7 +18,7 @@
           <img src="../assets/7.jpg">
           <p>{{user.user_name}}</p>
         </div>
-        <p class="income">总收入￥<span>{{user.income}}</span>&nbsp&nbsp;&nbsp总收益￥<span>{{user.cents}}</span></p>
+        <p class="income">总收入￥<span>{{user.income}}</span>&nbsp;&nbsp;&nbsp;总收益￥<span>{{user.cents}}</span></p>
         <p class="tip">收入90%归你，每夜结算，自动入库微信钱包</p>
       </div>
       <ul class="list">
@@ -43,24 +43,23 @@ export default {
   data () {
     return {
       user: this.$store.state.login,
-      showLogin: this.$store.state.login?1:2
+      showLogin: this.$store.state.login?1:0
     }
   },
   created(){
   	if(this.showLogin !== 1){
-  		this.$http.request({
-			url:'/api/login'
-		}).then((response)=>{
-			if (response.data) {
-				this.setLogin(response.data)
-		     	this.user = response.data
-		     	this.showLogin = 1
-		    }else{
-		    	this.showLogin = 0
-		    }
-		}).catch(()=>{
-			this.showLogin = 0
-		})
+  		this.setLogin(this.$http)
+  	}
+  },
+  computed: {
+  	getUserInfo(){
+  		return this.$store.state.login
+  	}
+  },
+  watch: {
+  	getUserInfo(val){
+  		this.user = val
+  		this.showLogin = val?1:0
   	}
   },
   methods : {
