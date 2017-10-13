@@ -1,13 +1,20 @@
 <template>
-  <div class="main">
+  <div class="topic">
+  	<mt-header fixed title="小讲" class="header">
+		  <router-link to="/expert" slot="left">
+		    <mt-button icon="back">返回</mt-button>
+		  </router-link>
+		  <Icon type="ios-barcode-outline"></Icon>
+		   <router-link to="/expert" slot="right">
+		    <Icon size="40" color="red" style="margin:0px 10px;" type="ios-barcode-outline"></Icon>
+		  </router-link>
+		  <router-link to="/expert" slot="right">
+		    <Icon size="40" type="android-more-horizontal"></Icon>
+		  </router-link>
+		 
+		</mt-header>
     <div class="banner" style="background-image: url(https://medias.zaih.com/f945339112e2f74c0fd96947aade_1125x630.jpg)">
-      <div class="nav">
-        <a href="#">返回</a>
-        <div class="more">
-          <a>收听</a>
-          <a>更多</a>
-        </div>
-      </div>
+      
       <div class="album-info">
         <h1>4步练出好声音</h1>
         <p>4期系列小讲,xxx次参加</p>
@@ -74,7 +81,9 @@ export default {
 html{
   font-size:17px;
 }
-
+.header{
+	background: transparent;
+}
 .hello{
   width: 100%;
   overflow: hidden;

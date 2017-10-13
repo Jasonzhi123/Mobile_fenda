@@ -1,11 +1,11 @@
 <template>
 	<div class="profile">
 		<div class="pic">
-			<img src="../assets/ke.png" alt=""  />
+			<slot name="pic"></slot>
 		</div>
 		<div class="mid">
-			<p class="name">本周最受欢迎答主TOP100</p>
-			<p class="description">你，我、他</p>
+			<slot name="title"></slot>
+			<slot name="author"></slot>
 		</div>
 	</div>
 
@@ -28,22 +28,18 @@ export default{
 		display: flex;
 		align-items: center;
 		width: 100%;
-		height: 6rem;
+		height: 4.5rem;
 		border-bottom: 1px solid #EEEEEE;
 		.pic{
-			width:3.5rem;
-			height: 3.5rem;
+			width:2.5rem;
+			height: 2.5rem;
 			flex:none;
-			img{
-				width:100%;
-				height: 100%;
-				border-radius: 100%;
-			}
+			text-align: center;
 		}
 		.mid{
-			margin-left:1rem;
 			flex:auto;
-			width: calc(100% - 8rem);
+			margin-left: 0.5rem;
+			width: calc(100% - 2rem);
 			overflow: hidden;
 			.name{
 				line-height: 1.5rem;
@@ -53,8 +49,8 @@ export default{
 			}
 			.description{
 				color: #AAAAAA;
-				font-size: 0.8rem;
-				line-height: 1.5rem;
+				font-size: 0.7rem;
+				line-height: 1rem;
 				overflow: hidden;
 				white-space: nowrap;
 				text-overflow: ellipsis;

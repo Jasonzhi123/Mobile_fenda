@@ -31,15 +31,34 @@
 		</div>
 		<div class="collection">
 			<p class="title">精彩合辑 </p>
-        	<collections></collections>
-        	<collections></collections>
+      <collections @click.native="opentop">
+        <Icon  slot="pic" size="50" color="red"  type="ios-ionic-outline"></Icon>
+    		<p class="name" slot="title">本周最受欢迎答主TOP100</p>
+				<p class="description" slot="author">{{top_list}}等</p> 
+			</collections>
+			
+      <collections @click.native="openonetoone"> 
+        		<Icon  slot="pic" size="50" color="red"  type="ios-ionic-outline"></Icon>
+        		<p class="name" slot="title">行家答主支持线下1对1约见</p>
+				<p class="description" slot="author">{{one_list}}等</p> 
+        	</collections>
+        	<collections @click.native="openstrength"> 
+        		<Icon slot="pic" color="red" size="50" type="android-arrow-dropdown-circle"></Icon>
+        		<p class="name" slot="title">悬赏实力榜</p>
+				<p class="description" slot="author">解决问题的高手都在这里</p> 
+        	</collections>
 		</div>
 		
 		<div class="collection">
 			<p class="title">新晋榜</p>
-        	<introduce></introduce>
-        	<introduce></introduce>
-        	<div class="btn">
+        	<introduce v-for="item in expert_list_new"> 
+        		<img slot="head_pic" v-lazy="" alt="" />
+        		<p slot="name" class="name">{{item.expert_name}}</p>
+				<p slot="description" class="description">{{item.rank}}</p>
+				<p slot="description" class="descriptions">{{item.introduction}}</p>
+				<Icon slot="right" size="25" color="red" type="headphone"></Icon>
+        	</introduce>
+        	<div class="btn" @click="opennew">
         		<div class="left">
         			查看更多新晋答主
         		</div>
@@ -51,11 +70,16 @@
 		
 		<div class="collection">
 			<p class="title">才华榜</p>
-        	<profile></profile>
-        	<profile></profile>
-        	<div class="btn">
+        	<introduce v-for="item in expert_list_talent"> 
+        		<img slot="head_pic" v-lazy="" alt="" />
+        		<p slot="name" class="name">{{item.expert_name}}</p>
+				<p slot="description" class="description">{{item.rank}}</p>
+				<p slot="description" class="descriptions"><span>100</span><span>个回答   </span><span>{{item.number}}</span><span>个收听</span></p>
+				<Icon slot="right" size="25" color="red" type="headphone"></Icon>
+        	</introduce>
+        	<div class="btn" @click="opentalent">
         		<div class="left">
-        			查看更多新晋答主
+        			查看更多才华答主
         		</div>
         		<div class="right">
         			>
@@ -66,18 +90,62 @@
 
 </template>
 <script type="es6">
-    import profile from '../../components/profile'
     import introduce from '../../components/Introduce'
     import collections from '../../components/Collections'
     export default {
         data () {
             return {
+            	expert_list_new:[],
+            	expert_list_talent:[],
+            	top_list:'',
+            	one_list:''
             }
         },
         components:{
-            profile,
             introduce,
             collections
+        },
+        created(){
+        	this.init()
+        },
+        methods:{
+        	init:function(){
+        		this.$http.get('/api/expert/index').then(rtnData=>{
+        			this.expert_list_new=rtnData.data
+        		})
+        		this.$http.get('/api/expert/talent').then(rtnData=>{
+        			this.expert_list_talent=rtnData.data
+        		})
+        		this.$http.get('/api/expert/top').then(rtnData=>{
+        			let toplist=[]
+        			rtnData.data.forEach((item) => {
+        			  toplist.push(item.expert_name);
+        			})
+        			this.top_list=toplist.toString()
+        		})
+        		this.$http.get('api/expert/onetoone').then(res=>{
+        			let onelist=[]
+        			res.data.forEach((item) => {
+        			  onelist.push(item.expert_name);
+        			})
+        			this.one_list=onelist.toString("、")
+        		})
+        	},
+        	opentop: function(){
+        		this.$router.push('/top')
+        	},
+        	opennew:function(){
+        		this.$router.push('/newlist')
+        	},
+        	opentalent:function(){
+        		this.$router.push('/talent')
+        	},
+        	openonetoone:function(){
+        		this.$router.push('/onetoone')
+        	},
+        	openstrength:function(){
+        		this.$router.push('/strength')
+        	}
         }
     }
 </script>
@@ -106,6 +174,7 @@
 		background: #F5F5F5;
 		color: #3F3F3F;
 		margin-top: 2rem;
+		padding-bottom: 0.5rem;
 		.special_item{
 			width: 100%;
 			display:flex;
@@ -114,7 +183,7 @@
 				flex: 1;				
 				background: #fff;
 				padding: 0.5rem 0rem 2rem;
-				height: 2rem;
+				height: 4.5rem;
 				text-align: center;
 				margin-right: 0.5rem;
 				&:nth-child(3){
@@ -155,14 +224,14 @@
 			.title{
 				text-align: center;
 				color: #999;
-				line-height: 3rem;
+				line-height: 2.5rem;
 				border-bottom: 1px solid #E5E5E5;
 			}
 			.btn{
 				height: 2rem;
 				color: #F85F48;
 				display: flex;
-				padding: 0rem 1rem;
+				padding: 0rem 0.5rem;
 				justify-content: space-between;
 				line-height: 2rem;
 				font-size: 0.7rem;

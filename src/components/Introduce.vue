@@ -1,16 +1,15 @@
 <template>
-	<div class="profile">
+	<div class="profil">
 		<div class="pic">
-			<img src="../assets/profile.jpg" alt="" />
+			<slot name="head_pic"></slot>
 		</div>
 
 		<div class="mid">
-			<p class="name">一土昊</p>
-			<p class="description">映客副总裁 中国人民大学讲师</p>
-			<p class="description">讲故事 科技控 摄影 直播 互联网运营 网红 其实什么乱七八糟的都可以问！</p>
+			<slot name="name"></slot>
+			<slot name="description"></slot>
 		</div>
 		<div class="right">
-			<img src="../assets/lister.png" />
+			<slot name="right"></slot>
 		</div>
 	</div>
 
@@ -28,15 +27,15 @@
 	p{
 		font-size: 0.8rem;
 	}
-	.profile{
+	.profil{
 		display: flex;
 		align-items: center;
 		width: 100%;
-		height: 6rem;
+		height: 4.5rem;
 		border-bottom: 1px solid #EEEEEE;
 		.pic{
-			width:3.5rem;
-			height: 3.5rem;
+			width:3rem;
+			height: 3rem;
 			flex:none;
 			img{
 				width:100%;
@@ -45,11 +44,12 @@
 			}
 		}
 		.mid{
-			margin-left:1rem;
+			margin-left:0.5rem;
 			flex:auto;
-			width: calc(100% - 8rem);
+			width: calc(100% - 4rem);
 			overflow: hidden;
 			.name{
+				font-size: 0.7rem;
 				line-height: 1.5rem;
 				overflow: hidden;
 				white-space: nowrap;
@@ -57,16 +57,24 @@
 			}
 			.description{
 				color: #AAAAAA;
-				font-size: 0.8rem;
-				line-height: 1.5rem;
+				font-size: 0.65rem;
+				line-height: 1rem;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+			}
+			.descriptions{
+				color: #AAAAAA;
+				font-size: 0.6rem;
+				line-height: 1rem;
 				overflow: hidden;
 				white-space: nowrap;
 				text-overflow: ellipsis;
 			}
 		}
 		.right{
-			width:1.5rem;
-			height: 1.5rem;
+			width:1rem;
+			height: 1rem;
 			margin:0rem 1rem;
 			flex:none;
 			img{
