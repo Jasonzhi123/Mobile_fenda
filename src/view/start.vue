@@ -53,7 +53,7 @@
 					</div>
 				</div>
 				<ul>
-					<li v-for="item in headlines_list.slice(0,2)">
+					<li v-for="item in headlines_list">
 						<img src="../assets/icon_nav_article.png" />
 						<p>{{item.title}}</p>
 					</li>
@@ -166,6 +166,7 @@
         	init:function(){
         		this.$http.get('/api/home/index').then(rtnData=>{
         			this.headlines_list=rtnData.data;
+
 
         		})
         		this.$http.get('api/home/smalltalk').then(rtnData=>{
