@@ -12,7 +12,7 @@
                 </div>
                 <div class="item-container">
                     <h3>
-                        <span >专题</span>
+                        <span class="sp-topic">专题</span>
                         <span>轻松吃出好身材</span>
                     </h3>
                     <div class="item-respondent">仰望尾迹云主讲</div>
@@ -72,7 +72,7 @@
      padding:.7rem 0;
      width:100%;
 }
- .speaches li:nth-child(1){
+ .speaches li .sp-topic{
     border-top: none;
     margin-top: 2rem;
  }

@@ -2,10 +2,12 @@
 
 	<div class="health">
 		<mt-header fixed title="健康" class="header">
-		 <router-link to="/" slot="left">
+		 <router-link to="/expert" slot="left">
     		<mt-button icon="back"></mt-button>
   		</router-link>
- 	 	<mt-button icon="more" slot="right"></mt-button>
+ 	 	<router-link to="/all" slot="right">
+ 	 		<p style="color: red;font-size: 0.6rem;">全部分类</p>
+ 	 	</router-link>
 		</mt-header>
 		
 		<div class="navigation">
@@ -19,8 +21,8 @@
 			</div>
 		</div>
 		<ul class="health_item" :class="{fold : isfold}">
-			<li v-for="n in 16">
-				<a href="">儿童健康</a>
+			<li v-for="item in health_list">
+				{{item.classification}}
 			</li>
 		</ul>
 		<div class="btn" v-on:click="changefold" >
@@ -35,36 +37,54 @@
 				</li>
 			</ul>
 		</div> 
-		<profile  v-for="n in 10"></profile>
-	
+		<div class="introduce">
+			<introduce v-for="item in healthList"> 
+	    		<img slot="head_pic" src="" alt="" />
+	    		<p slot="name" class="name">{{item.expert_name}}</p>
+					<p slot="description" class="description">{{item.rank}}</p>
+					<p slot="description" class="descriptions"><span>100</span><span>个回答   </span><span>{{item.number}}</span><span>个收听</span></p>
+					<Icon slot="right" size="25" color="red" type="headphone"></Icon>
+     		</introduce>
+		</div>
 	</div>
 </template>
 
 <script type="es6">
-	import profile from '../../components/Profile'
+	import introduce from '../../components/Introduce'
 	export default {
 		data () {
 	            return {
-	            	isfold: true
+	            	isfold: true,
+	            	health_list:'',
+	            	healthList:[]
 	            }
 		    },
-		components:{
-			profile
+		created:function(){
+			this.init();
 		},
 		methods:{
 			changefold:function(){
 				this.isfold=!this.isfold
+			},
+			init:function(){
+				this.$http.get('/api/health/index')
+				.then(rtnData=>{
+					this.health_list=rtnData.data
+				})
+				this.$http.get('/api/health/healthlist')
+				.then(rtnData=>{
+					this.healthList=rtnData.data
+				})
 			}
+
+		},
+		components:{
+			introduce
 		}
 	}
 </script>
 
 <style lang="scss">
-.health .header{
-  background: #fff;
-  color: #3f3f3f;
-  border-bottom: 1px solid #DED9D9;
-}
 *{
 	margin:0;padding:0;
 }
@@ -72,15 +92,21 @@ p{
 	font-size: .8rem;
 }
 	.health{
+		
 		background: #f5f5f5;
 		margin-top: 0.3rem;
+		.header{
+		  background: #fff;
+		  color: #3f3f3f;
+		  border-bottom: 1px solid #DED9D9;
+		}
 		.navigation{
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
 			padding: 0rem 0.5rem;
 			height: 3rem;
-			margin-top: 3rem;
+			margin-top: 2rem;
 			background: #fff;
 			img{
 				width: 2rem;
@@ -103,9 +129,10 @@ p{
 		}
 		.health_item{
 			background: #fff;
-			margin-top: 1rem;
+			margin-top: 0.5rem;
 			width: 100%;
 			overflow: hidden;
+			text-align: center;
 			li{
 				box-sizing: border-box;
     			display: inline-block;
@@ -129,10 +156,12 @@ p{
 			height: 5rem !important;
 		}
 		.btn{
-			    line-height: 2.1rem;
+			    line-height: 1.5rem;
 			    text-align: center;
 			    color: #f85f48;
-			    font-size: .65rem;
+			    p{
+			    	font-size: 0.6rem;
+			    }
 		}
 		.special{
 			margin-top: 0.5rem;
@@ -159,11 +188,12 @@ p{
 				}
 			}
 		}
-		.profile{
+		.introduce{
 			background: #fff;
 			margin-top: 0.5rem;
+			margin-bottom: 0.5rem;
 			width: 100%;
-			& + .profile{
+			& + .introduce{
 				margin-top: 0rem;
 			}
 		}

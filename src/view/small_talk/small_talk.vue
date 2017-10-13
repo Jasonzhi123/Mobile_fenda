@@ -1,5 +1,6 @@
 <template>
     <div class="index">
+
        <mt-header fixed title="个人资料" class="header">
 		 <router-link to="/" slot="left">
     		<mt-button icon="back"></mt-button>
@@ -297,6 +298,9 @@ export default {
     },
     to_detal: function () {
       this.$router.push('/newcourse')
+    },
+    goback: function () {
+      this.$router.go(-1)
     }
   }
 }

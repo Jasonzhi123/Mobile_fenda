@@ -1,68 +1,92 @@
 <template>
 	<div class="index" >
+		<router-view></router-view>
 
-		
-		<transition>
-			<router-view></router-view>
-		</transition>
-		
-		 <mt-tabbar  :fixed="true" class="footer">
-		 
-		 	<router-link to="/start" class="menu" active-class="active-menu">
+		<mt-tabbar  :fixed="true" class="footer">
+		 	<div @click="openstart" class="menu" :class="{active :activeName == 'a'}" >
 	      		<mt-tab-item>
-	        		<img slot="icon" src="../assets/icon_nav_article.png">
-	        		首页
+	        		<Icon slot="icon" size="20" class="icon" type="home"></Icon>
+	        		<span>首页</span>
 	      		</mt-tab-item>
-	  		</router-link> 
-	  		<router-link to="listen" class="menu" active-class="active-menu">
+	  		</div> 
+	  		<div @click="openlisten" class="menu " :class="{active :activeName == 'b'}">
 		      <mt-tab-item>
-		        <img slot="icon" src="../assets/icon_nav_cell.png">
-		       	收听
+		        <Icon slot="icon" size="20" class="icon" type="headphone"></Icon>
+		       	<span>收听</span>
 		      </mt-tab-item>
-		  	</router-link>
-		  	<router-link to="/Login" class="menu" active-class="active-menu">
+		  	</div>
+		  	<div @click="openlogin" class="menu" :class="{active :activeName == 'c'}" >
 		      	<mt-tab-item >
-			        <img slot="icon" src="../assets/icon_nav_cell.png">
-			        已购
+			        <Icon slot="icon" size="20" class="icon"  type="ios-checkmark-outline"></Icon>
+			        <span>已购</span>
 			     </mt-tab-item>
-	      	</router-link>
-	      	<router-link to="/my" class="menu" active-class="active-menu">
-		      <mt-tab-item id="我的">
-		        <img slot="icon" src="../assets/icon_nav_msg.png">
-		        我的
+	      	</div>
+	      	<div @click="openmy" class="menu" :class="{active :activeName == 'd'}">
+		      <mt-tab-item >
+		        <Icon slot="icon"  size="20" class="icon" type="person"></Icon>
+		        <span>我的</span>
 		      </mt-tab-item>
-	      	</router-link>
+	      	</div>
 		</mt-tabbar>
 	</div>
 </template>
 
-
-
-
 <script type="es6">
-
 	export default {
-		
+		data(){
+			return {
+				activeName: ''
+			}
+		},
+		created(){
+			this.openstart();
+		},
+		methods:{
+			openstart:function(){
+				this.activeName = 'a'
+				this.$router.push('/')
+			},
+			openlisten:function(){
+				this.activeName = 'b'
+				this.$router.push('/listen')	
+			},
+			openlogin:function(){
+				this.activeName = 'c'
+				this.$router.push('/Login')
+			},
+			openmy:function(){
+				this.activeName = 'd'
+				this.$router.push('my')
+			}
+		}	
 	}
 </script>
 
 
 
 <style lang="scss">
-body,html,div,p,span,ul,li,a,img{
-  margin: 0px;padding: 0px;
-}
-.active-menu{
-	color: red;
-	background: #ccc;
-}
-.index{
-	.footer{
 
-		.menu{
-			width:25%;
+	.active{
+		background: #f4f4f4 !important;
+		.icon{
+			color: red !important;
 		}
-
+		span{
+			color: red !important;
+		}
 	}
-}
+	.index{
+		.footer{
+			.menu{
+				width:25%;
+				.icon{
+					color: #aaa;
+				}
+				span{
+					color: #aaa;
+				}
+			}
+
+		}
+	}
 </style>

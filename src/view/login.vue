@@ -8,14 +8,14 @@
 			</mt-header>
 		<div class="body">
 			<div class="item">
-				手机号<input type="text">
+				手机号<input type="text" v-model="phone">
 				<span>发送验证码</span>
 			</div>
 			<div class="item">
-				验证码<input type="text">
+				验证码<input type="text" v-model="captcha">
 			</div>
 			<p class="item tip">未注册过的手机号将自动注册为分答用户</p>
-			<input type="button" class="btn" value="登录">
+			<input type="button" @click="login()" :class="loginClass?'btn':'btn cur'" value="登录">
 			<p class="littleTip line">—————或者，您可以—————</p>
 			<div class="wx">
 				<img src="../assets/wxlogo.jpg">
@@ -25,8 +25,62 @@
 			</div>
 		</div>
 </template>
-<script type="text/javascript">
+<script type="es6">
+// import {mapMutations} from 'vuex'
+import { Toast, Indicator } from 'mint-ui';
 export default {
+	data(){
+		return {
+			phone: '',
+			captcha: '',
+			state: false,
+			loginClass: false
+		}
+	},
+	watch: {
+		phone: function(){
+			this.setLoginClass()
+		},
+		captcha: function(){
+			this.setLoginClass()
+		}
+	},
+	methods: {
+		// ...mapMutations(['setLogin']),
+		login: function(){
+			if(this.phone !== '' && this.captcha !== '' && !this.state){
+				this.state = true;
+				Indicator.open('正在登录');
+				this.$http.request({
+					url: '/api/login/login',
+					method: 'POST',
+					data: {
+						'phone': this.phone,
+						'pwd' : this.captcha,
+					}
+				}).then((repsonse)=>{
+					this.state = false;
+					Indicator.close();
+					if(repsonse.data.status == 0){
+						// this.setLogin(true);
+						this.$router.push('/my');
+					}else{
+						Toast(repsonse.data.message);
+					}
+				}).catch(()=>{
+					this.state = false;
+					Indicator.close();
+				})
+			}
+		},
+		setLoginClass: function(){
+			if(this.phone.length !== 11 || this.captcha === ''){
+				this.loginClass = false
+			}else{
+				this.loginClass = true
+			}
+		}
+	}
 }
 </script>
 <style type="text/css">
@@ -85,6 +139,9 @@ a{
 	font-size: 0.8rem;
 	border: none;
 	border-radius: 0.25rem;
+}
+.login .btn.cur{
+	background: #989898;
 }
 .login .littleTip{
 	text-align: center;

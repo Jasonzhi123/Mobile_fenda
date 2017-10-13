@@ -1,13 +1,13 @@
 <template>
-	<div class="index">
+	<div class="index" >
 		<!-- search-->
-		<div class="search" :fixed="true">
+	<div class="search" :fixed="true">
 			<mt-search v-model="value" cancel-text="取消" placeholder="搜索"></mt-search>
-		</div>
+</div>
 
 		<!-- bannar -->
 		<div class="bannar">
-			<mt-swipe :auto="11000" class="title">
+			<mt-swipe :auto="11000" >
 				<mt-swipe-item class="mint-swipe">
 					<img src="../assets/banner_1.png" alt="">
 				</mt-swipe-item>
@@ -19,20 +19,21 @@
 
 		<!--按钮导航-->
 		<div class="btn">
+
 			<router-link to="/expert" class="btn_menu">
-				<img src="../assets/icon_nav_article.png" />
+				<Icon size="28" color="#FA725D" type="social-codepen-outline"></Icon>
 				<p>找专家</p>
 			</router-link>
 			<router-link to="/kuaiwen" class="btn_menu">
-				<img src="../assets/icon_nav_article.png" />
+				<Icon size="28" color="#28AEF5" type="ios-help"></Icon>
 				<p>快问</p>
 			</router-link>
 			<router-link to="/" class="btn_menu">
-				<img src="../assets/icon_nav_article.png" />
+				<Icon size="28" color="#F4A522" type="chatbubble-working"></Icon>
 				<p>社区</p>
 			</router-link>
 			<router-link to="/smalltalk" class="btn_menu">
-				<img src="../assets/icon_nav_article.png" />
+				<Icon size="28" color="#85C144" type="ios-list"></Icon>
 				<p>小讲</p>
 			</router-link>
 		</div>
@@ -41,25 +42,22 @@
 		<div class="container">
 			<div class="headlines">
 				<p>分答头条 | 免费</p>
-				<div class="headtop">
+				<div class="headtop" >
 					<img src="../assets/profile.jpg" />
 					<div class="head_right">
-						<p>我们谈论谢娜怀孕时，到底在谈论什么？</p>
+						<p>{{headlines_list[0].title}}</p>
 						<div class="author">
-							<span class="name">潘幸知</span> |
-							<p>一大波情感咨询师的管理者</p>
+							<span class="name">{{headlines_list[0].expert_name}}</span> |
+							<p>{{headlines_list[0].introduction}}</p>
 						</div>
 					</div>
 				</div>
 				<ul>
-					<li>
+					<li v-for="item in headlines_list.slice(0,2)">
 						<img src="../assets/icon_nav_article.png" />
-						<p>香蕉和枣一起吃，会看到人生走马灯？</p>
+						<p>{{item.title}}</p>
 					</li>
-					<li>
-						<img src="../assets/icon_nav_article.png" />
-						<p>立的flag总是坚持不下去？原因可能是……</p>
-					</li>
+
 				</ul>
 				<el-badge :value="5" :max="5" class="head_tip">
 					<p @click="openHeadlines">今日未读</p>
@@ -84,6 +82,7 @@
 						<div class="name">
 							陈华伟
 						</div>
+
 						<div class="update">
 							4小时前更新：
 						</div>
@@ -106,97 +105,40 @@
 				</div>
 				<!--<div class="item">-->
 					<mt-navbar v-model="selected">
-						<mt-tab-item id="1">推荐</mt-tab-item>
-						<mt-tab-item id="2">职场·成长</mt-tab-item>
-						<mt-tab-item id="3">理财·房产</mt-tab-item>
-						<mt-tab-item id="4">生活·教育</mt-tab-item>
-
+						<mt-tab-item :id="index" v-for="(item,index) in smallList">{{item.name}}</mt-tab-item>
 					</mt-navbar>
 
 					<!-- tab-container -->
-					<mt-tab-container v-model="selected">
-						<mt-tab-container-item id="1">
-							<div class="select_item">
+					<mt-tab-container v-model="selected"   :swipeable="true">
+						<mt-tab-container-item :id="index"  v-for="(items,index) in smallList">
+							
+								<div class="select_item" v-show="items.id==item.grade"  v-for="item in small_talk.slice(0,3)">
+
 								<img src="../assets/logo.png"/>
-								<div class="right">
+								<div  class="right">
+
 									<div class="r_item">
 										<el-badge value="专题" class="item"></el-badge>
-									<span>破除3大误区，一招提升读书动力</span>
+									<span>{{item.topic_name}}</span>
+
 									</div>
 									<div class="author">
 										<div class="author_name">
-											陈章鱼  知乎60万关注的读书人，分答首批答主
+											{{item.expert_name}}  {{item.introduction}}
 										</div>
 										<div class="classification">
-											<span class="one">职场·成长</span>
-											<span>888人参加</span>
+											<span class="one">{{items.name}}</span>
+											<span>{{item.number}}人参加</span>
 										</div>
 									</div>
 								</div>
-							</div>
-							<div class="select_item">
-								<img src="../assets/logo.png"/>
-								<div class="right">
-									<div class="r_item">
-										<el-badge value="专题"  class="item"></el-badge>
-									<span>破除3大误区，一招提升读书动力</span>
-									</div>
-									<div class="author">
-										<div class="author_name">
-											陈章鱼  知乎60万关注的读书人，分答首批答主
-										</div>
-										<div class="classification">
-											<span class="one">职场·成长</span>
-											<span>888人参加</span>
-										</div>
-									</div>
-								</div>
-							</div>
-						</mt-tab-container-item>
-						<mt-tab-container-item id="2">
-							<div class="select_item">
-								<img src="../assets/logo.png"/>
-								<div class="right">
-									<div class="r_item">
-										<el-badge value="专题"  class="item"></el-badge>
-									<span>破除3大误区，一招提升读书动力</span>
-									</div>
-									<div class="author">
-										<div class="author_name">
-											陈章鱼  知乎60万关注的读书人，分答首批答主
-										</div>
-										<div class="classification">
-											<span class="one">职场·成长</span>
-											<span>888人参加</span>
-										</div>
-									</div>
-								</div>
-							</div>
-						</mt-tab-container-item>
-						<mt-tab-container-item id="3">
-							<div class="select_item">
-								<img src="../assets/logo.png"/>
-								<div class="right">
-									<div class="r_item">
-										<el-badge value="专题"  class="item"></el-badge>
-									<span>破除3大误区，一招提升读书动力</span>
-									</div>
-									<div class="author">
-										<div class="author_name">
-											陈章鱼  知乎60万关注的读书人，分答首批答主
-										</div>
-										<div class="classification">
-											<span class="one">职场·成长</span>
-											<span>888人参加</span>
-										</div>
-									</div>
-								</div>
+						
 							</div>
 						</mt-tab-container-item>
 					</mt-tab-container>
 				<!--</div>-->
 				<div class="more">
-					<router-link to="/smalltalk" class="btn_menu">
+					<router-link to="/smalltalk"  class="btn_menu">
 						查看更多>
 					</router-link>
 				</div>
@@ -207,15 +149,34 @@
 </template>
 
 <script type="es6">
-
 	export default {
 		data () {
 			return {
 				value : '' ,
-				selected :'1'
+				selected : 0,
+				headlines_list: [],
+				small_talk: [],
+				smallList: []
 			}
 		},
-        methods:{
+		created(){
+			this.init();
+		},
+        methods: {
+        	init:function(){
+        		this.$http.get('/api/home/index').then(rtnData=>{
+        			this.headlines_list=rtnData.data;
+
+        		})
+        		this.$http.get('api/home/smalltalk').then(rtnData=>{
+        			this.small_talk=rtnData.data;
+
+        		})
+        		this.$http.get('api/home/smallList').then(rtnData=>{
+        			this.smallList=rtnData.data;
+
+        		})
+        	},
             openHeadlines:function(){
                 this.$router.push('/headlines')
             }
@@ -240,9 +201,10 @@
 		.search {
 			height: 1.6rem;
 			width: 100%;
+			background: #fff;
 		}
 		.bannar {
-			margin-top: 1rem;
+			margin-top: 0.5rem;
 			height: 5rem;
 			img {
 				width: 100%;
@@ -275,13 +237,14 @@
 				margin-top: 1rem;
 				.headtop {
 					display: flex;
-					padding: 0.5rem 0rem;
+					padding: 0.5rem 0rem 0rem;
 					img {
-						width: 4.05rem;
-						height: 3rem;
+						width: 4rem;
+						height: 2.8rem;
+						border-radius: 0.3rem;
 					}
 					.head_right {
-						margin-left: 0.75rem;
+						margin-left: 0.5rem;
 						width: calc(100% - 5rem);
 						p{
 							overflow: hidden;
@@ -300,6 +263,7 @@
 							}
 							p {
 								margin-left: 0.5rem;
+								font-size:0.7rem;
 								overflow: hidden;
 								white-space: nowrap;
 								text-overflow: ellipsis;
@@ -312,11 +276,13 @@
 					border-bottom: 0.05rem solid #CCCCCC;
 					li {
 						display: flex;
+						margin-top:0.3rem;
 						height: 1.5rem;
 						font-size: 0.7rem;
+						    color: #191919;
 						img {
-							width: 0.8rem;
-							height: 0.8rem;
+							width: 0.9rem;
+							height: 0.9rem;
 						}
 						p {
 							margin-left: 0.5rem;
@@ -328,7 +294,7 @@
 				}
 				.head_tip {
 					width: 4rem;
-					height: 2.5rem;
+					height: 1.8rem;
 					text-align: center;
 					margin-top: 0.5rem;
 					margin-left: calc(50% - 2rem);
@@ -339,28 +305,30 @@
 				padding: 1rem 1.25rem 0.5rem;
 				background: #fff;
 				.item {
-					margin-top: 0.5rem;
+					margin-top: 0.7rem;
 					display: flex;
 					border-bottom: 1px solid #ccc;
-					padding-bottom: 1rem;
+					padding-bottom: 0.7rem;
 					img {
-						margin-top: 0.7rem;
 						width: 4rem;
 						height: 5.5rem;
+						border-radius: 0.3rem;
 					}
 					.right {
 						margin-left: 0.75rem;
-						width: 100%;
+						width: calc(100% - 5rem);
 						line-height: 1.1rem;
 						.r_title{
 							display: flex;
 							.title{
 								color: #191919;
 								width: 60%;
+								font-size: 0.8rem;
+								font-weight: 700;
 							}
 							.price{
 								color: orangered;
-								font-size: .6rem;
+								font-size: .65rem;
 							}
 						}
 						.name{
@@ -371,7 +339,7 @@
 							font-size: 14px;
 						}
 						.update {
-							margin-top: .3rem;
+							margin-top: .1rem;
 							color: #d3d3d3;
 							font-size: .65rem;
 						}
@@ -381,7 +349,7 @@
 							overflow: hidden;
 							white-space: nowrap;
 							text-overflow: ellipsis;
-							width: 90%;
+
 						}
 					}
 				}
@@ -390,21 +358,22 @@
 					line-height: 1.5rem;
 					margin-top: 0.5rem;
 					font-size: 0.7rem;
-					color: #90ABDA;
+
 					.btn_menu {
 						text-decoration: none;
+						color: #90abda;
 					}
 				}
 			}
 			.small_talk {
 				.select_item{
 					display: flex;
-					margin-top: 1rem;
+					margin-top: .7rem;
 					height: 5rem;
 					border-bottom: 1px solid #ccc;
-					padding-bottom: 0.5rem;
 					img{
 						width: 3rem;
+						border-radius: 0.2rem;
 						height: 4rem;
 					}
 					.right{
@@ -413,15 +382,18 @@
 						width: calc(100% - 4rem);
 						.r_item{
 							display: flex;
+							align-items: center;
+							align-self: center;
 							.item{
 							   padding: 0rem;
 							   margin-top: 0rem;
 							   border-bottom: none;
 							}
 							span{
-								margin-left: 0.5rem;
+								margin-left: 0.3rem;
 								font-size: 0.8rem;
 								width: 90%;
+								font-weight: 700;
 								display: inline-block;
 								overflow: hidden;
 								white-space: nowrap;
