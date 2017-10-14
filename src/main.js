@@ -13,7 +13,7 @@ import iView from 'iview'
 import VueLazyload from 'vue-lazyload'
 import 'iview/dist/styles/iview.css'
 import 'element-ui/lib/theme-default/index.css'
-const accessUrl = 'http://192.168.20.40/group/fenda/public/'
+const accessUrl = 'http://localhost/20170918/Mobile_fenda_server/public/'
 Axios.defaults.baseURL = accessUrl
 Axios.defaults.withCredentials = true
 

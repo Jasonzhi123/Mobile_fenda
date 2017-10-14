@@ -6,28 +6,28 @@
 		  </router-link>
 		  <Icon slot="right" type="android-share-alt"></Icon>
 		</mt-header>
-		<scroll ref="headscroll" :pulldown="pulldown" @pulldown="init" class="recommend-content" :data="headlines_list">
-			<div>
+		<mt-loadmore class="recommend-content">
+		<div>
+			<div v-if="headlines_list.length"  class="headline_items" v-for="items in headlines_list">
+				<p class="time">{{ items.create_time | time}}</p>
+				<ul>
+					<li v-for="item in items.data">
+						<div class="item">
+							<img src="../assets/xiao.png"/>
+							<p>{{item.title}}</p>
+						</div>
+						<p class="name"><span>{{item.expert_name}}</span> <span class="introduction">{{item.introduction}}</span></p>
+					</li>
 
-				<div v-if="headlines_list.length" class="headline_items" v-for="items in headlines_list">
-					<p class="time">{{ items.create_time | time}}</p>
-					<ul>
-						<li v-for="item in items.data">
-							<div class="item">
-								<img src="../assets/xiao.png"/>
-								<p>{{item.title}}</p>
-							</div>
-							<p class="name"><span>{{item.expert_name}}</span> <span class="introduction">{{item.introduction}}</span></p>
-						</li>
-						
-					</ul>
-				</div>
+				</ul>
 			</div>
 			<div class="loading-container" v-show="!headlines_list.length">
-        		<loading></loading>
-      		</div>
-		</scroll>
+				<loading></loading>
+			</div>
+		</div>	
+	<!-- </scroll> -->
 		
+		</mt-loadmore>
 	</div>
 </template>
 
@@ -40,11 +40,13 @@ import Loading from 'components/loading/loading'
 	 		return{
 	 			headlines_list:[],
 	 			pulldown:true,
-	 			page:1
+	 			page:1,
+        		scrollbar:true
 	 		}
 	 	},
 	 	created(){
 	 		this.init();
+       this.loadData();
 	 	},
 	 	filters: {
 	 	 	time:function(value) {
@@ -54,16 +56,16 @@ import Loading from 'components/loading/loading'
 
 	 	methods:{
 	 		init:function(){
-	 			this.$http.get('/api/headlines/index',{params:{page:this.page}}).then(rtnData=>{
+	 			this.$http.get('/api/headlines/index').then(rtnData=>{
 	 				console.log(rtnData)
+
 	 				let arr={} //创建对象
-	 				let day=1000*60*60*24  // 一天的时间戳	 				
+	 				let day=1000*60*60*24  // 一天的时间戳
 	 				let newdate=new Date(new Date(new Date().setDate(new Date().getDate() + 1)).setHours(0,0,0,0)).getTime()  // 明天0时0分0秒的时间
 
 	 				// 循环分类
 	 				rtnData.data.data.forEach((item) => {
 	 					let timer=item.time*1000  //创建时间
-
 	 					// 比较当前时间与item 的创建时间
 		 				if(timer < newdate){
 
@@ -72,7 +74,7 @@ import Loading from 'components/loading/loading'
 
 		 					// 当数据的创建时间不连续的时候
 		 					newdate-timer < day ? newdate=newdate-day:newdate=timer
-		 				  
+
 		 				  	// 将前一个步骤的数据添加到headlines_list列表中
 		 				  	if(typeof arr.create_time !== 'undefined'){
 		 				  		this.headlines_list.push(arr)
@@ -87,10 +89,16 @@ import Loading from 'components/loading/loading'
 		 				  	arr.data.push(item)
 		 				}
 	 				})
-	 				// 最后一天	 				
+	 				// 最后一天
 	 				this.headlines_list.push(arr)
+
 	 			})
-	 		}
+	 		},
+      loadData:function(){
+      	console.log(this.$refs);
+          this.headlines_list.concat(this.init())
+        }
+
 
 	 	},
 	 	components:{
@@ -106,20 +114,20 @@ import Loading from 'components/loading/loading'
 	*{
 		margin: 0;
 		padding: 0;
-	}
+}
 	p{
 		font-size: 0.8rem;
 	}
 	.headline{
 		background: #F5F5F5;
 		color: #3F3F3F;
-		top: 2rem;
-		position: fixed;
+		margin-top:2rem;
 		width:100%;
 		height:100%;
+		position:flex;
 		.recommend-content{
 			height: calc( 100% - 2rem);
-			overflow:hidden;
+			position：
 			.headline_items{
 			.time{
 				line-height: 2rem;
@@ -133,7 +141,7 @@ import Loading from 'components/loading/loading'
 
 					.item{
 						display: flex;
-						height:1.5rem; 
+						height:1.5rem;
 						img{
 							width: 0.8rem;
 							height: 0.8rem;
@@ -159,18 +167,18 @@ import Loading from 'components/loading/loading'
 							margin-left:0.5rem;
 						}
 					}
-					
+
 				}
 			}
 		}
 		.loading-container{
-			position: absolute;
+			position: reletive;
         width: 100%;
         top: 50%;
         transform: translateY(-50%);
 		}
-        
+
 		}
-		
+
 	}
 </style>
