@@ -14,10 +14,12 @@
                     <span>全部专题</span> 
                 </a>
             </div>
+
             <div class="topicshow">
                 <div class="topicshowbox" v-for=" n in topicshow">
                     <img :src="n.imgPath"  @click="to_topic(n.id)">
                 </div>
+
             </div>
         </div>
 

@@ -1,5 +1,5 @@
 <template>
-	<div class="profile">
+	<div class="profiles">
 		<div class="pic">
 			<img src="../assets/profile.jpg" alt=""  />
 		</div>
@@ -29,7 +29,7 @@ export default{
 	p{
 		font-size: 0.8rem;
 	}
-	.profile{
+	.profiles{
 		display: flex;
 		align-items: center;
 		width: 100%;
