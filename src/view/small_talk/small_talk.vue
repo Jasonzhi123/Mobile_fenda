@@ -14,75 +14,56 @@
                     <span>全部专题</span> 
                 </a>
             </div>
-            <a @click="to_detal()" v-for="n in 4" style="background-image:url(https://medias.zaih.com/1f8b40590dd93fa08eebbcb94810_1125x630.jpg);"></a>
-
+            <div class="topicshow">
+                <div class="topicshowbox" v-for=" n in topicshow">
+                    <img :src="n.imgPath"  @click="to_topic(n.id)">
+                </div>
+            </div>
         </div>
 
-        <!-- 详细推荐 -->
-<!--         <div class="info">
-            <div class="noscroll">
-                <ul>
-                    <li v-for="n in 6" @click="tolits_item(n)" :class="listIndex==n?'cur':''">nihao</li>
-                </ul>
-            </div>
-        </div> -->
-        <!-- 列表 -->
-<!--        <ul class="speaches">
-            <li  @click="to_topic()" v-for="n in 5">
-                <div class="intro-img">
-                    <img src="https://medias.zaih.com/e12a8f9d10b8cf39889a21df9404_558x558.jpg">
-                </div>
-                <div class="item-container">
-                    <h3>
-                        <span class="topic">专题</span>
-                        <span class="">轻松吃出好身材</span>
-                    </h3>
-                    <div class="item-respondent">
-                        <p>三公子|理财,职场规划,开源节流合伙人</p>
-                    </div>
-                    <div class="item-participants">
-                        <span>职场成长</span>
-                        <span>共4次,23423参加</span>
-                    </div>
-                </div>
-            </li>
-            <li  @click="to_detal()" v-for="n in 5">
-                <div class="intro-img">
-                    <img src="https://medias.zaih.com/e12a8f9d10b8cf39889a21df9404_558x558.jpg">
-                </div>
-                <div class="item-container">
-                    <h3>    
-                        
-                        <span class="title">轻松吃出好身材</span>
-                    </h3>
-                    <div class="item-respondent">
-                        <p>三公子|理财,职场规划,开源节流合伙人</p>
-                    </div>
-                    <div class="item-participants">
-                        <span>职场成长</span>
-                        <span>共4次,23423参加</span>
-                    </div>
-                </div>
-            </li>
 
-        </ul> -->
 <!-- 组件方法实现 -->
     <mt-navbar v-model="selected" class="navbar">
-      <mt-tab-item :id="'tab'+n.id" v-for="n in categories">{{n.name}}</mt-tab-item>
+      <mt-tab-item :id="'tab'+n.id" v-for="n in categories">{{n.categroies_name}}</mt-tab-item>
     </mt-navbar>
 
     <mt-tab-container v-model="selected" swipeable=true>
       <mt-tab-container-item :id="'tab'+n.id" v-for="n in categories">
-        <ul class="speaches">
-            <li  @click="to_detal(m.topic,index+1,m.speechmakerid)" v-for="(m,index) in speciallist" 
-             v-show="m.grade == n.id" :id="index">
+        <ul class="speaches"
+          style="height: 16rem;overflow: scroll;" 
+          v-infinite-scroll="loadMore"
+          infinite-scroll-disabled="loading"
+          infinite-scroll-distance="10">
+            <!-- 专题 -->
+            <li  @click="to_topic(m.id)" v-for="(m,index) in specialtopic" 
+             v-show="m.categroies_id == n.id" :id="index">
                 <div class="intro-img">
-                    <img src="https://medias.zaih.com/e12a8f9d10b8cf39889a21df9404_558x558.jpg">
+                    <img :src="m.bimgPath">
                 </div>
                 <div class="item-container">
                     <h3>
-                        <span class="topic" v-show="!m.topic">专题</span>
-                        <span>{{m.topic_name}}</span>
+                        <span class="title">专题</span>
+                        <span>{{m.name}}</span>
+                    </h3>
+                    <div class="item-respondent">
+                        <p>{{m.expert}}主讲</p>
+                    </div>
+                    <div class="item-participants">
+                        <!-- <span class="direction">{{categories[m.categroies_id].name}}</span> -->
+                        <span>共{{m.coursenum}}讲,{{m.num}}人参加</span>
+                    </div>
+                </div>
+            </li>
+            <!-- 课程 -->
+            <li  @click="to_detal(index+1)" v-for="(m,index) in course[n.id-1]" 
+              :id="index">
+                <div class="intro-img">
+                    <img :src="m.avatarPath">
+                </div>
+                <div class="item-container">
+                    <h3>
+                        
+                        <span>{{m.courseName}}</span>
                     </h3>
                     <div class="item-respondent">
                         <p>{{m.expert_name}}|{{m.introduction}}</p>
@@ -131,18 +112,28 @@
      background: #fff;
      padding:0 .85rem .675rem;
      margin-top: 1rem;
+     padding-bottom: 0;
 }
- .albums > a{
-     vertical-align: top;
-     box-sizing: border-box;
-     width: 49%;
-     border:8px solid white;
-     height: 0;
-     padding-bottom: 25%;
-     background-size: 100% 100%;
-     text-indent: -499.95rem;
+.albums .topicshow {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+.albums .topicshow .topicshowbox{
+    width: 46%;
+
+}
+ .albums img{
      display: inline-block;
+     width: 100%;
 }
+     
+     
+
+
  .albums .albums-header {
      padding:1.5rem .15rem .4rem;
      display:flex;
@@ -157,7 +148,7 @@
  .albums .albums-header .nav{
      float: right;
 }
- .albums .albums-header a{
+ .albums .albums-header img{
      text-decoration: none;
      color: #ccc;
      font-size:.75rem;
@@ -209,7 +200,7 @@
      margin:0 auto;
      list-style-type: none;
      padding-left: 0;
-     margin-top: 0;
+     margin-top: .1rem;
 }
  .speaches li{
      border-top:0.05rem solid #ccc;
@@ -240,23 +231,20 @@
      margin:0;
      font-size: .7rem;
 }
- .speaches li .item-container h3 .topic{
-     display: inline-block;
-     padding:0.1rem 0.2rem;
-     font-size: .55rem;
-     border-radius: 0.25rem;
-     background:rgb(248,95,72);
-     color: white;
-}
+
  .speaches li .item-container h3 .title{
-     font-weight: bold;
-     margin-left:0.25rem;
-     font-size: .75rem;
+    display: inline-block;
+    padding: .1rem .2rem;
+    border-radius: .15rem;
+    background-color: #f85f48;
+    color: #fff;
+    font-size: .5rem;
+    text-align: center;
+    margin-right: .1rem;
 }
  .speaches li .item-container .item-respondent,.item-participants{
      color: #ccc;
      font-size:.65rem;
-     padding-top:.1rem; 
 }
  .speaches li .item-container .item-participants .direction{
     border-radius: .5rem;
@@ -287,46 +275,73 @@ export default {
       active: '',
       selected: 'tab1',
       categories:[],
-      expertlist:[],
-      speciallist:[]
+      selectedID:1,
+      course:[
+      [],[],[],[],[]],
+      specialtopic:[],
+      topicNum:0,
+      topicshow:[],
+      page:1
     }
   },
   created(){
-    this.init();
+    this.init(this.selected);
+  },
+  watch:{
+    selected:function(newValue){
+        this.page=1
+        this.selectedID=newValue.split("b")[1]
+        this.getCourse(newValue.split("b")[1])
+    }
   },
   methods: {
-    init:function(){
-       this.$http.get('/api/Smalltalk/index').then(rtnData=>{
+    init:function(selected){
+        this.selectedID =selected.split("b")[1]
+        this.$http.get('/api/Smalltalk/index').then(rtnData=>{
         this.categories =rtnData.data;
+        })
+        this.getCourse()
+        this.$http.get('/api/Smalltalk/topicshow').then(rtnData=>{
+        this.topicshow =rtnData.data;
        })
-       this.$http.get('/api/Smalltalk/expertlist').then(rtnData=>{
-        this.expertlist =rtnData.data;
+       
+    },
+    getCourse:function(){
+        var selectedID = this.selectedID
+        var selectedArray = selectedID -1;
+        this.$http.get('/api/Smalltalk/specialtopic',{params:{selectedID:selectedID}}).then(rtnData=>{
+        this.specialtopic =rtnData.data;
+        })
+        this.$http.get('/api/Smalltalk/course',{params:{selectedID:selectedID,page:this.page}}).then(rtnData=>{
+            if(this.page == 1){
+                this.$set(this.course, selectedArray, rtnData.data.data);
+            }else{
+                this.course[selectedArray].push(...rtnData.data.data)
+                
+            }
+           this.page = this.page+1;
        })
-       this.$http.get('/api/Smalltalk/special').then(rtnData=>{
-        this.speciallist =rtnData.data;
-       })
-
     },
     tolits_item: function (n) {
       this.listIndex = n
     },
-    to_topic: function () {
-      this.$router.push('/topic')
+    to_topic: function (index) {
+      this.$router.push({name:'topic',params:{id:index}})
     },
     to_alllist: function () {
       this.$router.push('/alllist')
     },
-    to_detal: function (topic,index,speechmakerid) {
-      if(topic == 1){
-        this.$router.push({name:'newcourse',params:{id:index,expertID:speechmakerid}})  //课程页面
-      }
-      else{
-        this.$router.push('/topic')   //专题页面
-
-      }
-    },
+    to_detal: function (index) {
+        this.$router.push({name:'newcourse',params:{id:index}})  //课程页面
+        },
     goback: function () {
       this.$router.go(-1)
+    },
+    loadMore(){
+        console.log(this.page)
+        if(this.page > 1){
+            this.getCourse()           
+        }
     }
   }
 }

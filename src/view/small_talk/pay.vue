@@ -17,7 +17,7 @@
             <span class="sure">√</span>
         </div>
         <div class="pay-submit">
-            <button>支付¥22</button>
+            <button>支付¥{{price}}</button>
         </div>
     </div>   
 </template>

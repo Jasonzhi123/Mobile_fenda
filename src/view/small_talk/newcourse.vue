@@ -2,15 +2,15 @@
     <div class="main">
         <div class="banner" style="background-image: url(https://medias.zaih.com/f945339112e2f74c0fd96947aade_1125x630.jpg)">
         <div class="nav">
-        <a @click="goback()">返回</a>
+        <span @click="goback()">返回</span>
         <div class="more">
           <a>登录</a>
           <a>小讲指南</a>
         </div>
       </div>
       <div class="album-info">
-        <h1>4步练出好声音</h1>
-        <p>4期系列小讲,xxx次参加</p>
+        <h1>{{course[0].courseName}}</h1>
+        <p>{{course[0].num}}次参加</p>
       </div>
     </div>
     <!-- 形式 -->
@@ -23,8 +23,8 @@
     <!-- 讲者信息 -->
     <div class="talker">
         <div class="data">
-            <p class="name">主讲 曲微微</p>
-            <p class="occu">作家 自媒体人</p>
+            <p class="name">主讲{{course[0].expert_name}} </p>
+            <p class="occu">{{course[0].introduction}}</p>
         </div>
         <div class="listen" @click="follow()" :class="followed?'followed':'unfollowed'">
         </div>
@@ -34,7 +34,7 @@
     <div class="brief">
         <p >简介</p>
         <div class="description " :class="desc_status == false?'fold':''">
-            <p>{{newcourselist[0].summary}}</p>
+            <p>{{course[0].summary}}</p>
 
  
 
@@ -49,13 +49,14 @@
         <span class="connect-btn">打开App连播</span>
 
         <ul>
-            <li v-for="n in 4" class="cour-big">
-                <p>这是标题</p>
+            <li v-for="(n,index) in course" class="cour-big" >
+                <p class="title">{{n.single_name}}</p>
                 <ul>
-                    <li v-for="j in 4" class="cour-small" @click="topay()" v-on:nothidebox = 'nothidebox'>
-                        <p class="cour-name"><span class="free-course">试听</span>开场白</p>
-                        <p class="time">
-                            <span class="play-icon"></span><span>1:00</span>
+                    <li v-for="(j,index2) in audio" class="cour-small" @click="topay()" v-on:nothidebox = 'nothidebox'
+                    v-show="audio[index2].grade == n.grade">
+                        <p class="cour-name"><span class="free-course" v-show="j.try==1">试听</span>
+                        {{j.name}}</p><p class="time"><span class="play-icon"></span>
+                            <span>{{j.time}}</span>
                         </p>
                     </li>
                 </ul>
@@ -133,12 +134,12 @@
     </div>
         <Joincourse v-show="!joincoursestatus" v-on:hideBox='hideBox'></Joincourse>
         <Gift v-show="giftstatus" v-on:changeGiftstatus="changeGiftstatus"
-        v-on:notchangeGiftstatus="notchangeGiftstatus"></Gift>
+        v-on:notchangeGiftstatus="notchangeGiftstatus" :price="course[0].price"></Gift>
             <!-- 购买.赠送 -->
     <div class="footer">
         <div class="deliver" @click="changeGiftstatus()">赠送</div>
         <div class="con-listen" @click="toPlayer()">试听</div>
-        <div class="footer-btn" @click="toPay()">¥{{newcourselist[0].price}}参加</div>
+        <div class="footer-btn" @click="toPay()">¥{{course[0].price}}参加</div>
     </div>
     </div>
 </template>
@@ -153,8 +154,8 @@ export default {
       joincoursestatus: true,
       giftstatus: false,
       followed:true,
-      newcourselist:[],
-      expert:[]
+      course:[],
+      audio:[]
     }
   },
   created(){
@@ -163,15 +164,12 @@ export default {
   methods: {
     init:function(){
         var courseID = this.$route.params.id;
-        var expertID = this.$route.params.expertID;
-        console.log(expertID)
         this.$http.get('/api/Newsource/Newsource',{params:{id:courseID}}).then(rtnData=>{
-        this.newcourselist =rtnData.data;
+        this.course =rtnData.data;
         })
-        this.$http.get('/api/Newsource/speechmakerid',{params:{id:expertID}}).then(rtnData=>{
-        this.expert =rtnData.data;
-       })
-
+        this.$http.get('/api/Newsource/audio',{params:{id:courseID}}).then(rtnData=>{
+        this.audio =rtnData.data;
+        })
    },
     showall: function () {
       this.desc_status = true
@@ -192,11 +190,10 @@ export default {
         this.joincoursestatus  =false
     },
     changeGiftstatus: function () {
-        console.log(111)
         this.giftstatus = !this.giftstatus
     },
     notchangeGiftstatus:function(){
-        console.log(222)
+        
         this.giftstatus = true
     },
     toPlayer:function(){
@@ -338,9 +335,10 @@ export default {
 .brief .description p{
     letter-spacing: .04rem;
     line-height:1.3rem;
-    font-size: .65em;
+    font-size: .7rem;
 }
 .brief .fold p{
+    font-size: .7rem;
     max-height: 3.1rem;
     line-height: 1rem;
     overflow: hidden;
@@ -349,11 +347,13 @@ export default {
     word-wrap: break-word;
 }
 .brief  .pack-up,.unfold{
-    font-size: .65rem;
+    font-size: .7rem;
     color: #4949c0;
 }
 
 .course-list{
+    margin:0 auto;
+
     position: relative;
     width: 90%;
     padding: 0 1rem;
@@ -391,9 +391,7 @@ export default {
     padding-left:1rem; 
     line-height: 2rem;
 }
-.course-list ul .cour-big ul .cour-small:nth-child(1){
-    border-top: 1px solid #ccc; 
-}
+
 .course-list ul .cour-big ul .cour-small>p{
     font-size: .7rem;
     color: #3c3534;
@@ -412,6 +410,11 @@ export default {
         height: 1rem;
         line-height: 1rem;
     }
+}
+.course-list ul .title {
+    padding-bottom: .5rem;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 0;
 }
 .course-list ul .cour-big ul .cour-small .time{
     float: right;
@@ -471,6 +474,7 @@ export default {
     width: 90%;
 }
 .timeline-item {
+    margin:0 auto;
     margin-top: .2rem;
     position: relative;
     width: 90%;
@@ -647,6 +651,7 @@ export default {
      border:1px solid #ccc;
      padding: 0 0.2rem ;
      font-size: .5rem;
+     border:1px solid green;
 }
 .other-xj{
     width: 90%;

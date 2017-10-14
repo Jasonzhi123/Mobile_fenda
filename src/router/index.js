@@ -90,7 +90,8 @@ export default new Router({
       component: pay
     },
     {
-      path: '/topic',
+      path: '/topic/:id',
+      name: 'topic',
       component: topic
     },
     {

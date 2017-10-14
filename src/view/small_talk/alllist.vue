@@ -5,20 +5,21 @@
             <p class="title">全部专题</p>
             <a class="main" @click="tomain()">主页</a>
         </div>
+
         <ul class="Allspeaches">
-            <li v-for="n in 10" @click="tolits_item()">
+            <li v-for="n in topic" @click="to_topic(n.id)">
                 <div class="intro-img">
-                    <img src="https://medias.zaih.com/e12a8f9d10b8cf39889a21df9404_558x558.jpg">
+                    <img :src="n.bimgPath">
                 </div>
                 <div class="item-container">
                     <h3>
-                        <span class="sp-topic">专题</span>
-                        <span>轻松吃出好身材</span>
+                        
+                        <span>{{n.name}}</span>
                     </h3>
-                    <div class="item-respondent">仰望尾迹云主讲</div>
+                    <div class="item-respondent">{{n.expert}}主讲</div>
                     <div class="item-participants">
-                        <span>职场成长</span>
-                        <span>共4次,23423参加</span>
+                        <span>{{n.categroies_name}}</span>
+                        <span>共{{n.coursenum}}次,{{n.num}}参加</span>
                     </div>
                 </div>
             </li>
@@ -124,14 +125,22 @@
 
 <script type="es6">
 export default {
-  name: 'list',
   data () {
     return {
+        topic:[]
     }
   },
+  created(){
+    this.init()
+  },
   methods: {
-    tolits_item: function () {
-      this.$router.push('/topic')
+    init:function(){
+        this.$http.get('/api/Alllist/index').then(rtnData=>{
+        this.topic =rtnData.data;
+       })
+    },
+    to_topic: function (index) {
+      this.$router.push({name:'topic',params:{id:index}})
     },
     back: function () {
       this.$router.push('/smalltalk')
