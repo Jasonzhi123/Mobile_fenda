@@ -21,7 +21,7 @@
 			<input class="one" type="text" v-model="phone" id=""placeholder="输入要绑定的新手机号码"/>
 			<div class="authentication">
 				<input type="text" id="" v-model="phoneCode" placeholder="验证码"/>
-				<countdown @sendCode='changePhone' :message="flag">获取验证码</countdown>
+				<countdown @sendCode='changePhone' color="#f00" :message="flag"><span slot='before'>获取验证码</span><span slot="after">s</span></countdown>
 			</div>
 		</form>
 		
