@@ -15,8 +15,20 @@
                 </a>
             </div>
             <a @click="to_detal()" v-for="n in 4" style="background-image:url(https://medias.zaih.com/1f8b40590dd93fa08eebbcb94810_1125x630.jpg);"></a>
-
         </div>
+		<!-- <mt-navbar v-model="selected" >
+			  <mt-tab-item :id="key" v-for="(item,key) in cate_list" >{{item.cate_name}}</mt-tab-item>
+		</mt-navbar> -->
+		<!-- tab-container -->
+		<!-- <mt-tab-container v-model="selected" :swipeable="true" v-infinite-scroll="loadMore"
+		  infinite-scroll-distance="10">
+			  <mt-tab-container-item :id="key" v-for="(item,key) in cate_list" >
+			     	<mt-cell :title="item_class.class_name" v-for="item_class in class_list[key]">
+						{{item_class.id}}
+					</mt-cell>
+			  </mt-tab-container-item>	 
+		</mt-tab-container> -->
+	
 
         <!-- 详细推荐 -->
         <div class="info">
