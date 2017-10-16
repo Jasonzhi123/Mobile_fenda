@@ -1,5 +1,5 @@
 <template>
-	<div :class="timer?'countdown cur':'countdown'" @click="getPhoneCode">{{timer?time+'s':'点击获取'}}</div>
+	<div class="countdown" :style="'color:'+realColor" ><span @click="getPhoneCode">{{timer?time:''}}<slot name='before' v-if='!timer'></slot><slot name='after' v-if='timer'></slot></span></div>
 </template>
 <script type="es6">
 	export default {
@@ -7,10 +7,11 @@
 			return {
 				time: 60,
 				timer: null,
-				result: this.message
+				result: this.message,
+				realColor: this.color?this.color:'#666'
 			}
 		},
-		props: ['message'],
+		props: ['message','color'],
 		watch: {
 			message(val){
 				this.result = val
@@ -27,6 +28,13 @@
 					},1000)
 					this.$emit('sendCode',false)
 				}
+			},
+			timer(){
+				if(!this.timer){
+					this.realColor =  this.color?this.color:'#666';
+				}else{
+					this.realColor = '#666';
+				}
 			}
 		},
 		methods: {
@@ -38,14 +46,11 @@
 </script>
 <style type="text/css">
 	.countdown{
-		display: inline-block;
 		width: 4.5rem;
+		display: inline-block;
 		text-align: right;
-		color: red;
 		font-size: 0.7rem;
+		color: #666;
 		flex: 1;
-	}
-	.countdown.cur{
-		color: #333;
 	}
 </style>

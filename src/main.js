@@ -13,8 +13,8 @@ import iView from 'iview'
 import VueLazyload from 'vue-lazyload'
 import 'iview/dist/styles/iview.css'
 import 'element-ui/lib/theme-default/index.css'
-
-Axios.defaults.baseURL = 'http://localhost/07180206/php/lesson_5/Mobile_fenda_server/public/'
+const accessUrl = 'http://localhost/group/fenda/public/'
+Axios.defaults.baseURL = accessUrl
 Axios.defaults.withCredentials = true
 
 Vue.use(MintUI)
