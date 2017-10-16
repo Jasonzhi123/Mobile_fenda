@@ -3,18 +3,18 @@
         <div class="box" @click.stop="showgift()">
         <h2 class="box-title">赠送好友</h2>
         <div class="gift-buy-wrap">
-            <div class="title"><span>赠送数量</span><span class="error">感谢您对小讲的支持！您的购买已经超过上限，推荐您去看看其他小讲。</span></div>
+            <div class="title"><span>赠送数量</span><span class="error" v-show="showerror">感谢您对小讲的支持！您的购买已经超过上限，推荐您去看看其他小讲。</span></div>
 
-            <div class="gift-radio" v-for="n in 4" @click="changselected(n)" :class="selected == n?'selected':''">
-                <span>{{n}}</span>
-                <span>份</span>
-            </div>
+            <input type="button"  class="gift-radio" v-for="(n,index) in num" :value="n" 
+            @click="changselected(index)" :class="selected == index+1?'selected':''" v-model="num[index]"
+            >
+            </input>
             <span>豪爽赠送</span>
-            <input value="1-200份" class="gift-input">
+            <input :placeholder="maxnum" class="gift-input" ref="input" v-on:blur="changenum()" type="number">
             <span>份</span>
         </div>
         <div class="total">
-            <span>共计 : </span><span class="total-num"> ¥ xxx</span>
+            <span>共计 : </span><span class="total-num"> ¥ {{price1}}</span>
         </div>
         <div class="tips">好友可免费领取，购买90天内名额有效，过期不退款</div>
         <a @click="toPay()" class="submit-btn">赠送</a>
@@ -23,10 +23,18 @@
 </template>
 <script type="es6">
     export default {
+        props:['price'],
         data () {
             return {
-                selected:1
+                selected:0,
+                num:[1,2,5,6,7],
+                price1:0,
+                maxnum:100,
+                showerror:0
             }
+        },
+        creted(){
+           this.price1 = this.price;
         },
         methods:{
             unshowgift:function(){
@@ -36,11 +44,26 @@
                 this.$router.push('/pay')
             },
             changselected:function(n){
-                this.selected = n
+                this.selected = n+1;
+                console.log(this.selected)
+                this.price1=this.num[n]*this.price
+                this.$refs.input.value=null
             },
             showgift:function(){
 
                 this.$emit('notchangeGiftstatus')
+            },
+            changenum:function(){
+                var num = this.$refs.input.value
+                if(num<=this.maxnum){
+                    this.showerror = 0
+                    this.price1 = num*this.price
+                    this.selected = 0
+                }
+                else{
+                    this.showerror = 1
+                    this.selected = 0
+                }
             }
         }
     }
@@ -82,7 +105,6 @@
     margin-bottom: .5rem;
 }
 .gift-buy-wrap .error{
-    display: none;
     color: red;
 }
 .gift-buy-wrap .gift-radio{

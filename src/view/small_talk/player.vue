@@ -23,7 +23,7 @@
                         </div>
                         <button class=" like-btn" @click="changlike()" 
                         :class="likestatus?'like-btn-red':'like-btn-gray'">
-                            <span>点赞</span>
+                           
                             <span class="like-num">{{likenum}}</span>
                         </button>
                     </div>
