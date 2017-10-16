@@ -16,63 +16,83 @@
     <div class="banner" style="background-image: url(https://medias.zaih.com/f945339112e2f74c0fd96947aade_1125x630.jpg)">
       
       <div class="album-info">
-        <h1>4步练出好声音</h1>
-        <p>4期系列小讲,xxx次参加</p>
+        <h1>{{topic[0].name}}</h1>
+        <p>{{topic.length}}期系列小讲,{{num}}次参加</p>
       </div>
     </div>
 
     <div class="album-descrition">
-      <p>好声音未必是天生的，只要通过科学的方法练习，你说话也可以同样动听，而且什么时候开始都不晚。这个系列小讲将会通过4次课程，针对性地提升声音的清晰度、亲和力、感染力及说服力，通过一套帮助过数万人的系统方法，让你也找到专属于自己的好声音密码。</p>
+      <p>{{topic[0].summary}}</p>
 
-      <p>现在购买，还可以享受4期29.6元的优惠价格。几包零食的价钱，就能让你也成为声音好听的人，一开口就hold住职场和情场。</p>
+      
     </div>
 
     <div class="section-list">
       <div class="albun-list-head">课程列表</div>
       <a class="album-respondent-item">
         <div class="avatar">
-          <img src="https://medias.zaih.com/Fr4wdWv0dUm1E45_dCfHPAeR08VY!preface">
+          <img :src="topic[0].avatarPath">
           <span></span>
         </div>
         <div class="album-respondent-info">
-          <p>主讲:李蕾</p>
-          <p>声优训练师,电台主持人</p>
+          <p>主讲:{{topic[0].expert_name}}</p>
+          <p>{{topic[0].introduction}}</p>
         </div>
       </a>
       <ul class="speeches">
-        <li v-for="r in 5" class="course-item">
-            <p class="course-title">练就清晰发音,更有职业范</p>
-            <p class="course-info">xxxxx参加</p>
+        <li v-for="r in topic" class="course-item" @click="tocourse(r.courseid)" >
+            <p class="course-title">{{r.courseName}}</p>
+            <p class="course-info">{{r.num}}参加</p>
         </li>
       </ul>
     </div>
 
     <div class="footer">
       <div class="album-price">
-        <p>¥88.3</p>
+        <p>¥{{count}}</p>
+        
       </div>
         <a @click="toPay()">参加课程</a>
     </div>
   </div>
 </template>
 
-<script>
+<script type="es6">
 import Joincourse from '../../components/Joincourse'
 export default {
-  name: 'hello',
+  
   data () {
     return {
-
+      topic:[],
+      count:0,
+      num:0
     }
   },
   components: {
     Joincourse
   },
+  created(){
+    this.init()
+  },
   methods: {
+    init:function(){
+      var topicID = this.$route.params.id;
+      this.$http.get('/api/Topic/index',{params:{id:topicID}}).then(rtnData=>{
+        this.topic = rtnData.data.topic;
+        this.count = rtnData.data.count;
+        this.num = rtnData.data.num;
+       })
+    },
     toPay: function () {
       this.$router.push('/pay')
+    },
+    tocourse: function (index) {
+      this.$router.push({name:'newcourse',params:{id:index}})
+    },
+    goback:function () {
+      this.$router.go(-1)
     }
-  }
+   }
 }
 </script>
 
@@ -98,6 +118,11 @@ html{
     min-height: 2.1rem;
     height: auto;
 }
+.banner img{
+  position: absolute;
+  left: 0;
+  top:0;
+}
 .banner .nav{
     position: absolute;
     top: 0;
@@ -114,16 +139,18 @@ html{
     align-items: center;
 }
 
-.banner .nav a{
-  text-decoration: none;
-  color: white;
-  font-size: .7rem
+.banner .back{
+  display: inline-block;
+  color: white
 }
 .banner img{
   width: 100%;
   height: 100%;
 }
-
+.banner a{
+  color: white;
+  font-size: .7rem;
+}
 .banner .album-info{
   width: 100%;
   position: absolute;
@@ -162,6 +189,7 @@ html{
 }
 .section-list{
   width: 100%;
+  margin-bottom: 2.5rem;
 }
 .section-list  .albun-list-head{
     padding: .25rem .925rem 0;
@@ -276,6 +304,7 @@ html{
 }
 .footer .album-price p{
   color: #F85F48;
+  font-size: 1rem;
 }
 .footer a{
       display: inline-block;

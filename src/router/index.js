@@ -95,7 +95,8 @@ export default new Router({
       component: pay
     },
     {
-      path: '/topic',
+      path: '/topic/:id',
+      name: 'topic',
       component: topic
     },
     {
@@ -107,7 +108,8 @@ export default new Router({
       component: lisDetailQue
     },
     {
-      path: '/newcourse',
+      path: '/newcourse/:id',
+      name: 'newcourse',
       component: newcourse
     },
     {
