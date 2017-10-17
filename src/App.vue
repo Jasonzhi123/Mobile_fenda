@@ -27,7 +27,7 @@ export default {
 		plusReady(){
 			document.removeEventListener("plusready")
 			plus.key.addEventListener('backbutton',()=>{
-				if ((this.$route.path === '/start') || (this.$route.path ==='/listen') (this.$route.path ==='/bought') || (this.$route.path ==='/my')){
+				if ((this.$route.path === '/start') || (this.$route.path ==='/listen') || (this.$route.path ==='/bought') || (this.$route.path ==='/my')){
 					plus.runtime.quit()
 				} else {
 					this.$router.back(-1)

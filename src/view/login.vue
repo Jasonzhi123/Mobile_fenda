@@ -9,7 +9,7 @@
 		<div class="body">
 			<div class="item">
 				手机号<input type="text" v-model="phone">
-				<span>发送验证码</span>
+				<countdown :message='flag' @sendCode = 'sendCode'><span slot='before'>发送验证码</span><span slot='after'>秒后重发</span></countdown>
 			</div>
 			<div class="item">
 				验证码<input type="text" v-model="captcha">
@@ -27,12 +27,15 @@
 </template>
 <script type="es6">
 import {mapState, mapMutations} from 'vuex'
-import { Toast, Indicator } from 'mint-ui';
+import { Toast, Indicator } from 'mint-ui'
+import Countdown from '../components/Countdown.vue'
 export default {
 	data(){
 		return {
 			phone: '',
 			captcha: '',
+			flag: false,
+			clock: false,
 			login: this.$store.state.login,
 			state: false,
 			loginClass: false
@@ -71,12 +74,13 @@ export default {
 					method: 'POST',
 					data: {
 						'phone': this.phone,
-						'pwd' : this.captcha,
+						'code' : this.captcha,
 					}
 				}).then((repsonse)=>{
 					this.state = false;
 					Indicator.close();
 					if(repsonse.data.status == 0){
+						this.$store.state.nextPage = '/my';
 						this.setLogin(this.$http);
 					}else{
 						Toast(repsonse.data.message);
@@ -94,7 +98,48 @@ export default {
 			}else{
 				this.loginClass = true
 			}
+		},
+		sendCode(val){
+			if(val){
+				this.flag = false;
+				this.clock = false;
+				return;
+			}
+			if(this.clock){
+				return;
+			}
+			this.clock = true;
+			if(this.phone == ''){
+				Toast('请输入号码！');
+				this.clock = false;
+				return;
+			}
+			if(/^1[34578]\d{9}$/.test(this.phone)){
+				Indicator.open('正在发送');
+				this.$http.post('api/login/phone',{
+					'phone': this.phone
+				}).then((response)=>{
+					Indicator.close();
+					if(response.data.status === 0){
+						Toast('发送成功！');
+						this.flag = true;
+					}else{
+						Toast(response.data.message);
+						this.clock = false;
+					}
+				}).catch(function(){
+					Indicator.close();
+					Toast('发送失败！');
+					this.clock = false;
+				})
+			}else{
+				Toast('号码错误！');
+				this.clock = false;
+			}
 		}
+	},
+	components: {
+		Countdown
 	}
 }
 </script>
@@ -129,7 +174,7 @@ a{
 	color: #999;
 	border-bottom: 1px solid #DED9D9;
 	clear: both;
-	margin-top: 2.
+	display: flex;
 }
 .login .item>input{
 	border: none;
