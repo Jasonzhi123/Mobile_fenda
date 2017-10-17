@@ -22,7 +22,7 @@ const Store = new Vuex.Store({
       $http.request({
         url: '/api/login'
       }).then((response) => {
-        if (response.data) {
+        if (!!response && !!response.data) {
           state.login = response.data
           localStorage.setItem('user', JSON.stringify(state.login))
         } else {

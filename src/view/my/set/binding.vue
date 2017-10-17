@@ -56,6 +56,9 @@
 			}
 		},
 		created(){
+			if(!(!!this.login)){
+				this.$router.push('/my');
+			}
 			this.setLogin(this.$http)
 			this.$store.state.changePhone = false
 		},
