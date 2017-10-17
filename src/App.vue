@@ -1,6 +1,6 @@
 <template>
-  <div id="app">
-  	<keep-alive> 
+  <div id=" ">
+  	<keep-alive>
   		<router-view></router-view>
   	</keep-alive>
   </div>
@@ -39,4 +39,5 @@ export default {
 </script>
 
 <style>
+
 </style>
