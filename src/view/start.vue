@@ -111,7 +111,7 @@
 					<!-- tab-container -->
 					<mt-tab-container v-model="selected"   :swipeable="true">
 						<mt-tab-container-item :id="index"  v-for="(items,index) in smallList">
-							
+
 								<div class="select_item" v-show="items.id==item.grade"  v-for="item in small_talk.slice(0,3)">
 
 								<img src="../assets/logo.png"/>
@@ -132,7 +132,7 @@
 										</div>
 									</div>
 								</div>
-						
+
 							</div>
 						</mt-tab-container-item>
 					</mt-tab-container>

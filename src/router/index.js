@@ -37,6 +37,7 @@ import newlist from '@/view/expert/newlist'
 import talent from '@/view/expert/talent'
 import onetoone from '@/view/expert/onetoone'
 import strength from '@/view/expert/strength'
+import search from '@/view/search/search'
 Vue.use(Router)
 
 export default new Router({
@@ -100,7 +101,8 @@ export default new Router({
       component: pay
     },
     {
-      path: '/topic',
+      path: '/topic/:id',
+      name: 'topic',
       component: topic
     },
     {
@@ -112,7 +114,8 @@ export default new Router({
       component: lisDetailQue
     },
     {
-      path: '/newcourse',
+      path: '/newcourse/:id',
+      name: 'newcourse',
       component: newcourse
     },
     {
@@ -194,6 +197,10 @@ export default new Router({
     {
       path: '/strength',
       component: strength
+    },
+    {
+      path: '/search',
+      component: search
     }
   ]
 })
