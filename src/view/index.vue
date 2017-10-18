@@ -52,7 +52,7 @@
 			},
 			openlogin:function(){
 				this.activeName = 'c'
-				this.$router.push('/Login')
+				this.$router.push('/bought')
 			},
 			openmy:function(){
 				this.activeName = 'd'

@@ -42,10 +42,13 @@ export default {
 		}
 	},
 	created(){
+		if(!!this.login){
+			this.$router.push('/my');
+		}
 		this.setLogin(this.$http)
 	},
 	computed: {
-		getUserInfo(){
+		getUserInfoLogin(){
 			return this.$store.state.login
 		}
 	},
@@ -56,10 +59,11 @@ export default {
 		captcha: function(){
 			this.setLoginClass()
 		},
-		getUserInfo(val){
+		getUserInfoLogin(val){
 			this.login = val
 			if(this.login){
 				this.$router.push(this.$store.state.nextPage)
+				this.$destroy(true);
 			}
 		}
 	},
@@ -80,7 +84,6 @@ export default {
 					this.state = false;
 					Indicator.close();
 					if(repsonse.data.status == 0){
-						this.$store.state.nextPage = '/my';
 						this.setLogin(this.$http);
 					}else{
 						Toast(repsonse.data.message);

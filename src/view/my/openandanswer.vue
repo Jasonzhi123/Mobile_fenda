@@ -61,6 +61,7 @@
 				problem: '',
 				title: '',
 				money: '8.88',
+				expert: '',
 				login: this.$store.state.login,
 				phoneIcon: this.$store.state.login? this.$accessUrl + this.$store.state.login['head_pic'] : this.$accessUrl + 'static/sundry/avatar.jpg',
 				nickname: this.$store.state.login? this.$store.state.login['user_name']: ''
@@ -68,13 +69,16 @@
 		},
 		created(){
 			this.setLogin(this.$http)
-			if(this.login){
-				this.imgPath();
-			}else{
-				this.$router.push('/Login');
+			if(!(!!this.login)){
+				this.$router.push('/my');
 			}
-			this.$http.get('/api/user/getExport').then(function(){
-
+			this.$http.get('/api/user/getExpert').then((response)=>{
+				if(!!response.data === true){
+					this.expert = response.data;
+					this.problem = response.data['begoodat'];
+					this.title = response.data['rank'];
+					this.money = response.data['worth'];
+				}
 			})
 		},
 		computed: {
@@ -89,6 +93,11 @@
 					this.$router.push('/my')
 				}else{
 					this.imgPath();
+				}
+			},
+			money(val,old){
+				if(!/^[0-9]{0,3}(.[0-9]{1,2})?$/.test(val) || val<0.01){
+					this.money = old;
 				}
 			}
 		},
@@ -172,21 +181,25 @@
 				}
 				if(this.title.trim() === ''){
 					Toast('请输入头衔！');
+					return;
 				}
 				if(this.problem.trim() === ''){
 					Toast('请输入最擅长的问题！');
+					return;
 				}
 				if(this.money.trim() === ''){
 					Toast('请输入金额！');
+					return;
 				}
-				this.$http.post('/api/user/', {
-					problem: this.problem,
-					title: this.title,
-					money: this.money,
-					nickname: this.nickname
-				}).then(function(response){
+				this.$http.post('/api/user/saveProfile', {
+					'problem': this.problem,
+					'title': this.title,
+					'money': this.money,
+					'nickname': this.nickname
+				}).then((response)=>{
 					if(response.data.status == 0){
 						Toast('保存成功！');
+						this.setLogin(this.$http)
 					}else{
 						Toast(response.data.message);
 					}
@@ -195,11 +208,11 @@
 				})
 			},
 			imgPath(){
-				this.problem = '',
-				this.title = '',
-				this.money = '8.88',
-				this.phoneIcon = this.login? this.$accessUrl + this.login['head_pic'] : this.$accessUrl + 'static/sundry/avatar.jpg',
-				this.nickname = this.login? this.login['user_name']: ''
+				this.problem = this.expert?this.expert['begoodat']:'';
+				this.title = this.expert?this.expert['rank']:'',
+				this.money = this.expert?this.expert['worth']:'8.88',
+				this.phoneIcon = this.login? this.$accessUrl + this.login['head_pic'] : this.$accessUrl + 'static/sundry/avatar.jpg';
+				this.nickname = this.login? this.login['user_name']: '';
 			}
 		}
 	}
