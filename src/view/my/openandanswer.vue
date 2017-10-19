@@ -1,10 +1,10 @@
 <template>
 	<div class="open">
-		<mt-header fixed title="个人资料">
-		 <router-link to="/my" slot="left">
+	<mt-header fixed title="个人资料">
+		<router-link to="/my" slot="left">
     		<mt-button icon="back"></mt-button>
   		</router-link>
- 	 <mt-button slot="right" @click="saveProfile">保存</mt-button>
+ 	 	<mt-button slot="right" @click="saveProfile">保存</mt-button>
 	</mt-header>
 	<div class="head" @click="changehead" >
 		<span>头像</span>
@@ -37,11 +37,13 @@
 			<p class="title">设置头像</p>
 			<div class="pic">
 				<div class="left" >
-					<img @click="openCamera" src="../../assets/kang.png"/>
+					<Icon type="camera"></Icon>
+					<!-- <img @click="openCamera" src="../../assets/kang.png"/> -->
 					<p>拍摄新照片</p>
 				</div>
 				<div class="left">
-					<img @click="selectPic" src="../../assets/kang.png"/>
+					<Icon type="image"></Icon>
+					<!-- <img @click="selectPic" src="../../assets/kang.png"/> -->
 					<p>从相片库选取</p>
 				</div>
 			</div>
@@ -129,13 +131,13 @@
 					}, function( t, status){
 						// 上传完成
 						if(status == 200){
-							Toast('上传成功！');
+							Toast(t.responseTex);
 						}else{
 							Toast('上传失败！');
 						}
 						Indicator.close();
 					});
-					task.addFile(path, {key: 'file'});
+					task.addFile(path, {key: 'image'});
 					task.start();
 				},function(error){
 					Toast(error.message);
@@ -224,10 +226,8 @@
 		margin: 0;
 		padding: 0;
 	}
-	html,body,#app,.open{
-		height: 100%;
-	}
 	.open{
+		height: 100%;
 		overflow: auto;
 		padding: 1rem;
 		p{
@@ -349,9 +349,10 @@
 					.left{
 						text-align: center;
 						padding: 1.5rem 2.5rem;
-						img{
+						i{
 							width: 2.5rem;
 							height: 2.5rem;
+							color: red;
 						}
 						p{
 							font-size: 0.6rem;

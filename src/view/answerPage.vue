@@ -12,8 +12,8 @@
 		  <div class="answer">
 		    <img src="../assets/7.jpg">
 		    <p class="name">{{item.expert_name}}<br><span>49670人收听</span></p>
-		    <div v-if="footWordShow==1" class="listen" @click="footWord()"></div>
-		    <div v-if="footWordShow==2" class="listened" @click="footWord()"></div>
+		    <div v-if="footWordShow==1 && (!login || item['user_id'] != login['id'])" class="listen" @click="footWord()"></div>
+		    <div v-if="footWordShow==2 && (!login || item['user_id'] != login['id'])" class="listened" @click="footWord()"></div>
 		  </div>
 		  <p><span>{{item.rank}}</span><br>{{expert[0].introduction}}</p>
 		  <a href="#">{{item.begoodat}}</a>
@@ -88,8 +88,9 @@
 	</div>
   </div>
 </template>
-<script type="text/javascript">
+<script type="es6">
 import PlayButton from '../components/PlayButton'
+import {mapState, mapMutations} from 'vuex'
 export default {
   data () {
     return {
@@ -97,17 +98,27 @@ export default {
       defaultShowStatus: 1,
       iscur: 1,
       iscurArr: ['默认', '最新', '热门'],
-      expert: ''
+      expert: '',
+      login: this.$store.state.login
     }
   },
   components: {
-    PlayButton
+    PlayButton,
+    getUserInfo(){
+      return this.$store.state.login
+    }
+  },
+  watch: {
+  	getUserInfo(val){
+      this.login = val
+    }
   },
   created () {
     this.id = this.$route.params.id
     this.init()
   },
   methods: {
+    ...mapMutations(['setLogin']),
     init: function () {
       this.$http
         .get('api/answerpage/index', {

@@ -82,6 +82,13 @@
 		width: 100%;
 		
 		background: #F5F5F5;
+		header{
+			top: 0;
+		    right: 0;
+		    left: 0;
+		    position: fixed;
+		    z-index: 1;
+		}
 		.change{
 			background: #fff;
 			margin-top: 2rem;

@@ -168,6 +168,13 @@
 	}
 	.validate{
 		padding: 1rem;
+		header{
+			top: 0;
+		    right: 0;
+		    left: 0;
+		    position: fixed;
+		    z-index: 1;
+		}
 		.range{
 		    padding: 1.75rem 0rem 0rem;
 		    text-align: center;
