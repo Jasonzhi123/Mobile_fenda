@@ -44,6 +44,7 @@
                 </div>
                 <div class="item-container">
                     <h3>
+                    	{{n.id}}
                         <span class="title">专题</span>
                         <span>{{m.name}}</span>
                     </h3>
@@ -57,7 +58,7 @@
                 </div>
             </li>
             <!-- 课程 -->
-            <li  @click="to_detal(index+1)" v-for="(m,index) in course[n.id-1]" 
+            <li  @click="to_detal(m.id)" v-for="(m,index) in course[n.id-1]" 
               :id="index">
                 <div class="intro-img">
                     <img :src="m.avatarPath">

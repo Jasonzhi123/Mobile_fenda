@@ -1,9 +1,13 @@
 <template>
 	<div class="expert">
-		<mt-header fixed title="全部头条" class="header">
+		<mt-header fixed  class="header">
 		  <router-link to="/" slot="left">
 		    <mt-button icon="back">返回</mt-button>
+
 		  </router-link>
+      <router-link  to="/" slot="right" > 
+        <search-kuang></search-kuang>
+      </router-link> 
 		</mt-header>
 		<div class="special_item">
 			<router-link to="/health" class="special_menu">
@@ -34,24 +38,24 @@
       <collections @click.native="opentop">
         <Icon  slot="pic" size="50" color="red"  type="ios-ionic-outline"></Icon>
     		<p class="name" slot="title">本周最受欢迎答主TOP100</p>
-				<p class="description" slot="author">{{top_list}}等</p> 
+				<p class="description" slot="author">{{top_list}}等</p>
 			</collections>
-			
-      <collections @click.native="openonetoone"> 
+
+      <collections @click.native="openonetoone">
         		<Icon  slot="pic" size="50" color="red"  type="ios-ionic-outline"></Icon>
         		<p class="name" slot="title">行家答主支持线下1对1约见</p>
-				<p class="description" slot="author">{{one_list}}等</p> 
+				<p class="description" slot="author">{{one_list}}等</p>
         	</collections>
-        	<collections @click.native="openstrength"> 
+        	<collections @click.native="openstrength">
         		<Icon slot="pic" color="red" size="50" type="android-arrow-dropdown-circle"></Icon>
         		<p class="name" slot="title">悬赏实力榜</p>
-				<p class="description" slot="author">解决问题的高手都在这里</p> 
+				<p class="description" slot="author">解决问题的高手都在这里</p>
         	</collections>
 		</div>
-		
+
 		<div class="collection">
 			<p class="title">新晋榜</p>
-        	<introduce v-for="item in expert_list_new"> 
+        	<introduce v-for="(item,index) in expert_list_new" >
         		<img slot="head_pic" v-lazy="" alt="" />
         		<p slot="name" class="name">{{item.expert_name}}</p>
 				<p slot="description" class="description">{{item.rank}}</p>
@@ -67,10 +71,10 @@
         		</div>
         	</div>
 		</div>
-		
+
 		<div class="collection">
 			<p class="title">才华榜</p>
-        	<introduce v-for="item in expert_list_talent"> 
+        	<introduce v-for="item in expert_list_talent">
         		<img slot="head_pic" v-lazy="" alt="" />
         		<p slot="name" class="name">{{item.expert_name}}</p>
 				<p slot="description" class="description">{{item.rank}}</p>
@@ -90,6 +94,7 @@
 
 </template>
 <script type="es6">
+import searchKuang from 'components/search-kuang'
     import introduce from '../../components/Introduce'
     import collections from '../../components/Collections'
     export default {
@@ -103,7 +108,8 @@
         },
         components:{
             introduce,
-            collections
+            collections,
+            searchKuang
         },
         created(){
         	this.init()
@@ -155,20 +161,12 @@
 	  color: #3f3f3f;
 	  border-bottom: 1px solid #DED9D9;
 	}
-	* {
-		margin: 0rem;
-		padding: 0rem;
-	}
+
 	a{
 		text-decoration: none;
 		color: #3A3A3A;
 	}
-	li{
-		list-style: none;
-	}
-	p{
-		font-size: 0.8rem;
-	}
+
 	.expert{
 		width: 100%;
 		background: #F5F5F5;
@@ -180,7 +178,7 @@
 			display:flex;
 			justify-content: space-between;
 			.special_menu{
-				flex: 1;				
+				flex: 1;
 				background: #fff;
 				padding: 0.5rem 0rem 2rem;
 				height: 4.5rem;
