@@ -119,7 +119,8 @@ export default new Router({
       component: newcourse
     },
     {
-      path: '/player',
+      path: '/player/:id/:courseID',
+      name: 'player',
       component: player
     },
     {

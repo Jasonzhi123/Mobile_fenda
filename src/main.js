@@ -19,7 +19,7 @@ Axios.defaults.withCredentials = true
 Vue.use(MintUI)
 Vue.use(ElementUI)
 Vue.prototype.$http = Axios
-Vue.prototype.$accessUrl = accessUrl
+Vue.prototype.$accessUrl = 'http://localhost/07180206/php/lesson_5/Mobile_fenda_server/public/'
 Vue.use(iView)
 Vue.use(VueLazyload, {
   loading: require('./assets/image/loading.gif')

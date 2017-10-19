@@ -29,7 +29,7 @@
       <mt-tab-item :id="'tab'+n.id" v-for="n in categories">{{n.categroies_name}}</mt-tab-item>
     </mt-navbar>
 
-    <mt-tab-container v-model="selected" swipeable=true>
+    <mt-tab-container v-model="selected" >
       <mt-tab-container-item :id="'tab'+n.id" v-for="n in categories">
         <ul class="speaches"
           style="height: 16rem;overflow: scroll;" 
@@ -43,8 +43,6 @@
                     <img :src="m.bimgPath">
                 </div>
                 <div class="item-container">
-                    <h3>
-                    	{{n.id}}
                         <span class="title">专题</span>
                         <span>{{m.name}}</span>
                     </h3>
@@ -65,7 +63,7 @@
                 </div>
                 <div class="item-container">
                     <h3>
-                        
+                        {{m.id}}
                         <span>{{m.courseName}}</span>
                     </h3>
                     <div class="item-respondent">
