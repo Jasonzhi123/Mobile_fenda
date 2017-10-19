@@ -43,8 +43,6 @@
                     <img :src="m.bimgPath">
                 </div>
                 <div class="item-container">
-                    <h3>
-                        
                         <span class="title">专题</span>
                         <span>{{m.name}}</span>
                     </h3>

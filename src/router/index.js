@@ -14,6 +14,7 @@ import listen from '@/view/listen/listen'
 import lisDetailQue from '@/view/listen/detailQue'
 import bought from '@/view/bought'
 import my from '@/view/my'
+import myLogin from '@/view/myLogin'
 import answerPage from '@/view/answerPage'
 import ansPageSearch from '@/view/ansPageSearch'
 import kuaiwen from '@/view/kuaiwen/kuaiwen'
@@ -36,6 +37,7 @@ import newlist from '@/view/expert/newlist'
 import talent from '@/view/expert/talent'
 import onetoone from '@/view/expert/onetoone'
 import strength from '@/view/expert/strength'
+import search from '@/view/search/search'
 Vue.use(Router)
 
 export default new Router({
@@ -67,6 +69,10 @@ export default new Router({
         {
           path: '/my',
           component: my
+        },
+        {
+          path: '/myLogin',
+          component: myLogin
         },
         {
           path: '/kuaiwen',
@@ -192,6 +198,10 @@ export default new Router({
     {
       path: '/strength',
       component: strength
+    },
+    {
+      path: '/search',
+      component: search
     }
   ]
 })

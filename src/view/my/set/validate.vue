@@ -30,7 +30,7 @@
 		<div class="item">
 			<label for="verification_code">手机验证码</label>
 			<input type="text" name="verification_code" id="verification_code" v-model='phoneCode' />
-			<countdown @sendCode='getCode' :message="flag"></countdown>
+			<countdown @sendCode='getCode' :message="flag" color="#f00"><span slot='before'>获取验证码</span><span slot="after">s</span></countdown>
 		</div>
 		<a class="btn" @click="jump">
 			下一步
@@ -67,12 +67,12 @@
 			}
 		},
 		created: function(){
-			this.setLogin(this.$http)
 			if(this.login){
 				this.imgPath();
 			}else{
 				this.$router.push('/Login');
 			}
+			this.setLogin(this.$http)
 		},
 		computed: {
 			getUserInfo(){
@@ -243,6 +243,7 @@
 			 	width: 4.5rem;
 			 	height: 2rem;
 			 	margin: 0.25rem 0;
+			 	flex: 1;
 			 }
 		}
 		.btn{

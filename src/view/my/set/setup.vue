@@ -30,6 +30,9 @@
 			}
 		},
 		created(){
+			if(!(!!this.login)){
+				this.$router.push('/my');
+			}
 			this.setLogin(this.$http)
 		},
 		computed:{
@@ -56,7 +59,7 @@
 				}).then((response)=>{
 					if(response.data.status === 0){
 						this.setLogout()
-						this.$router.push('/my')
+						this.$router.push('/myLogin')
 					}
 				})
 			},
