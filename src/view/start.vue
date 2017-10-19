@@ -1,10 +1,12 @@
 <template>
 	<div class="index" >
 		<!-- search-->
-	<div class="search" :fixed="true">
-			<mt-search v-model="value" cancel-text="取消" placeholder="搜索"></mt-search>
-</div>
-
+		<div class="search-title">
+			<search-kuang @click.native="openSearch">
+			</search-kuang>
+			<Icon class="icon" size="30" color="#B3B3B3" type="ios-chatbubble-outline"></Icon>
+		</div>
+			
 		<!-- bannar -->
 		<div class="bannar">
 			<mt-swipe :auto="11000" >
@@ -65,7 +67,7 @@
 			</div>
 
 			<!--社区-->
-			<div class="community">
+			<!-- <div class="community">
 				<div class="title">
 					<p>社区 | 牛人的主题学习圈</p>
 				</div>
@@ -97,45 +99,68 @@
 					</router-link>
 				</div>
 			</div>
-
+ -->
 			<!--小讲-->
 			<div class="community small_talk">
 				<div class="title">
 					<p>小讲 | 30分钟精品语音干货</p>
 				</div>
 				<!--<div class="item">-->
-					<mt-navbar v-model="selected">
-						<mt-tab-item :id="index" v-for="(item,index) in smallList">{{item.name}}</mt-tab-item>
-					</mt-navbar>
+					<mt-na <mt-navbar v-model="selected" class="navbar">
+      <mt-tab-item :id="'tab'+n.id" v-for="n in categories">{{n.categroies_name}}</mt-tab-item>
+    </mt-navbar>
 
-					<!-- tab-container -->
-					<mt-tab-container v-model="selected"   :swipeable="true">
-						<mt-tab-container-item :id="index"  v-for="(items,index) in smallList">
+    <mt-tab-container v-model="selected" swipeable=true>
+      <mt-tab-container-item :id="'tab'+n.id" v-for="n in categories">
+        <ul class="speaches"
+          style="height: 16rem;overflow: scroll;" 
+          v-infinite-scroll="loadMore"
+          infinite-scroll-disabled="loading"
+          infinite-scroll-distance="10">
+            <!-- 专题 -->
+            <li  @click="to_topic(m.id)" v-for="(m,index) in specialtopic" 
+             v-show="m.categroies_id == n.id" :id="index">
+                <div class="intro-img">
+                    <img :src="m.bimgPath">
+                </div>
+                <div class="item-container">
+                    <h3>
+                        <span class="title">专题</span>
+                        <span>{{m.name}}</span>
+                    </h3>
+                    <div class="item-respondent">
+                        <p>{{m.expert}}主讲</p>
+                    </div>
+                    <div class="item-participants">
+                        <!-- <span class="direction">{{categories[m.categroies_id].name}}</span> -->
+                        <span>共{{m.coursenum}}讲,{{m.num}}人参加</span>
+                    </div>
+                </div>
+            </li>
+            <!-- 课程 -->
+            <li  @click="to_detal(m.id)" v-for="(m,index) in course[n.id-1]" 
+              :id="index">
+                <div class="intro-img">
+                    <img :src="m.avatarPath">
+                </div>
+                <div class="item-container">
+                    <h3>
+                        
+                        <span>{{m.courseName}}</span>
+                    </h3>
+                    <div class="item-respondent">
+                        <p>{{m.expert_name}}|{{m.introduction}}</p>
+                    </div>
+                    <div class="item-participants">
+                        <!-- <span class="direction">{{m.name}}</span> -->
+                        <span>{{m.num}}人参加</span>
+                    </div>
+                </div>
+            </li>
 
-								<div class="select_item" v-show="items.id==item.grade"  v-for="item in small_talk.slice(0,3)">
-
-								<img src="../assets/logo.png"/>
-								<div  class="right">
-
-									<div class="r_item">
-										<el-badge value="专题" class="item"></el-badge>
-									<span>{{item.topic_name}}</span>
-
-									</div>
-									<div class="author">
-										<div class="author_name">
-											{{item.expert_name}}  {{item.introduction}}
-										</div>
-										<div class="classification">
-											<span class="one">{{items.name}}</span>
-											<span>{{item.number}}人参加</span>
-										</div>
-									</div>
-								</div>
-
-							</div>
-						</mt-tab-container-item>
-					</mt-tab-container>
+        </ul>
+      </mt-tab-container-item>
+    </mt-tab-container>
 				<!--</div>-->
 				<div class="more">
 					<router-link to="/smalltalk"  class="btn_menu">
@@ -149,6 +174,7 @@
 </template>
 
 <script type="es6">
+import searchKuang from 'components/search-kuang'
 	export default {
 		data () {
 			return {
@@ -162,26 +188,32 @@
 		created(){
 			this.init();
 		},
-        methods: {
-        	init:function(){
-        		this.$http.get('/api/home/index').then(rtnData=>{
-        			this.headlines_list=rtnData.data;
+    methods: {
+      init:function(){
+        this.$http.get('/api/home/index').then(rtnData=>{
+          this.headlines_list=rtnData.data;
 
 
-        		})
-        		this.$http.get('api/home/smalltalk').then(rtnData=>{
-        			this.small_talk=rtnData.data;
+        })
+        this.$http.get('api/home/smalltalk').then(rtnData=>{
+          this.small_talk=rtnData.data;
 
-        		})
-        		this.$http.get('api/home/smallList').then(rtnData=>{
-        			this.smallList=rtnData.data;
+        })
+        this.$http.get('api/home/smallList').then(rtnData=>{
+          this.smallList=rtnData.data;
 
-        		})
-        	},
-            openHeadlines:function(){
-                this.$router.push('/headlines')
-            }
-        }
+        })
+      },
+	  	openHeadlines:function(){
+	        this.$router.push('/headlines')
+	   },
+	   openSearch:function(){
+          this.$router.push('/search')
+	   }
+    },
+    components:{
+      searchKuang
+    }
 	}
 
 </script>
@@ -199,13 +231,15 @@
 		height: 100%;
 		margin-bottom: 1.5rem;
 		font-size: #191919;
-		.search {
-			height: 1.6rem;
-			width: 100%;
-			background: #fff;
+		.search-title{
+			display:flex;
+			justify-content: space-between;
+			align-items: center;
+			.icon{
+				margin-right: 0.3rem;
+			}
 		}
 		.bannar {
-			margin-top: 0.5rem;
 			height: 5rem;
 			img {
 				width: 100%;

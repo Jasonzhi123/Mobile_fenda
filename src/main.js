@@ -5,7 +5,6 @@ import App from './App'
 import router from './router'
 import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.min.css'
-import '@/assets/css/search.css'
 import Axios from 'axios'
 import store from './vuex/store'
 import ElementUI from 'element-ui'
@@ -20,7 +19,7 @@ Axios.defaults.withCredentials = true
 Vue.use(MintUI)
 Vue.use(ElementUI)
 Vue.prototype.$http = Axios
-Vue.prototype.$accessUrl = accessUrl
+Vue.prototype.$accessUrl = 'http://localhost/07180206/php/lesson_5/Mobile_fenda_server/public/'
 Vue.use(iView)
 Vue.use(VueLazyload, {
   loading: require('./assets/image/loading.gif')

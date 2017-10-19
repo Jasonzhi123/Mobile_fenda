@@ -2,7 +2,7 @@
   <div class="topic">
   	<mt-header fixed title="小讲" class="header">
 		  <router-link to="/expert" slot="left">
-		    <mt-button icon="back">返回</mt-button>
+		    <mt-button @click="goback()">返回</mt-button>
 		  </router-link>
 		  <Icon type="ios-barcode-outline"></Icon>
 		   <router-link to="/expert" slot="right">
@@ -13,11 +13,11 @@
 		  </router-link>
 		 
 		</mt-header>
-    <div class="banner" style="background-image: url(https://medias.zaih.com/f945339112e2f74c0fd96947aade_1125x630.jpg)">
-      
+    <div class="banner" >
+      <img :src="topic[0].bimgPath">
       <div class="album-info">
         <h1>{{topic[0].name}}</h1>
-        <p>{{topic.length}}期系列小讲,{{num}}次参加</p>
+        <p>{{topic[0].coursenum}}期系列小讲,{{topic[0].num}}次参加</p>
       </div>
     </div>
 
@@ -40,7 +40,7 @@
         </div>
       </a>
       <ul class="speeches">
-        <li v-for="r in topic" class="course-item" @click="tocourse(r.courseid)" >
+        <li v-for="r in topic" class="course-item" @click="tocourse(r.courseID)" >
             <p class="course-title">{{r.courseName}}</p>
             <p class="course-info">{{r.num}}参加</p>
         </li>
@@ -64,8 +64,6 @@ export default {
   data () {
     return {
       topic:[],
-      count:0,
-      num:0
     }
   },
   components: {
@@ -74,13 +72,20 @@ export default {
   created(){
     this.init()
   },
+  watch:{
+    '$route' (to, from) {
+        // 对路由变化作出响应...
+        this.getdata(this.$route.params.id)
+      }
+  },
   methods: {
     init:function(){
       var topicID = this.$route.params.id;
+      this.getdata(topicID)
+    },
+    getdata:function(topicID){
       this.$http.get('/api/Topic/index',{params:{id:topicID}}).then(rtnData=>{
-        this.topic = rtnData.data.topic;
-        this.count = rtnData.data.count;
-        this.num = rtnData.data.num;
+        this.topic = rtnData.data;
        })
     },
     toPay: function () {
