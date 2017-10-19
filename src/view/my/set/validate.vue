@@ -67,12 +67,12 @@
 			}
 		},
 		created: function(){
-			this.setLogin(this.$http)
 			if(this.login){
 				this.imgPath();
 			}else{
 				this.$router.push('/Login');
 			}
+			this.setLogin(this.$http)
 		},
 		computed: {
 			getUserInfo(){

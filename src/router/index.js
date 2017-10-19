@@ -14,6 +14,7 @@ import listen from '@/view/listen/listen'
 import lisDetailQue from '@/view/listen/detailQue'
 import bought from '@/view/bought'
 import my from '@/view/my'
+import myLogin from '@/view/myLogin'
 import answerPage from '@/view/answerPage'
 import ansPageSearch from '@/view/ansPageSearch'
 import kuaiwen from '@/view/kuaiwen/kuaiwen'
@@ -68,6 +69,10 @@ export default new Router({
         {
           path: '/my',
           component: my
+        },
+        {
+          path: '/myLogin',
+          component: myLogin
         },
         {
           path: '/kuaiwen',
