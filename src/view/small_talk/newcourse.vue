@@ -1,6 +1,7 @@
 <template>
     <div class="main">
-        <div class="banner" style="background-image: url(https://medias.zaih.com/f945339112e2f74c0fd96947aade_1125x630.jpg)">
+        <div class="banner" >
+            <img :src="course[0].imgPath" style="position: absolute;left: 0;top: 0;width: 100%;">
         <div class="nav">
         <span @click="goback()">返回</span>
         <div class="more">
@@ -14,7 +15,9 @@
       </div>
     </div>
     <!-- 形式 -->
+
     <div class="course-style">
+
         <p>29分钟语音</p>
         <p>主动互动</p>
         <p>小讲圈交流</p>
@@ -52,8 +55,9 @@
             <li v-for="(n,index) in course" class="cour-big" >
                 <p class="title">{{n.single_name}}</p>
                 <ul>
-                    <li v-for="(j,index2) in audio" class="cour-small" @click="topay()" v-on:nothidebox = 'nothidebox'
+                    <li v-for="(j,index2) in audio" class="cour-small" @click="toplay(j.id,courseID)" v-on:nothidebox = 'nothidebox'
                     v-show="audio[index2].grade == n.grade">
+                    {{courseID}}
                         <p class="cour-name"><span class="free-course" v-show="j.try==1">试听</span>
                         {{j.name}}</p><p class="time"><span class="play-icon"></span>
                             <span>{{j.time}}</span>
@@ -67,51 +71,58 @@
         
     <div>
     <h2 class="sm-circle">小讲圈</h2>
-    <div class="timeline-item">
+    <div class="timeline-item" v-for="n in comment">
         <div class="author-avatar">
             <div class="avatar">
-                <img src="https://medias.zaih.com/sd1k784o8cprecmbyu3g14hu2e4uihkl!avatar">
+                <img :src="n.head_pic">
             </div>     
-            <div class="author-nickname">小花</div>   
+            <div class="author-nickname">{{n.id}}{{n.user_name}}</div>   
         </div>
         
         <div class="content">
             <p class="fold">
-            <span class="is_sticty">置顶</span>
-            <span>Isa 你好，我有一个疑问。就是我目前体重是120斤，按我一般的饮食规律，这个体重基本没有什么大的波动，这说明我日常摄入是和我日常消耗基本持平的对吧？但是我节食一个月，体重就会降个差不多五斤，那么当我恢复原有饮食后，为什么体重就会迅速反弹回来呢？</span>
+            <span class="is_sticty" v-show="!n.top">置顶</span>
+            <span>{{n.content}}</span>
             </p>
         </div>
-        <a>全文</a>
+        <!-- <a>全文</a> -->
         <div class="opations">
             <span>8个月前</span>
             
-            <span class="btn btn-poll">7</span>
+            <span class="btn btn-poll">{{n.point}}</span>
             <span class="btn btn-reply">赞</span>
         </div>
-        <div class="replies">
-            <p class="relice" v-for="n in 5"><span class="nickname">mike</span>:<span>这是评论</span></p>
+        <div class="replies" >
+            <p class="relice" v-for="m in reply" v-show="m.commentid == n.id">
+                
+                <span class="nickname">{{user[m.userid].user_name}}</span>
+                回复
+                <span class="nickname">{{user[m.replyuserid].user_name}}</span>
+                :
+            <span>{{m.content}}</span>
+        </p>
         </div>
     </div>
-    <div class="sm-more">
-        <p>参加后可查看全部<span class="more-num">111</span>条小讲圈</p>
+    <div class="sm-more" v-show="comment.length>5">
+        <p>参加后可查看全部<span class="more-num" >{{comment.length}}</span>条小讲圈</p>
     </div>
     </div>
     
                 
 
     <!-- 本小讲收录于xx专题 -->
-    <div class="speech-block" @click="toTopic()">
+    <div class="speech-block" @click="toTopic(course[0].special_id)">
         <div class="intro-img">
-            <img src="https://medias.zaih.com/e12a8f9d10b8cf39889a21df9404_558x558.jpg">
+            <img :src="course[0].bimgPath">
         </div>
         <div class="item-container">
             <h3>
                 <span class="sp-topic">专题</span>
-                <span>轻松吃出好身材</span>
+                <span>{{course[0].name}}</span>
             </h3>
-            <div class="item-respondent">仰望尾迹云主讲</div>
+            <div class="item-respondent">{{course[0].expert_name}}主讲</div>
             <div class="item-participants">
-                <span>共4次,23423参加</span>
+                <span>共{{course[0].coursenum}}次,{{course[0].num}}参加</span>
             </div>
         </div>
     </div>
@@ -120,14 +131,14 @@
     <div class="other-xj">
         <div class="author-avatar">
             <div class="avatar">
-                <img src="https://medias.zaih.com/FnL7ogyitn1kcUbrxPgMU1BCkAYu!avatar">
+                <img :src="course[0].avatarPath">
             </div>
-            <span>xxx的其他小讲</span>
+            <span>{{course[0].expert_name}}的其他小讲</span>
             <span class="question">一对一提问</span>
         </div>
         <ul>
-            <li v-for="n in 3" @click="toCourse()">
-                <p class="title">财富水池：迈出理财投资第一步</p>
+            <li v-for="n in course" @click="toCourse()" >
+                <p class="title">{{n.courseName}}</p>
                 <p class="join-num"><span>xxx</span>人参加</p>
             </li>
         </ul>
@@ -154,21 +165,47 @@ export default {
       joincoursestatus: true,
       giftstatus: false,
       followed:true,
-      course:[],
-      audio:[]
+      course:[{}],
+      courseID:'',
+      audio:[{}],
+      comment:[{}],
+      reply:[{}],
+      user:[{}],
+      topic:[{}]
     }
   },
+  watch: {
+      '$route' (to, from) {
+        // 对路由变化作出响应...
+        this.getdata(this.$route.params.id)
+        this.courseID = this.$route.params.id
+      }
+},
   created(){
     this.init()
   },
   methods: {
     init:function(){
         var courseID = this.$route.params.id;
+        this.courseID = courseID;
+        this.getdata(courseID)
+   },
+
+   getdata:function(courseID){
         this.$http.get('/api/Newsource/Newsource',{params:{id:courseID}}).then(rtnData=>{
-        this.course =rtnData.data;
+        this.course =rtnData.data; 
         })
         this.$http.get('/api/Newsource/audio',{params:{id:courseID}}).then(rtnData=>{
         this.audio =rtnData.data;
+        })
+        this.$http.get('/api/Newsource/comment',{params:{id:courseID}}).then(rtnData=>{
+        this.comment =rtnData.data;
+        })
+        this.$http.get('/api/Newsource/reply',{params:{id:courseID}}).then(rtnData=>{
+        this.reply =rtnData.data;
+        })
+        this.$http.get('/api/Newsource/user',{params:{id:courseID}}).then(rtnData=>{
+        this.user =rtnData.data;
         })
    },
     showall: function () {
@@ -196,20 +233,24 @@ export default {
         
         this.giftstatus = true
     },
-    toPlayer:function(){
-        this.$router.push('/player')
-    },
+    // toPlayer:function(){
+    //     this.$router.push('/player')
+    // },
     goback:function(){
         this.$router.go(-1)
     },
     follow:function(){
         this.followed = !this.followed
     },
-    toTopic:function(){
-        this.$router.push('/topic')
+    toTopic:function(index){
+        this.$router.push({name:'topic',params:{id:index}})
     },
     toCourse:function(){
         this.$router.push('/newcourse')
+    },
+    toplay:function(audioID,courseID){
+
+        this.$router.push({name:'player',params:{id:audioID,courseID:courseID}})
     }
   },
   components: {
@@ -550,12 +591,11 @@ export default {
                 margin-right: .8rem;
             }
             .btn-poll{
-                width: 1.3rem;
+                width: 2rem;
                 background: url(../../assets/love.png) no-repeat;
-                background-size: 65% 100%;
+                background-size: 45% 100%;
                 background-position:top right;
                 text-align: left;
-
             }
 
         }
