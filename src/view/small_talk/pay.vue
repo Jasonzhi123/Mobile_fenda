@@ -6,25 +6,35 @@
                     <span>¥</span>
                     <span>22</span>
                 </div>
-                <div class="type">
+                <!-- <div class="type">
                     <span>在分答参加小讲</span>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="pay-method">
             <img src="../../assets/zfb.png">
             <span>支付宝支付</span>
-            <span class="sure">√</span>
+            <span class="sure">
+                <i class="icon ivu-icon ivu-icon-ios-checkmark-outline" slot="icon" style="font-size: 22px; color: rgb(248, 95, 72);"></i>
+            </span>
         </div>
         <div class="pay-submit">
-            <button>支付¥22</button>
+            <button @click="pay()">支付 ¥22</button>
         </div>
     </div>   
 </template>
 
 <script type="text/javascript">
+import {Toast} from 'mint-ui'
 export default {
-
+  methods: {
+    pay: function () {
+      Toast('支付成功')
+      setTimeout(function () {
+        this.$router.back(-1)
+      }, 2000)
+    }
+  }
 }
 </script>
 
@@ -42,7 +52,7 @@ export default {
     background: white;
 }
 .pay-details .offer{
-    font-size: 1rem;
+    font-size: 1.2rem;
     font-weight: 700;
     color: #f85f48;
     margin-bottom: .7rem;
@@ -73,7 +83,7 @@ export default {
     color: #f85f48
 }
 .pay-submit{
-    width: 80%;
+    width: 86%;
     margin: 0 auto;
 }
 .pay-submit button{

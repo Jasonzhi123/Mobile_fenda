@@ -1,6 +1,6 @@
 <template>
   <div class="detailQue">
-  	<mt-header class="header">
+  	<mt-header class="header" :fixed="true">
   		<router-link to="" replace slot="left">
     		<mt-button icon="back" @click="rtnLastPage()">返回</mt-button>
   		</router-link>
@@ -13,10 +13,10 @@
         <div class="asker">
             <img src="../../assets/7.jpg">
             {{firstitem.user_name}}
-            <span>{{firstitem.status==1?'￥'+firstitem.worth:''}}</span>
+            <span>{{firstitem.status==1?'￥'+firstitem.price:''}}</span>
         </div>
         <p class="question">{{firstitem.content}}</p>
-        <div class="answer">
+        <div class="answer" v-if="firstitem.path!=null">
             <img src="../../assets/7.jpg">
             <div class="btn" @click.stop="play()" style="display: inline-block;">
                 <play-button :class="{color_green:firstitem.status==1}">限时免费听</play-button></div>
@@ -60,7 +60,7 @@
         </div>
       </li>
     </ul>
-    <a class="expert" @click="openAnsPage()" v-for="firstitem in firstData">
+    <a class="expert" v-for="firstitem in firstData" @click="openAnsPage(firstitem.expert_id)">
       <img src="../../assets/7.jpg">
       <p>
         {{firstitem.expert_name}}<br>
@@ -169,14 +169,13 @@ export default {
       this.$http
         .get('api/detailque/index', {
           params: {
-            expertId: this.id
+            problemId: this.id
           }
         })
         .then(rtnData => {
           this.detailQue = rtnData.data
           this.firstData.push(this.detailQue[0])
           console.log(this.detailQue)
-          console.log(this.firstData)
         })
     },
     play: function () {
@@ -185,8 +184,8 @@ export default {
     rtnLastPage: function () {
       this.$router.back(-1)
     },
-    openAnsPage: function () {
-      this.$router.push('/answerPage/' + this.id)
+    openAnsPage: function (index) {
+      this.$router.push('/answerPage/' + index)
     },
     changeIcon: function () {
       this.listenShow = 2
@@ -242,6 +241,7 @@ a{
   background: #fff;
   margin-bottom: 0.023rem;
   /*border-bottom: 1px solid #DED9D9;*/
+  margin-top: 2rem;
 }
 .detailQue>h5>span{
   color: #6880B4;
@@ -275,6 +275,7 @@ a{
   font-size: 0.8rem;
   margin-left: 2rem;
   margin-bottom: 0.8rem;
+  margin-top: 0.5rem;
 }
 .detailQue .content_list .content .answer{
   height: 2rem;
@@ -389,7 +390,7 @@ a{
 }
 .detailQue .expert .report{
   position: absolute;
-  top: 4.5rem;
+  top: 5rem;
   right: 0.8rem;
   color: #999;
   width: 1.5rem;

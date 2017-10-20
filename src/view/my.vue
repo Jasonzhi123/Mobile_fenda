@@ -2,49 +2,69 @@
   <div class="my">
     <div class="before" v-if="showLogin==0">
       <div class="title">
-        <img src="../assets/7.jpg">
-        <input type="button" value="登录" @click="openLoginPage()">
+         <input type="button" value="登录" @click="openLoginPage()">
       </div>
       <ul class="list">
-        <li>兑换码<span>></span></li>
-        <li>帮助<span>></span></li>
-        <li>在线客服<span>></span></li>
-        <li>关于<span>></span></li>
+        <li>兑换码<span><Icon type="ios-arrow-right"></Icon></span></li>
+        <li>帮助<span><Icon type="ios-arrow-right"></Icon></span></li>
+        <li>在线客服<span><Icon type="ios-arrow-right"></Icon></span></li>
+        <li>关于<span><Icon type="ios-arrow-right"></Icon></span></li>
       </ul>
     </div>
-    <div class="after" v-if="showLogin==1">
+
+    <div class="after"   v-if="showLogin==1">
       <div class="title">
         <div class="top">
           <img src="../assets/7.jpg">
-          <p>大声叫</p>
+          <p>{{user.user_name}}</p>
         </div>
-        <p class="income">总收入￥<span>0</span>&nbsp;&nbsp;&nbsp;总收益￥<span>0</span></p>
+        <p class="income">总收入￥<span>{{user.income}}</span>&nbsp&nbsp;&nbsp总收益￥<span>{{user.cents}}</span></p>
         <p class="tip">收入90%归你，每夜结算，自动入库微信钱包</p>
       </div>
       <ul class="list">
-        <li @click="openandanswer"><p>开通答主</p><span>></span></li>
-        <li @click="opencents"><p>我的分币</p><span>></span></li>
-        <li>兑换码<span>></span></li>
-        <li>我的下载<span>></span></li>
-        <li>结算说明<span>></span></li>
-        <li>帮助<span>></span></li>
-        <li @click="opensetup">设置<span>></span></li>
-        <li>在线客服<span>></span></li>
-        <li>关于<span>></span></li>
+        <li @click="openandanswer"><p>开通答主</p><span><Icon type="ios-arrow-right"></Icon></span></li>
+        <li @click="opencents"><p>我的分币</p><span><Icon type="ios-arrow-right"></Icon></span></li>
+        <li>兑换码<span><Icon type="ios-arrow-right"></Icon></span></li>
+        <li>我的下载<span><Icon type="ios-arrow-right"></Icon></span></li>
+        <li>结算说明<span><Icon type="ios-arrow-right"></Icon></span></li>
+        <li>帮助<span><Icon type="ios-arrow-right"></Icon></span></li>
+        <li @click="opensetup">设置<span><Icon type="ios-arrow-right"></Icon></span></li>
+        <li>在线客服<span><Icon type="ios-arrow-right"></Icon></span></li>
+        <li>关于<span><Icon type="ios-arrow-right"></Icon></span></li>
       </ul>
     </div>
   </div>
 </template>
 
 <script type="es6">
+import {mapState, mapMutations} from 'vuex'
 export default {
   name: 'my',
   data () {
     return {
-      showLogin: 1
+      user: this.$store.state.login,
+      showLogin: this.$store.state.login?1:2
     }
   },
-  methods: {
+  created(){
+  	if(this.showLogin !== 1){
+  		this.$http.request({
+			url:'/api/login'
+		}).then((response)=>{
+			if (response.data) {
+				this.setLogin(response.data)
+		     	this.user = response.data
+		     	this.showLogin = 1
+		    }else{
+		    	this.showLogin = 0
+		    }
+		}).catch(()=>{
+			this.showLogin = 0
+		})
+  	}
+  },
+  methods : {
+  	...mapMutations(['setLogin']),
     openLoginPage: function () {
       this.$router.push('/login')
     },
@@ -73,12 +93,13 @@ a{
 }
 .my{
 	.before{
+		font-size: .8rem;
 		.title{
 		  width: 100%;
 		  height: 10rem;
 		  text-align: center;
 		  padding-bottom: 1rem;
-		  border-bottom: 1px solid #DED9D9;
+
 		  position: relative;
 		  img{
 			  position: absolute;
@@ -123,7 +144,7 @@ a{
 			}
 		}
 	}
-	
+
 	.after{
 		margin-bottom: 3rem;
 		background: #F5F5F5;
@@ -146,7 +167,7 @@ a{
 					margin-left: 1rem;
 					font-size: 0.9rem;
 				}
-				
+
 			}
 			.tip{
 				color: #B4B4B4;

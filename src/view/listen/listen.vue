@@ -1,6 +1,6 @@
-<template>
-  <div class="listen">
-    <mt-navbar v-model="selected" class="tablis" :fixed="true">
+#<template>
+  <div class="listen" name='listen'>
+    <mt-navbar v-model="selected" class="tablis">
       <mt-tab-item id="1" class="tablis_child">内容</mt-tab-item>
       <mt-tab-item id="2" class="tablis_child">答主</mt-tab-item>
     </mt-navbar>
@@ -8,11 +8,12 @@
     <!-- tab-container -->
     <mt-tab-container v-model="selected" :swipeable="true" style="top: 50px;border-top: 1px solid #DED9D9;">
       <mt-tab-container-item id="1">
-        <ul class="listen_content_list">
-          <li v-for="(item,index) in listArr">
+        <ul class="listen_content_list"
+        v-infinite-scroll="loadMore" compact="" infinite-scroll-disabled="loading"infinite-scroll-distance="10">
+          <li v-for="(item,index) in list">
             <a @click="openDetailQue(index)">
             <div class="listen_title">
-              <a @click.stop="openAnsPage(index)"><img src="../../assets/7.jpg">{{item.expert_name}}&nbsp;&nbsp;</a>
+              <a @click.stop="openAnsPage(item.user_id)"><img src="../../assets/7.jpg">{{item.expert_name}}&nbsp;&nbsp;</a>
               <span><a @click="openDetailQue(index)">来自话题：分答精选</a></span>
             </div>
             <p class="listen_content">{{item.content}}</p>
@@ -29,19 +30,6 @@
             </audio>
           </a>
           </li>
-          <!-- <li @click="openDetailQue()">
-            <div class="listen_title">
-              <a @click.stop="openAnsPage()"><img src="../../assets/7.jpg">情感专家栗子姐&nbsp;&nbsp;</a>
-              <span><a href="/#/lisdetailQue">来自话题：分答精选</a></span>
-            </div>
-            <p class="listen_content">我在老婆怀孕期间，和另一个女孩发生了关系，并被老婆发现了，如何挽回她的心？</p>
-            <div class="listen_foot">
-              <div class="listen_play" @click.stop="clickPlay()">
-                <play-button class="color_blue">点击播放</play-button>
-              </div>
-              <span>听过26</span>
-            </div>
-          </li> -->
         </ul>
       </mt-tab-container-item>
       <mt-tab-container-item id="2">
@@ -51,7 +39,7 @@
         </div>
         <div class="listen_dazhu" v-if="listenShow==2">
           <ul class="dazhu_list">
-            <li @click="openAnsPage(item.id)" v-for="item in listenList"><a>
+            <li @click="openAnsPage(item.user_id)" v-for="item in listenList"><a>
               <img src="../../assets/7.jpg">
               <div class="right">
                 <i>{{item.expert_name}}</i>
@@ -113,7 +101,6 @@ Vue.directive('audio', {
     if (el.ended === true) {
       el.currenTtime = 0
       el.pause()
-      console.log(2233)
     }
     if (binding.oldValue === binding.value) { // 不是当前按钮
       el.pause()
@@ -136,8 +123,10 @@ export default {
       playsStatus: [], // 音频播放状态
       playBtn: [], // 按钮是否点击过
       listArr: [],  // 专家列表
-      eIdArr: [], // 专家id
-      listenList: [] // 收听的专家
+      pIdArr: [], // 问题id
+      listenList: [], // 收听的专家
+      list: [],
+      loading: false
     }
   },
   components: {
@@ -154,11 +143,14 @@ export default {
         .get('/api/listen/index')
         .then(rtnData => {
           this.listArr = rtnData.data
+          // console.log(this.listArr)
+          this.loadMore()
+          // console.log(this.list)
           for (var i = 0; i < this.listArr.length; i++) {
             this.text[i] = '点击播放'
             this.playsStatus[i] = 0
             this.playBtn[i] = 0
-            this.eIdArr[i] = this.listArr[i].id
+            this.pIdArr[i] = this.listArr[i].id
           }
         })
       // 答主页面
@@ -169,7 +161,7 @@ export default {
         })
     },
     openDetailQue: function (index) {
-      this.$router.push('/lisDetailQue/' + this.eIdArr[index])
+      this.$router.push('/lisDetailQue/' + this.pIdArr[index])
     },
     // 音频播放
     clickPlay: function (index, status) {
@@ -199,6 +191,19 @@ export default {
     },
     openAnsPage: function (index) {
       this.$router.push('/answerPage/' + index)
+    },
+    loadMore () {
+      this.loading = true
+      setTimeout(() => {
+        let last = this.list.length - 1
+        for (let i = 1; i <= 10; i++) {
+          if (last + i > this.listArr.length - 1) {
+            return
+          }
+          this.list.push(this.listArr[last + i])
+        }
+        this.loading = false
+      }, 1000)
     }
   }
 }
@@ -216,6 +221,13 @@ a{
   color: #191919;
 }
 /*头部的切换*/
+.listen .tablis{
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 100;
+}
 .listen .tablis .tablis_child.is-selected{
   border-bottom: 2px solid #26a2ff;
 }
@@ -266,6 +278,7 @@ a{
   font-size: 0.8rem;
   line-height: 1.2rem;
   margin-top: 0.3rem;
+  color: #3a3636;
 }
 .listen_content_list .listen_foot{
   clear: both;
@@ -284,6 +297,7 @@ a{
 /*答主页面*/
 .listen_dazhu{
    background: #fff;
+   margin-bottom: 2.75rem;
 }
 .listen_dazhu .dazhu_list{
   width: 100%;

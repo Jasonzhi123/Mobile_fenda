@@ -1,37 +1,13 @@
 <template>
 	<div class="kuaiwen">
 		<ul class="up">
-			<li><a @click="openKWTopic()">
+			<li v-for="item in kwCate"><a @click="openKWTopic(item.id)">
 				<img src="../../assets/7.jpg">
 				<div class="center">
-					身体小毛病，快速问医生<br>
-					<span>专业 及时解答</span>
+					{{item.title_before}}，{{item.title_after}}<br>
+					<span>{{item.simple_intro}}</span>
 				</div>
-				<a class="ask" @click.stop="askQue()">提问</a>
-			</a></li>
-			<li><a @click="openKWTopic()">
-				<img src="../../assets/7.jpg">
-				<div class="center">
-					情感小烦恼，专家来开导<br>
-					<span>私密 多角度</span>
-				</div>
-				<a class="ask" @click.stop="askQue()">提问</a>
-			</a></li>
-			<li><a @click="openKWTopic()">
-				<img src="../../assets/7.jpg">
-				<div class="center">
-					大小纠纷事，律师评评理<br>
-					<span>专业律师 快速响应</span>
-				</div>
-				<a class="ask" @click.stop="askQue()">提问</a>
-			</a></li>
-			<li><a @click="openKWTopic()">
-				<img src="../../assets/7.jpg">
-				<div class="center">
-					育儿经验谈，达人来支招<br>
-					<span>达人指路 少走弯路</span>
-				</div>
-				<a class="ask" @click.stop="askQue()">提问</a>
+				<a class="ask" @click.stop="askQue(item.id)">提问</a>
 			</a></li>
 		</ul>
 		<ul class="down">
@@ -39,30 +15,38 @@
 				<span class="newest" :class="{isTrue:isThis}" @click="isChangeNew()">最新</span>
 				<span class="solved" :class="{isTrue:!isThis}" @click="isChangeSol()">已解答</span>
 			</p>
-			<li>
-				<a href="/#/kwenDetail">
-					<div class="title">匿名用户<span>￥10</span></div>
-				<p>老婆工作很辛苦经常一天一夜值班，我工作也很忙管理一个部门，业务涉及近百万群众福利，晚上还经常应酬，她老是抱怨我给她关心不够。但我有心却越来越没时间，答应陪她出去转转总是请不到假。想问怎么办？很困惑。</p>
-				<div class="foot">还剩47小时  1人已抢答
+			<!-- 最新 -->
+			<li v-if="isThis" v-for="(item,index) in newQue_1">
+				<a @click="openkwenDetail(item.id)">
+					<div class="title" v-if="item.whether==0"><img src="../../assets/7.jpg">{{item.user_name}}<span>￥10</span></div>
+					<div class="title" v-if="item.whether==1">匿名用户<span>￥10</span></div>
+				<p>{{item.content}}</p>
+				<div class="foot">还剩47小时  <span v-if="countNewNum[index]!=0">{{countNewNum[index]}}人已抢答</span>
 					<!-- <a>抢答</a> -->
 				</div>
 				</a>
-				<div class="expert">
-					<span class="exp">紫竹姐姐｜国家二级心理咨询师，高级培训师</span>
-					<span class="time">28分钟内抢答</span>
+				<div class="expert" v-if="countNewNum[index]!=0">
+					<span class="exp">{{newQue_2[index][0].expert_name}}｜{{newQue_2[index][0].rank}}</span>
+					<span class="time">
+						<timeago :since="parseInt(newQue_2[index][0].create_time)*1000"></timeago>
+					抢答</span>
 				</div>
 			</li>
-			<li>
-				<a href="/#/kwenDetail">
-					<div class="title">匿名用户<span>￥10</span></div>
-				<p>老婆工作很辛苦经常一天一夜值班，我工作也很忙管理一个部门，业务涉及近百万群众福利，晚上还经常应酬，她老是抱怨我给她关心不够。但我有心却越来越没时间，答应陪她出去转转总是请不到假。想问怎么办？很困惑。</p>
-				<div class="foot">还剩47小时  1人已抢答
+			<!-- 已解决 -->
+			<li v-if="!isThis" v-for="(solvedItem,solvedIndex) in solvedQue_1">
+				<a @click="openkwenDetail(solvedItem.id)">
+					<div class="title" v-if="solvedItem.whether==0"><img src="../../assets/7.jpg">{{solvedItem.user_name}}<span>￥10</span></div>
+					<div class="title" v-if="solvedItem.whether==1">匿名用户<span>￥10</span></div>
+				<p>{{solvedItem.content}}</p>
+				<div class="foot">还剩47小时  {{countSolvedNum[solvedIndex]}}人已抢答
 					<!-- <a>抢答</a> -->
 				</div>
 				</a>
 				<div class="expert">
-					<span class="exp">紫竹姐姐｜国家二级心理咨询师，高级培训师</span>
-					<span class="time">28分钟内抢答</span>
+					<span class="exp">{{solvedQue_2[solvedIndex][0].expert_name}}｜{{solvedQue_2[solvedIndex][0].rank}}</span>
+					<span class="time">
+						<timeago :since="parseInt(solvedQue_2[solvedIndex][0].create_time)*1000"></timeago>
+					抢答</span>
 				</div>
 			</li>
 		</ul>
@@ -72,21 +56,71 @@
 export default {
   data () {
     return {
-      isThis: true
+      isThis: true,
+      kwCate: [], // 接收快问分类数据
+      newQue_1: [], // 接收的新问题数据1
+      newQue_2: [], // 接收的新问题数据2
+      solvedQue_1: [], // 接收的已解决问题数据1
+      solvedQue_2: [], // 接收的已解决问题数据2
+      answerNum: [] // 记录回答的人数
     }
   },
+  computed: {
+    // 计算最新问题回答人数
+    countNewNum: function () {
+      this.answerNum = []
+      for (var i = 0; i < this.newQue_2.length; i++) {
+        this.answerNum.push(this.newQue_2[i].length)
+      }
+      return this.answerNum
+    },
+    // 计算已解决问题回答人数
+    countSolvedNum: function () {
+      this.answerNum = []
+      for (var i = 0; i < this.solvedQue_2.length; i++) {
+        this.answerNum.push(this.solvedQue_2[i].length)
+      }
+      return this.answerNum
+    }
+  },
+  created () {
+    this.init()
+  },
   methods: {
+    init: function () {
+      this.$http
+        .get('/api/kuaiwen/index')
+        .then(rtnData => {
+          this.kwCate = rtnData.data
+        })
+      this.isChangeNew() // 默认加载
+    },
     isChangeNew: function () {
       this.isThis = true
+      this.$http
+        .get('/api/kuaiwen/problem')
+        .then(rtnData => {
+          this.newQue_1 = rtnData.data[0]
+          this.newQue_2 = rtnData.data[1]
+        })
     },
     isChangeSol: function () {
       this.isThis = false
+      this.$http
+        .get('/api/kuaiwen/solved')
+        .then(rtnData => {
+          this.solvedQue_1 = rtnData.data[0]
+          this.solvedQue_2 = rtnData.data[1]
+        })
     },
-    openKWTopic: function () {
-      this.$router.push('/kuaiwenTopic')
+    openKWTopic: function (index) {
+      this.$router.push('/kuaiwenTopic/' + index)
     },
-    askQue: function () {
-      this.$router.push('/kwenAsk')
+    askQue: function (index) {
+      this.$router.push('/kwenAsk/' + index)
+    },
+    openkwenDetail: function (index) {
+      this.$router.push('/kwenDetail/' + index)
     }
   }
 }
@@ -116,7 +150,8 @@ a{
 }
 .kuaiwen .up >li >a{
 	padding: 0.9rem 0.8rem;
-	width: calc(100% - 1.6rem);
+	width: 100%;
+    box-sizing: border-box;
 }
 .kuaiwen .up >li a >img{
 	width: 2.4rem;
@@ -143,12 +178,12 @@ a{
 /*down*/
 .kuaiwen .down{
 	margin-top: 0.5rem;
-	margin-bottom: 3rem;
+	/*margin-bottom: 3rem;*/
 }
 .kuaiwen .down >p{
 	font-size: 1rem;
 	border-bottom: 1px solid #DED9D9;
-	padding: 1rem 0;
+	padding: 0.5rem 0;
 	background: #fff;
 }
 .kuaiwen .down >p >span{
@@ -169,11 +204,20 @@ a{
 	clear: both;
 	padding: 1rem 0.8rem;
 	border-bottom: 1px solid #DED9D9;
+	width: 100%;
+	box-sizing: border-box;
 }
 .kuaiwen .down >li a .title{
 	font-size: 0.8rem;
 	color: #999;
 	overflow: hidden;
+}
+.kuaiwen .down >li a .title >img{
+	width: 1.5rem;
+	height: 1.5rem;
+	border-radius: 100%;
+	vertical-align: middle;
+	margin-right: 0.5rem;
 }
 .kuaiwen .down >li a .title >span{
 	color: #F85F48;
@@ -182,13 +226,14 @@ a{
 	margin-bottom: 0.6rem; 
 }
 .kuaiwen .down >li a >p{
-	height: 3.6rem;
+	/*height: 3.8rem;*/
 	font-size: 0.9rem;
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
 	-webkit-line-clamp: 3;
 	overflow: hidden;
 	margin-bottom: 0.8rem;
+	color: #3a3636;
 }
 .kuaiwen .down >li a .foot{
 	color: #999;
@@ -204,6 +249,7 @@ a{
 .kuaiwen .down >li .expert{
 	padding: 0.8rem 0.8rem;
 	color: #999;
+	clear: both;
 }
 .kuaiwen .down >li .expert .exp{
 	width: 60%;
@@ -212,6 +258,8 @@ a{
 	text-overflow: ellipsis;
 }
 .kuaiwen .down >li .expert .time{
-	margin-left: 1rem;
+	/*margin-left: 1rem;*/
+	float: right;
+	display: inline;
 }
 </style>
