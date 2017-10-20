@@ -77,8 +77,9 @@ export default {
           parentId: this.parentId
         })
         .then(rtnData => {
+          console.log(rtnData.data)
           if (rtnData.data['status'] === 0) {
-            this.$router.push('/lisDetailQue/' + rtnData.data['problemId'])
+            this.$router.push('/lisDetailQue/' + rtnData.data.problemId)
           } else {
             Toast(rtnData.data['message'])
           }

@@ -32,6 +32,11 @@ import cents from '@/view/my/cents'
 import setup from '@/view/my/set/setup'
 import validate from '@/view/my/set/validate'
 import binding from '@/view/my/set/binding'
+import top from '@/view/expert/top'
+import newlist from '@/view/expert/newlist'
+import talent from '@/view/expert/talent'
+import onetoone from '@/view/expert/onetoone'
+import strength from '@/view/expert/strength'
 Vue.use(Router)
 
 export default new Router({
@@ -169,6 +174,26 @@ export default new Router({
     {
       path: '/binding',
       component: binding
+    },
+    {
+      path: '/top',
+      component: top
+    },
+    {
+      path: '/newlist',
+      component: newlist
+    },
+    {
+      path: '/talent',
+      component: talent
+    },
+    {
+      path: '/onetoone',
+      component: onetoone
+    },
+    {
+      path: '/strength',
+      component: strength
     }
   ]
 })
