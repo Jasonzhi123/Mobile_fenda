@@ -28,6 +28,7 @@ import health from '@/view/expert/health'
 import all from '@/view/expert/all'
 import headlines from '@/view/headlines'
 import openandanswer from '@/view/my/openandanswer'
+import openmyanswer from '@/view/my/myAnswer'
 import cents from '@/view/my/cents'
 import setup from '@/view/my/set/setup'
 import validate from '@/view/my/set/validate'
@@ -162,6 +163,10 @@ export default new Router({
     {
       path: '/openandanswer',
       component: openandanswer
+    },
+    {
+      path: '/myAnswer',
+      component: openmyanswer
     },
     {
       path: '/cents',

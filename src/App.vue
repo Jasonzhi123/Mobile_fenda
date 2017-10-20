@@ -1,5 +1,5 @@
 <template>
-  <div id=" ">
+  <div id="app">
   	<keep-alive>
   		<router-view></router-view>
   	</keep-alive>
@@ -38,6 +38,15 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang='scss'>
+	html,body,#app{
+		height: 100%;
+	}
+	header{
+		&.mint-header{
+			background-color: #fff;
+			color: #3f3f3f;
+			border-bottom: 1px solid #DED9D9;
+		}
+	}
 </style>
