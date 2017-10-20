@@ -76,6 +76,7 @@
 		}
 	}
 	.index{
+		height: 100%;
 		.footer{
 			.menu{
 				width:25%;

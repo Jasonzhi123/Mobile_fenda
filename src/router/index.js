@@ -29,6 +29,7 @@ import all from '@/view/expert/all'
 import headlines from '@/view/headlines'
 import openandanswer from '@/view/my/openandanswer'
 import openmyanswer from '@/view/my/myAnswer'
+import readyAnswer from '@/view/readyAnswer'
 import cents from '@/view/my/cents'
 import setup from '@/view/my/set/setup'
 import validate from '@/view/my/set/validate'
@@ -167,6 +168,10 @@ export default new Router({
     {
       path: '/myAnswer',
       component: openmyanswer
+    },
+    {
+      path: '/readyAnswer',
+      component: readyAnswer
     },
     {
       path: '/cents',

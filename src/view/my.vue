@@ -22,13 +22,13 @@
         <li v-if="!!user && !!user['whether']" @click="openOwnerPage"><p>我的分答主页</p><span><Icon type="ios-arrow-right"></Icon></span></li>
         <li v-if="!!user && !!user['whether']" @click="openMyAnswer"><p>我答</p><span><Icon type="ios-arrow-right"></Icon></span></li>
         <li @click="opencents"><p>我的分币</p><span><Icon type="ios-arrow-right"></Icon></span></li>
-        <li>兑换码<span><Icon type="ios-arrow-right"></Icon></span></li>
-        <li>我的下载<span><Icon type="ios-arrow-right"></Icon></span></li>
-        <li>结算说明<span><Icon type="ios-arrow-right"></Icon></span></li>
-        <li>帮助<span><Icon type="ios-arrow-right"></Icon></span></li>
+        <!-- <li>兑换码<span><Icon type="ios-arrow-right"></Icon></span></li> -->
+        <!-- <li>我的下载<span><Icon type="ios-arrow-right"></Icon></span></li> -->
+        <!-- <li>结算说明<span><Icon type="ios-arrow-right"></Icon></span></li> -->
+        <!-- <li>帮助<span><Icon type="ios-arrow-right"></Icon></span></li> -->
         <li @click="opensetup">设置<span><Icon type="ios-arrow-right"></Icon></span></li>
-        <li>在线客服<span><Icon type="ios-arrow-right"></Icon></span></li>
-        <li>关于<span><Icon type="ios-arrow-right"></Icon></span></li>
+        <!-- <li>在线客服<span><Icon type="ios-arrow-right"></Icon></span></li> -->
+        <!-- <li>关于<span><Icon type="ios-arrow-right"></Icon></span></li> -->
       </ul>
     </div>
   </div>
@@ -46,15 +46,15 @@ export default {
   },
   created(){
   	this.setNextPage('/my')
-	this.$http.get('/api/user/getExpert').then((response)=>{
-		if(!!response && !!response.data === true){
-			this.expert = response.data;
-		}
-	})
-	if(!(!!this.user)){
-		this.$router.push('/myLogin');
-	}
-  	this.setLogin(this.$http)
+  	this.$http.get('/api/user/getExpert').then((response)=>{
+  		if(!!response && !!response.data === true){
+  			this.expert = response.data;
+  		}
+  	})
+  	if(!(!!this.user)){
+  		this.$router.push('/myLogin');
+  	}
+    this.setLogin(this.$http)
   },
   computed: {
   	getUserInfoMy(){
