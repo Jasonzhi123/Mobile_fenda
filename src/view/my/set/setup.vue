@@ -9,7 +9,7 @@
 		<div v-if="login">
 			<div class="change" @click="changes">
 				<p>更换手机号码</p>
-				<p>13513513512 <Icon type="ios-arrow-right"></Icon></p>
+				<p>{{login['phone_number']}} <Icon type="ios-arrow-right"></Icon></p>
 			</div>
 			<div class="about">
 				<p>关于</p>

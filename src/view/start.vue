@@ -1,5 +1,5 @@
 <template>
-	<div class="index" >
+	<div class="index-start" >
 		<!-- search-->
 		<div class="search-title">
 			<search-kuang @click.native="openSearch">
@@ -226,10 +226,9 @@ import searchKuang from 'components/search-kuang'
 	p{
 		font-size: 0.8rem;
 	}
-	.index {
+	.index-start {
 		width: 100%;
-		height: 100%;
-		margin-bottom: 1.5rem;
+		margin-bottom: 3rem;
 		font-size: #191919;
 		.search-title{
 			display:flex;

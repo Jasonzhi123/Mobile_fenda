@@ -5,9 +5,12 @@
 	    		<mt-button icon="back"></mt-button>
 	  		</router-link>
 		</mt-header>
+		<mt-navbar v-model="selected">
 		<div class="title-select">
-			<div class="question"><span @click='changeQustSelect' :class="selectQuest?'cur':''">问题</span></div>
-			<div class="quickFind"><span @click='changeQuickSelect' :class="selectQuest?'':'cur'">快问</span></div>
+			<div class="question"><span @click='changeQustSelect' :class="selectQuest?'cur':''">
+				<mt-tab-item id="myanswer1">问题</mt-tab-item>
+			</span></div>
+			<div class="quickFind"><span @click='changeQuickSelect' :class="selectQuest?'':'cur'"><mt-tab-item id="myanswer2">快问</mt-tab-item></span></div>
 			<div class="queryFind" v-if='selectQuest'>
 				<span @click.stop='selectCate'>{{this.option[this.state].val}}<Icon :type="check?'chevron-up':'chevron-down'"></Icon></span>
 				<ul :class="check?'cur':''">
@@ -15,30 +18,33 @@
 				</ul>
 			</div>
 		</div>
+		</mt-navbar>
 		<div class="questionContent" v-if='selectQuest'>
-			<ul>
-				<li v-for="item in questionData">
-					<div class="quest-head">
-						<div class="avatar">
-							<img :src="$accessUrl+item.head_pic">
+			<scroll :pullUpLoad="pullUpLoad" :pullDownRefresh="pullDownRefresh" :data="inputData" @pullingDown="pullingDown" :dataMore="dataMore" @pullingUp="pullingUp">
+				<ul>
+					<li v-for="item in questionData">
+						<div class="quest-head">
+							<div class="avatar">
+								<img :src="$accessUrl+item.head_pic">
+							</div>
+							<div class="user-name">{{item.user_name}}</div>
+							<div class="money">{{item.price}}</div>
+							<div class="state" v-if="item.parent_id == 0 && ((new Date(item.create_time)*1000 <= (new Date().getTime() - 2*24*60*60*1000)) || item.state != 0) ">{{item.state=4?'未审核':(item.state==3?'未过审':(item.state==1?'已回答':(item.state==2?'已拒绝':'已过期')))}}</div>
+							<div class="state" v-if="item.parent_id != 0">&nbsp;追问</div>
+							<div class="state" v-if="item.parent_id == 0 && ((new Date(item.create_time)*1000 > (new Date().getTime() - 2*24*60*60*1000)) && item.state == 0) ">
+								<a :href="'/#/readyAnswer/'">待回答</a>
+							</div>
 						</div>
-						<div class="user-name">{{item.user_name}}</div>
-						<div class="money">{{item.price}}</div>
-						<div class="state" v-if="item.parent_id == 0 && ((new Date(item.create_time)*1000 <= (new Date().getTime() - 2*24*60*60*1000)) || item.state != 0) ">{{item.state=4?'未审核':(item.state==3?'未过审':(item.state==1?'已回答':(item.state==2?'已拒绝':'已过期')))}}</div>
-						<div class="state" v-if="item.parent_id != 0">&nbsp;追问</div>
-						<div class="state" v-if="item.parent_id == 0 && ((new Date(item.create_time)*1000 > (new Date().getTime() - 2*24*60*60*1000)) && item.state == 0) ">
-							<a :href="'/#/lisDetailQue/' + item.id">待回答</a>
+						<div class="quest-msg">
+							{{item.content}}
 						</div>
-					</div>
-					<div class="quest-msg">
-						{{item.content}}
-					</div>
-					<div class="msg-foot">
-						<span>4小时前</span>
-						<span class="sly-listen">偷偷听 {{item.number}}</span>
-					</div>
-				</li>
-			</ul>
+						<div class="msg-foot">
+							<span>4小时前</span>
+							<span class="sly-listen">偷偷听 {{item.number}}</span>
+						</div>
+					</li>
+				</ul>
+			</scroll>
 		</div>
 		<div class="quickContent" v-if='!selectQuest'>
 			<ul>
@@ -79,6 +85,7 @@
 	import BScroll from 'better-scroll'
 	import {mapState, mapMutations} from 'vuex'
 	import {Toast} from 'mint-ui'
+	import scroll from '../../components/scroll.vue'
 
 	export default{
 		data(){
@@ -88,12 +95,27 @@
 				quickShow: false,
 				questionData: [],
 				quickData: [],
+				inputData:[],
 				questionId: 1,
 				quuickId: 1,
 				questionclock: false,
 				quuickclock: false,
+				dataMore: true,
 				login: this.$store.state.login,
 				state: 0,
+				selected: 'myanswer1',
+				pullDownRefresh: {
+					threshold: 80,
+					stop: 40,
+					txt: '刷新成功'
+				},
+				pullUpLoad:{
+					threshold: 0,
+					txt: {
+						more: '加载更多',
+						noMore: '没有更多了'
+					}
+				},
 				option:[
 					{
 						state: 5,
@@ -143,24 +165,26 @@
 					id: id,
 					state: state
 				}).then((response)=>{
-					if(!!response && !!response.data){
+					if(!!response && !!response.data && !!response.data.length){
 						if(id !=1){
-							this.questionData = this.questionData.reduceRight(function(col,item){
+							this.questionData = response.data.reduceRight(function(col,item){
 								col.push(item);
 								return col;
-							},response.data);
+							},this.questionData);
 							this.questionId ++;
 						}else{
 							this.questionData = response.data;
-							this.questionId = 1;
+							this.questionId = 2;
+						}
+						this.inputData = response.data
+						if(response.data.length<10){
+							this.dataMore = false
+						}else{
+							this.dataMore = true
 						}
 					}else{
-						if(id != 1){
-							Toast({
-								message: '没有更多了',
-								position: 'bottom'
-							})
-						}
+						this.inputData = []
+						this.dataMore = false;
 					}
 					this.questionclock = false;
 				}).catch(function(){
@@ -184,12 +208,7 @@
 							this.quickId = 1;
 						}
 					}else{
-						if(id !== 1){
-							Toast({
-								message: '没有更多了',
-								position: 'bottom'
-							})
-						}
+						this.dataMore = false;
 					}
 					this.quickclock = false;
 					this.quickShow = true;
@@ -212,7 +231,16 @@
 			},
 			goKuaiwen(){
 				this.$router.push('/kuaiwen');
+			},
+			pullingDown(){
+				this.init();
+			},
+			pullingUp(){
+				this.init(this.questionId, this.state)
 			}
+		},
+		components: {
+			scroll
 		}
 	}
 </script>
@@ -226,8 +254,10 @@
 			position: static;
 		}
 		.title-select{
+			width: 100%;
 			padding: 0.2rem 0;
 			display: flex;
+			background-color: #efefef;
 			.question{
 				width: 3rem;
 				text-align: center;
@@ -241,6 +271,7 @@
 			.quickFind{
 				flex: 1;
 				width: 3rem;
+				text-align: left;
 				span{
 					&:active{
 						background: radial-gradient(rgba(255,0,0,.1), rgba(255,0,0,0.05));
@@ -268,6 +299,7 @@
 					background-color: #fff;
 					padding: 0 0.5rem;
 					box-shadow: 0 0.2rem 0.5rem 0 #aaa;
+					z-index: 3;
 					li{
 						padding: 0.5rem 0;
 						&+li{
@@ -298,6 +330,9 @@
 			}
 		}
 		.questionContent,.quickContent{
+			position: relative;
+			height: calc(100% - 4.4rem);
+			overflow: hidden;
 			ul{
 				background-color: #efefef;
 				li{

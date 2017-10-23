@@ -1,8 +1,8 @@
 <template>
 	<div class="login">
 		<mt-header title="登录注册" class="header">
-		  	<router-link to="/" slot="left">
-		   		<mt-button icon="back">返回</mt-button>
+		  	<router-link to="" slot="left">
+		   		<mt-button icon="back" @click="callBack">返回</mt-button>
 		  	</router-link>
 		  	<mt-button icon="more" slot="right"></mt-button>
 			</mt-header>
@@ -101,6 +101,9 @@ export default {
 			}else{
 				this.loginClass = true
 			}
+		},
+		callBack(){
+			this.$router.back(-1)
 		},
 		sendCode(val){
 			if(val){
