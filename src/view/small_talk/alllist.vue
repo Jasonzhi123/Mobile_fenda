@@ -5,20 +5,21 @@
             <p class="title">全部专题</p>
             <a class="main" @click="tomain()">主页</a>
         </div>
-        <ul class="speaches">
-            <li v-for="n in 10" @click="tolits_item()">
+
+        <ul class="Allspeaches">
+            <li v-for="n in topic" @click="to_topic(n.id)">
                 <div class="intro-img">
-                    <img src="https://medias.zaih.com/e12a8f9d10b8cf39889a21df9404_558x558.jpg">
+                    <img :src="n.bimgPath">
                 </div>
                 <div class="item-container">
                     <h3>
-                        <span class="sp-topic">专题</span>
-                        <span>轻松吃出好身材</span>
+                        
+                        <span>{{n.name}}</span>
                     </h3>
-                    <div class="item-respondent">仰望尾迹云主讲</div>
+                    <div class="item-respondent">{{n.expert}}主讲</div>
                     <div class="item-participants">
-                        <span>职场成长</span>
-                        <span>共4次,23423参加</span>
+                        <span>{{n.categroies_name}}</span>
+                        <span>共{{n.coursenum}}次,{{n.num}}参加</span>
                     </div>
                 </div>
             </li>
@@ -58,45 +59,45 @@
     color: black
 }
 
-.speaches{
+.Allspeaches{
     padding:0 .75rem;
     width: 90%;
     margin:0 auto;
     list-style-type: none;
     margin-top: 2rem;
 }
- .speaches li{
+ .Allspeaches li{
      border-top:0.05rem solid #ccc;
      display: flex;
      justify-content: flex-start;
      padding:.7rem 0;
      width:100%;
 }
- .speaches li .sp-topic{
+ .Allspeaches li .sp-topic{
     border-top: none;
-    margin-top: 2rem;
+    
  }
- .speaches li .intro-img{
+ .Allspeaches li .intro-img{
      display: inline-block;
      width: 3rem;
      height: 3rem;
      border-radius: 0.25rem;
      overflow: hidden;
 }
- .speaches li .intro-img img{
+ .Allspeaches li .intro-img img{
      width: 100%;
      height: 100%;
 }
- .speaches li .item-container{
+ .Allspeaches li .item-container{
      display: inline-block;
      margin-left: 0.6rem;
      text-align: left;
 }
- .speaches li .item-container h3{
+ .Allspeaches li .item-container h3{
      margin:0;
      font-size: .7rem;
 }
- .speaches li .item-container h3 span:nth-child(1){
+ .Allspeaches li .item-container h3 .sp-topic{
      display: inline-block;
      padding:0.1rem 0.2rem;
      font-size: .55rem;
@@ -104,16 +105,16 @@
      background:rgb(248,95,72);
      color: white;
 }
- .speaches li .item-container h3 span:nth-child(2){
+ .Allspeaches li .item-container h3 span:nth-child(2){
      font-weight: bold;
      margin-left:0.25rem;
      font-size: .75rem;
 }
- .speaches li .item-container .item-respondent,.item-participants{
+ .Allspeaches li .item-container .item-respondent,.item-participants{
      color: #ccc;
      font-size:.65rem;
 }
- .speaches li .item-container .item-participants span:nth-child(1){
+ .Allspeaches li .item-container .item-participants span:nth-child(1){
      border-radius: 0.5rem;
      border:1px solid #ccc;
      padding: 0 0.2rem ;
@@ -124,14 +125,22 @@
 
 <script type="es6">
 export default {
-  name: 'list',
   data () {
     return {
+        topic:[]
     }
   },
+  created(){
+    this.init()
+  },
   methods: {
-    tolits_item: function () {
-      this.$router.push('/topic')
+    init:function(){
+        this.$http.get('/api/Alllist/index').then(rtnData=>{
+        this.topic =rtnData.data;
+       })
+    },
+    to_topic: function (index) {
+      this.$router.push({name:'topic',params:{id:index}})
     },
     back: function () {
       this.$router.push('/smalltalk')

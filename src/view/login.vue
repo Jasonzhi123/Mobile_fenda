@@ -9,13 +9,13 @@
 		<div class="body">
 			<div class="item">
 				手机号<input type="text" v-model="phone">
-				<span>发送验证码</span>
+				<countdown :message='flag' @sendCode = 'sendCode'><span slot='before'>发送验证码</span><span slot='after'>秒后重发</span></countdown>
 			</div>
 			<div class="item">
 				验证码<input type="text" v-model="captcha">
 			</div>
 			<p class="item tip">未注册过的手机号将自动注册为分答用户</p>
-			<input type="button" @click="login()" :class="loginClass?'btn':'btn cur'" value="登录">
+			<input type="button" @click="loginUser()" :class="loginClass?'btn':'btn cur'" value="登录">
 			<p class="littleTip line">—————或者，您可以—————</p>
 			<div class="wx">
 				<img src="../assets/wxlogo.jpg">
@@ -26,15 +26,30 @@
 		</div>
 </template>
 <script type="es6">
-// import {mapMutations} from 'vuex'
-import { Toast, Indicator } from 'mint-ui';
+import {mapState, mapMutations} from 'vuex'
+import { Toast, Indicator } from 'mint-ui'
+import Countdown from '../components/Countdown.vue'
 export default {
 	data(){
 		return {
 			phone: '',
 			captcha: '',
+			flag: false,
+			clock: false,
+			login: this.$store.state.login,
 			state: false,
 			loginClass: false
+		}
+	},
+	created(){
+		if(!!this.login){
+			this.$router.push('/my');
+		}
+		this.setLogin(this.$http)
+	},
+	computed: {
+		getUserInfoLogin(){
+			return this.$store.state.login
 		}
 	},
 	watch: {
@@ -43,11 +58,18 @@ export default {
 		},
 		captcha: function(){
 			this.setLoginClass()
+		},
+		getUserInfoLogin(val){
+			this.login = val
+			if(this.login){
+				this.$router.push(this.$store.state.nextPage)
+				this.$destroy(true);
+			}
 		}
 	},
 	methods: {
-		// ...mapMutations(['setLogin']),
-		login: function(){
+		...mapMutations(['setLogin']),
+		loginUser: function(){
 			if(this.phone !== '' && this.captcha !== '' && !this.state){
 				this.state = true;
 				Indicator.open('正在登录');
@@ -56,20 +78,20 @@ export default {
 					method: 'POST',
 					data: {
 						'phone': this.phone,
-						'pwd' : this.captcha,
+						'code' : this.captcha,
 					}
 				}).then((repsonse)=>{
 					this.state = false;
 					Indicator.close();
 					if(repsonse.data.status == 0){
-						// this.setLogin(true);
-						this.$router.push('/my');
+						this.setLogin(this.$http);
 					}else{
 						Toast(repsonse.data.message);
 					}
 				}).catch(()=>{
 					this.state = false;
 					Indicator.close();
+					Toast('登录失败！');
 				})
 			}
 		},
@@ -79,7 +101,48 @@ export default {
 			}else{
 				this.loginClass = true
 			}
+		},
+		sendCode(val){
+			if(val){
+				this.flag = false;
+				this.clock = false;
+				return;
+			}
+			if(this.clock){
+				return;
+			}
+			this.clock = true;
+			if(this.phone == ''){
+				Toast('请输入号码！');
+				this.clock = false;
+				return;
+			}
+			if(/^1[34578]\d{9}$/.test(this.phone)){
+				Indicator.open('正在发送');
+				this.$http.post('api/login/phone',{
+					'phone': this.phone
+				}).then((response)=>{
+					Indicator.close();
+					if(response.data.status === 0){
+						Toast('发送成功！');
+						this.flag = true;
+					}else{
+						Toast(response.data.message);
+						this.clock = false;
+					}
+				}).catch(function(){
+					Indicator.close();
+					Toast('发送失败！');
+					this.clock = false;
+				})
+			}else{
+				Toast('号码错误！');
+				this.clock = false;
+			}
 		}
+	},
+	components: {
+		Countdown
 	}
 }
 </script>
@@ -114,12 +177,14 @@ a{
 	color: #999;
 	border-bottom: 1px solid #DED9D9;
 	clear: both;
-	margin-top: 2.
+	display: flex;
 }
 .login .item>input{
 	border: none;
 	padding-left: 0.4rem;
 	outline: none;
+	width: 8rem;
+    height: 2rem;
 }
 .login .item >span{
 	float: right;

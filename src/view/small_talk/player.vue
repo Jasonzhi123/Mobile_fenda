@@ -4,12 +4,15 @@
             <a class="player-back"><span @click="goBack()">返回小讲</span></a>
             <div>
                 <div class="player-header">
-                    <p class="nickname">成龙</p>
                     <div class="speech-content">
-                        <h2>沟通的艺术</h2>
+                        <h2>{{audio[0].name}}</h2>
                     </div>
+                    <audio :src=audio[0].path controls="controls" autoplay="true" >
+                    
+                    </audio>
                 </div>
-                <div class="player-console">
+                <!-- <div class="player-console">
+
                     <span class="time-now">0:00</span>
                     <span class="time-end">9:00</span>
                     <input type="range">
@@ -23,11 +26,11 @@
                         </div>
                         <button class=" like-btn" @click="changlike()" 
                         :class="likestatus?'like-btn-red':'like-btn-gray'">
-                            <span>点赞</span>
+                           
                             <span class="like-num">{{likenum}}</span>
                         </button>
                     </div>
-                </div>
+                </div> -->
             </div>
             <div class="playDownBtn">
                 <a>打开app联播</a>
@@ -38,14 +41,17 @@
               position="bottom"
               class="video-list">
               <ul>
-            <li v-for="n in 4" class="cour-big">
-                <p>这是标题</p>
+            <li v-for="(n,index) in single" class="cour-big">
+                <p class="title">{{n.single_name}}</p>
                 <ul>
-                    <li v-for="j in 4" class="cour-small" @click="topay()" v-on:nothidebox = 'nothidebox'>
-                        <p class="cour-name">开场白</p>
-                        <p class="time">1:08</p>
+                    <li v-for="(j,index2) in Allaudio" class="cour-small" @click="toplay(j.id,courseID)" v-on:nothidebox = 'nothidebox'
+                    v-show="Allaudio[index2].grade == n.grade">
+                        <p class="cour-name"><span class="free-course" v-show="j.try==1">试听</span>
+                        {{j.name}}</p><p class="time"><span class="play-icon"></span>
+                            <span>{{j.time}}</span>
+                        </p>
                     </li>
-                </ul>
+              </ul>
             </li>
             <li class="closs-btn">关闭</li>
         </ul>
@@ -59,12 +65,45 @@ export default {
             popupVisible:false,
             playstatus:false,
             likestatus:false,
-            likenum:99
+            likenum:99,
+            Allaudio:[{}],
+            audio:[{}],
+            audioPath:'',
+            single:[],
+            courseID:''
         }
     },
+    watch:{
+        '$route' (to, from) {
+        // 对路由变化作出响应...
+        this.getdata(this.$route.params.id,this.$route.params.courseID);
+        this.courseID = this.$route.params.courseID
+      }
+    },
+    created(){
+        this.init()
+        
+
+    },
     methods:{
+        init:function(){
+            this.courseID = this.$route.params.courseID
+            this.getdata(this.$route.params.id,this.$route.params.courseID)
+        },
+
         openmenu:function(){
             this.popupVisible= true
+        },
+        getdata:function(audioID,courseID){
+            this.$http.get('/api/Player/index',{params:{id:audioID}}).then(rtnData=>{
+            this.audio =rtnData.data;
+        })
+            this.$http.get('/api/Player/allaudio',{params:{courseID:courseID}}).then(rtnData=>{
+            this.Allaudio =rtnData.data;
+        })
+            this.$http.get('/api/Player/single',{params:{courseID:courseID}}).then(rtnData=>{
+            this.single =rtnData.data;
+        })
         },
         goBack:function(){
             this.$router.go(-1)
@@ -80,7 +119,10 @@ export default {
                 this.likenum =--this.likenum
             }
             this.likestatus = !this.likestatus
-        }
+        },
+        toplay:function(audioID,courseID){
+            this.getdata(audioID,courseID)
+    }
     }
 }
 </script>
@@ -96,6 +138,9 @@ export default {
     .player-header{
         margin-top: .5rem;
         margin-bottom: 1.5rem;
+        /*audio{
+            display: none;
+        }*/
         .nickname{
             margin-bottom: .65rem;
             font-size: .7rem;

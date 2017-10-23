@@ -1,35 +1,57 @@
 <template>
 	<div class="setup">
-			<mt-header fixed title="设置">
-		<router-link to="/my" slot="left">
-    		<mt-button icon="back"></mt-button>
-  		</router-link>
- 	 	<mt-button icon="more" slot="right"></mt-button>
-	</mt-header>
-	
-		<div class="change" @click="changes">
-			<p>更换手机号码</p>
-			<p>13513513512 <Icon type="ios-arrow-right"></Icon></p>
+		<mt-header fixed title="设置">
+			<router-link to="/my" slot="left">
+	    		<mt-button icon="back"></mt-button>
+	  		</router-link>
+	 	 	<mt-button icon="more" slot="right"></mt-button>
+		</mt-header>
+		<div v-if="login">
+			<div class="change" @click="changes">
+				<p>更换手机号码</p>
+				<p>13513513512 <Icon type="ios-arrow-right"></Icon></p>
+			</div>
+			<div class="about">
+				<p>关于</p>
+				<p><Icon type="ios-arrow-right"></Icon></p>
+			</div>
+			<p class="quit" @click="logout">退出登录</p>
 		</div>
-		<div class="about">
-			<p>关于</p>
-			<p><Icon type="ios-arrow-right"></Icon></p>
-		</div>
-		<p class="quit" @click="logout">退出登录</p>
 	</div>
 	
 </template>
 
 <script type="es6">
-	import {mapMutations} from 'vuex'
+	import {mapState, mapMutations} from 'vuex'
 	export default{
 		data(){
 			return {
-				
+				login: this.$store.state.login
 			}
 		},
-
+		created(){
+			if(!(!!this.login)){
+				this.$router.push('/my');
+			}
+			this.setLogin(this.$http)
+		},
+		computed:{
+			getUserInfo(){
+				return this.$store.state.login
+			}
+		},
+		watch: {
+			getUserInfo(val){
+				this.login = val
+			},
+			login(){
+				if(!this.login){
+					this.$router.push('/my')
+				}
+			}
+		},
 		methods:{
+			...mapMutations(['setLogin']),
 			...mapMutations(['setLogout']),
 			logout: function(){
 				this.$http.request({
@@ -37,7 +59,7 @@
 				}).then((response)=>{
 					if(response.data.status === 0){
 						this.setLogout()
-						this.$router.push('/my')
+						this.$router.push('/myLogin')
 					}
 				})
 			},

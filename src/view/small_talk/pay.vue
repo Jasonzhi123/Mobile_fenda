@@ -19,21 +19,21 @@
             </span>
         </div>
         <div class="pay-submit">
-            <button @click="pay()">支付 ¥22</button>
+            <button>支付¥{{price}}</button>
         </div>
     </div>   
 </template>
 
 <script type="text/javascript">
-import {Toast} from 'mint-ui'
+// import {Toast} from 'mint-ui'
 export default {
   methods: {
-    pay: function () {
-      Toast('支付成功')
-      setTimeout(function () {
-        this.$router.back(-1)
-      }, 2000)
-    }
+    // pay: function () {
+    //   Toast('支付成功')
+    //   setTimeout(function () {
+    //     this.$router.back(-1)
+    //   }, 2000)
+    // }
   }
 }
 </script>

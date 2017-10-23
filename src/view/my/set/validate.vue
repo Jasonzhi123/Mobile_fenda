@@ -1,7 +1,7 @@
 <template>
 	<div class="validate">
 		<mt-header fixed title="全部头条">
-		  <router-link to="/" slot="left">
+		  <router-link to="/setup" slot="left">
 		    <mt-button icon="back">返回</mt-button>
 		  </router-link>
 		</mt-header>
@@ -19,18 +19,18 @@
 		<form action="" method="post">
 			<div class="text">
 			<span>将向原手机号码 </span>
-			<span>13123419543</span>
+			<span>{{login?login['phone_number']:''}}</span>
 			<span>发送验证码</span>
 		</div>
 		<div class="item">
 			<label for="captcha">图形验证码</label>
-			<input type="text" name="" id="captcha" value="" />
-			<img src="../../../assets/xiao.png"/>
+			<input type="text" name="" id="captcha" v-model="captcha" />
+			<img @click="imgPath" :src="captchaSrc"/>
 		</div>
 		<div class="item">
 			<label for="verification_code">手机验证码</label>
-			<input type="text" name="verification_code" id="verification_code" value="" />
-			<span class="clickit">点击获取</span>
+			<input type="text" name="verification_code" id="verification_code" v-model='phoneCode' />
+			<countdown @sendCode='getCode' :message="flag" color="#f00"><span slot='before'>获取验证码</span><span slot="after">s</span></countdown>
 		</div>
 		<a class="btn" @click="jump">
 			下一步
@@ -51,19 +51,123 @@
 </template>
 
 <script type="es6">
+	import {Toast, Indicator} from 'mint-ui'
+	import Countdown from '../../../components/Countdown.vue'
+	import {mapState, mapMutations} from 'vuex'
 	export default{
 		data(){
 			return{
-				tip:false
+				login: this.$store.state.login,
+				tip:false,
+				flag: false,
+				clock: false,
+				captcha:'',
+				captchaSrc: "",
+				phoneCode: ''
+			}
+		},
+		created: function(){
+			if(this.login){
+				this.imgPath();
+			}else{
+				this.$router.push('/Login');
+			}
+			this.setLogin(this.$http)
+		},
+		computed: {
+			getUserInfo(){
+				return this.$store.state.login
+			}
+		},
+		watch: {
+			getUserInfo(val){
+				this.login = val
+			},
+			login(){
+				if(!this.login){
+					this.$router.push('/Login');
+				}
 			}
 		},
 		methods:{
+			...mapMutations(['setLogin']),
 			service:function(){
 				this.tip = !this.tip
 			},
 			jump:function(){
-				this.$router.push('/binding')
+				if(this.captcha.length == ''){
+					Toast('验证码不能为空！');
+					return;
+				}
+				if(this.captcha.length < 5){
+					Toast('验证码不正确！');
+					this.imgPath();
+					return;
+				}
+				if(this.phoneCode.length == ''){
+					Toast('手机验证码不能为空！');
+					return;
+				}
+				if(this.phoneCode.length < 6){
+					Toast('手机验证码不正确！');
+					return;
+				}
+				this.$http.post('/api/user/checkCode',{
+					'code': this.phoneCode
+				}).then((response)=>{
+					if(response.data.status == 0){
+						this.$store.state.changePhone = true
+						this.$router.push('/binding')
+					}else if(response.data.status == 3){
+						this.$router.push('/my');
+					}else{
+						Toast(response.data.message);
+					}
+				}).catch(function(){
+					Toast('联网错误！');
+				})
+			},
+			/*
+				clock为请求锁，防止多次触发请求，flag为与子组件通信的信号，只有变为true的时候才通知子组件开始计时
+			 */
+			getCode: function(val){
+				if(val){
+					this.clock = false;
+					this.flag = false;
+					return;
+				}
+				if(!this.clock){
+					this.clock = true;
+					Indicator.open({
+					  text: '正在发送',
+					  spinnerType: 'fading-circle'
+					});
+					this.$http.post('/api/user/phone',{
+						'phone': this.login['phone_number']
+					}).then((response)=>{
+						if(response.data.status == 0){
+							this.flag = true
+						}else if(response.data.status == 3){
+							this.$router.push('/my');
+						}else{
+							this.clock = false;
+						}
+						Toast(response.data.message);
+						Indicator.close();
+					}).catch(()=>{
+						Toast('发送失败');
+						this.clock = false;
+						Indicator.close();
+					})
+				}
+					
+			},
+			imgPath: function(){
+				this.captchaSrc = this.$accessUrl + 'api/user/verify?' + Math.ceil(Math.random()*1000);
 			}
+		},
+		components: {
+			Countdown
 		}
 	}
 	
@@ -125,6 +229,9 @@
 			 font-size: 0.7rem;
 			 height: 2.5rem;
 			 line-height: 2.5rem;
+			 label{
+			 	width: 3.5rem;
+			 }
 			 input{
 			 	width: 5rem;
 			 	border: none;
@@ -132,9 +239,11 @@
 			 	margin-left: 1rem;
 			 	    box-shadow: none;
 			 }
-			 .clickit{
-			 	color: red;
-			 	font-size: 0.7rem;
+			 img{
+			 	width: 4.5rem;
+			 	height: 2rem;
+			 	margin: 0.25rem 0;
+			 	flex: 1;
 			 }
 		}
 		.btn{

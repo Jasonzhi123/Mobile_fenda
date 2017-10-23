@@ -14,6 +14,7 @@ import listen from '@/view/listen/listen'
 import lisDetailQue from '@/view/listen/detailQue'
 import bought from '@/view/bought'
 import my from '@/view/my'
+import myLogin from '@/view/myLogin'
 import answerPage from '@/view/answerPage'
 import ansPageSearch from '@/view/ansPageSearch'
 import answerAsk from '@/view/answerAsk'
@@ -37,6 +38,7 @@ import newlist from '@/view/expert/newlist'
 import talent from '@/view/expert/talent'
 import onetoone from '@/view/expert/onetoone'
 import strength from '@/view/expert/strength'
+import search from '@/view/search/search'
 Vue.use(Router)
 
 export default new Router({
@@ -70,6 +72,10 @@ export default new Router({
           component: my
         },
         {
+          path: '/myLogin',
+          component: myLogin
+        },
+        {
           path: '/kuaiwen',
           component: kuaiwen
         },
@@ -96,7 +102,8 @@ export default new Router({
       component: pay
     },
     {
-      path: '/topic',
+      path: '/topic/:id',
+      name: 'topic',
       component: topic
     },
     {
@@ -108,11 +115,13 @@ export default new Router({
       component: lisDetailQue
     },
     {
-      path: '/newcourse',
+      path: '/newcourse/:id',
+      name: 'newcourse',
       component: newcourse
     },
     {
-      path: '/player',
+      path: '/player/:id/:courseID',
+      name: 'player',
       component: player
     },
     {
@@ -194,6 +203,10 @@ export default new Router({
     {
       path: '/strength',
       component: strength
+    },
+    {
+      path: '/search',
+      component: search
     }
   ]
 })
