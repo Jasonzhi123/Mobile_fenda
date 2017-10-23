@@ -185,9 +185,10 @@ a{
 .login .item>input{
 	border: none;
 	padding-left: 0.4rem;
+	margin: 0.1rem 0;
 	outline: none;
 	width: 8rem;
-    height: 2rem;
+    height: 2.2rem;
 }
 .login .item >span{
 	float: right;

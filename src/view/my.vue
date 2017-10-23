@@ -44,6 +44,13 @@ export default {
       phoneIcon: !!this.$store.state.login? this.$accessUrl + this.$store.state.login['head_pic'] : this.$accessUrl + 'static/sundry/avatar.jpg',
     }
   },
+  beforeRouteEnter(to,from,next){
+    next(vm=>{
+      if(!vm.$store.state.login){
+        vm.$router.push('/myLogin');
+      }
+    })
+  },
   created(){
   	this.setNextPage('/my')
   	this.$http.get('/api/user/getExpert').then((response)=>{
@@ -51,9 +58,6 @@ export default {
   			this.expert = response.data;
   		}
   	})
-  	if(!(!!this.user)){
-  		this.$router.push('/myLogin');
-  	}
     this.setLogin(this.$http)
   },
   computed: {
