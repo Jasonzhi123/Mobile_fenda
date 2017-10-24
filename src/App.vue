@@ -1,8 +1,8 @@
 <template>
-  <div id=" ">
-  	<keep-alive>
+  <div id="app">
+  	<!-- <keep-alive> -->
   		<router-view></router-view>
-  	</keep-alive>
+  	<!-- </keep-alive> -->
   </div>
 </template>
 
@@ -38,6 +38,15 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang='scss'>
+	html,body,#app{
+		height: 100%;
+	}
+	header{
+		&.mint-header{
+			background-color: #fff;
+			color: #3f3f3f;
+			border-bottom: 1px solid #DED9D9;
+		}
+	}
 </style>

@@ -4,7 +4,6 @@
       <mt-tab-item id="1" class="tablis_child">内容</mt-tab-item>
       <mt-tab-item id="2" class="tablis_child">答主</mt-tab-item>
     </mt-navbar>
-
     <!-- tab-container -->
     <mt-tab-container v-model="selected" :swipeable="true" style="top: 50px;border-top: 1px solid #DED9D9;">
       <mt-tab-container-item id="1">
@@ -43,8 +42,8 @@
               <img src="../../assets/7.jpg">
               <div class="right">
                 <i>{{item.expert_name}}</i>
-                <p>{{item.rank}}
-                  <br>65个回答，听过</p>
+                <p>{{item.rank}}</p>
+                  <span>65个回答，听过</span>
               </div>
             </a></li>
             <!-- <li @click="openAnsPage()"><a>
@@ -56,25 +55,25 @@
               </div>
             </a></li> -->
           </ul>
-          <p class="recommend">为您推荐</p>
+          <!-- <p class="recommend">为您推荐</p>
           <ul class="dazhu_list">
             <li @click="openAnsPage()"><a>
               <img src="../../assets/7.jpg">
               <div class="right">
                 <i>周国平</i>
-                <p>感受者，思考者，俗称哲学家
-                  <br>65个回答，听过</p>
+                <p>感受者，思考者，俗称哲学家</p>
+                  <span>65个回答，听过</span>
               </div>
             </a></li>
             <li @click="openAnsPage()"><a>
               <img src="../../assets/7.jpg">
               <div class="right">
                 <i>周国平</i>
-                <p>感受者，思考者，俗称哲学家
-                  <br>65个回答，听过</p>
+                <p>感受者，思考者，俗称哲学家</p>
+                  <span>65个回答，听过</span>
               </div>
             </a></li>
-          </ul>
+          </ul> -->
         </div>
       </mt-tab-container-item>
     </mt-tab-container>
@@ -305,7 +304,7 @@ a{
 }
 .listen_dazhu .dazhu_list>li{
   width: 100%;
-  padding: 0.6rem 0rem;
+  padding: 0.9rem 0rem;
   border-bottom: 1px solid #DED9D9;
 }
 .listen_dazhu .dazhu_list>li>a{
@@ -325,13 +324,22 @@ a{
   margin-top: 0.3rem;
 }
 .listen_dazhu .dazhu_list>li>a .right{
-  display: inline-block;
+  /*display: inline-block;*/
+  overflow: hidden;
+  line-height: 1.1rem;
 }
 .listen_dazhu .dazhu_list>li>a .right>i{
   font-size: 0.9rem;
   font-weight: 400;
   font-style: normal;
   color: #000;
+}
+.listen_dazhu .dazhu_list>li>a .right>p{
+  width: 100%;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .listen_dazhu .recommend{
   width: 100%;

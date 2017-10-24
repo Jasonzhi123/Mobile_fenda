@@ -7,7 +7,7 @@
   		<mt-button icon="more" slot="right"></mt-button>
 	  </mt-header>
 
-    <h5>所在话题：<span>分答精选</span></h5>
+    <h5>所在话题：<span>问题精选</span></h5>
     <ul class="content_list">
       <li class="content" v-for="firstitem in firstData">
         <div class="asker">

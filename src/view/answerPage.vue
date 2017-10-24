@@ -1,6 +1,6 @@
 <template>
   <div class="answerPage">
-  	<mt-header title="于哲的分答" class="header">
+  	<mt-header title="" class="header">
 	  <router-link to="" slot="left">
 	  <mt-button icon="back" @click="rtnLastPage()">返回</mt-button>
 	  </router-link>
@@ -11,8 +11,9 @@
 		  <div class="answer">
 		    <img src="../assets/7.jpg">
 		    <p class="name">{{expert.expert_name}}<br><span>49670人收听</span></p>
-		    <div v-if="footWordShow==1" class="listen" @click="footWord()"></div>
-		    <div v-if="footWordShow==2" class="listened" @click="footWord()"></div>
+		  <!--   <p class="name">{{item.expert_name}}<br><span>49670人收听</span></p> -->
+		    <div v-if="footWordShow==1 && (!login || item['user_id'] != login['id'])" class="listen" @click="footWord()"></div>
+		    <div v-if="footWordShow==2 && (!login || item['user_id'] != login['id'])" class="listened" @click="footWord()"></div>
 		  </div>
 		  <p><span>{{expert.rank}}</span><br>{{expert.introduction}}</p>
 		  <a href="#">{{expert.begoodat}}</a>
@@ -32,9 +33,9 @@
 				</span>
 				<a href="/#/ansPageSearch"><img src="../assets/search.png">搜索Ta的回答</a>
 			</p>
-			<span>168问答&nbsp;听过56650</span>
+			<span>{{totalNum[0]}}&nbsp;问答&nbsp;&nbsp;听过&nbsp;{{totalNum[1]}}</span>
 			<ul class="askQue">
-				<li @click="opendetailQue(item.id, item.kwcate_id)" v-for="item in expertQue">
+				<li @click="opendetailQue(item.id, item.kwcate_id)" v-for="(item, index) in expertQue">
 					<div class="asker">
 						<img src="../assets/7.jpg">
 						<p>{{item.content}}</p>
@@ -44,8 +45,8 @@
 					<div class="answerP">
 						<img src="../assets/7.jpg">
 	                    <div class="btn" @click.stop="play()" style="display: inline-block;" v-if="item.status==0">
-	               			<!-- <play-button class="{color_green:item.status==1}" v-if="item.status==1">1元偷偷听</play-button>  <span v-if="item.status==1">60"</span> -->
-	               			<play-button class="{color_green:item.status==0}" v-if="item.status==0">点击播放</play-button>  <span v-if="item.status==0">60"</span>
+	               			<play-button class="{color_green:timeover[index]==1}" v-if="item.status==0 && timeover[index]==1">1元偷偷听</play-button>  <span v-if="item.status==0 && timeover[index]==1">60"</span>
+	               			<play-button class="{color_green:timeover[index]==1}" v-if="item.status==0 && timeover[index]==0">点击播放</play-button>  <span v-if="item.status==0 && timeover[index]==0">60"</span>
 	               		</div>
 	                    <div class="text qw" v-if="showAllStatus && item.status==1">
 							<p>{{item.anscontent}}</p>
@@ -77,8 +78,9 @@
 	</div>
   </div>
 </template>
-<script type="text/javascript">
+<script type="es6">
 import PlayButton from '../components/PlayButton'
+import {mapState, mapMutations} from 'vuex'
 export default {
   data () {
     return {
@@ -88,17 +90,54 @@ export default {
       iscurArr: ['默认', '最新', '热门'],
       expert: '',
       expertQue: [],
-      showAllStatus: true
+      showAllStatus: true,
+      login: this.$store.state.login,
+      total: [],
+      overtime: []
+    }
+  },
+  computed: {
+    totalNum: function () {
+      this.total[0] = this.expertQue.length
+      this.total[1] = 0
+      for (var i=0; i < this.expertQue.length; i++) {
+        this.total[1] += this.expertQue[i]['number']
+      }
+      return this.total
+    },
+    timeover: function () {
+        for (var j=0; j< this.expertQue.length; j++) {
+      	  if (this.expertQue[j].path !== null) {
+	        if ((this.expertQue[j]['create_time'] + 30*60)*1000 < new Date().getTime()) {
+	          this.overtime[j] = 1 // 1元偷偷听
+	        } else {
+	          this.overtime[j] = 0 // 限时免费听
+	        }
+      	  } else {
+      	    this.overtime[j] = '文字'
+      	  }
+      }
+      return this.overtime
     }
   },
   components: {
-    PlayButton
+    PlayButton,
+    getUserInfo(){
+      return this.$store.state.login
+    }
+  },
+  watch: {
+  	getUserInfo(val){
+      this.login = val
+    }
   },
   created () {
     this.id = this.$route.params.id
     this.init()
+    console.log(1)
   },
   methods: {
+    ...mapMutations(['setLogin']),
     init: function () {
       this.$http
         .get('api/answerpage/index', {
@@ -117,6 +156,7 @@ export default {
         })
         .then(rtnData => {
           this.expertQue = rtnData.data
+          console.log(this.expertQue)
         })
     },
     defaultShow: function () {
@@ -149,6 +189,7 @@ export default {
     },
     rtnLastPage: function () {
       this.$router.back(-1)
+      console.log(1)
     },
     showAll: function () {
       if (this.showAllStatus === true) {
@@ -380,7 +421,7 @@ a{
 	margin-bottom: 0.3rem;
 }
 .answerPage .ask .askQue >li .text >p{
-	margin-left: 2.6rem;
+	margin-left: 2.24rem;
 	margin-bottom: 0.3rem;
 }
 .answerPage .ask .askQue >li .text.qw >p{
@@ -390,7 +431,7 @@ a{
 	overflow: hidden;
 }
 .answerPage .ask .askQue >li .text >span{
-	margin-left: 2.6rem;
+	margin-left: 2.24rem;
 	color: #7da4c6
 }
 .answerPage .ask .askQue .foot{

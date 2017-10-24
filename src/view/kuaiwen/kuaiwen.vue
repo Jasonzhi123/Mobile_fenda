@@ -250,6 +250,8 @@ a{
 	padding: 0.8rem 0.8rem;
 	color: #999;
 	clear: both;
+	background: #fff;
+	margin-top: 0;
 }
 .kuaiwen .down >li .expert .exp{
 	width: 60%;

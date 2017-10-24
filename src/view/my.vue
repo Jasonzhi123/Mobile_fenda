@@ -3,15 +3,24 @@
 
     <div class="after">
       <div class="title">
-        <div class="top">
+        <div class="top" v-if="!!user && !user['whether']">
           <img :src="phoneIcon">
           <p>{{user.user_name}}</p>
+        </div>
+        <div class="top" v-if="!!user && !!user['whether']" @click="openandanswer">
+          <img :src="phoneIcon">
+          <p>{{user.user_name}}</p>
+          <div class="top-right">
+            <Icon type="chevron-right"></Icon>
+          </div>
         </div>
         <p class="income">总收入￥<span>{{user.income}}</span>&nbsp;&nbsp;&nbsp;总收益￥<span>{{user.cents}}</span></p>
         <p class="tip">收入90%归你，每夜结算，自动入库微信钱包</p>
       </div>
       <ul class="list">
-        <li @click="openandanswer"><p>开通答主</p><span><Icon type="ios-arrow-right"></Icon></span></li>
+        <li v-if="!!user && !user['whether']" @click="openandanswer"><p>开通答主</p><span><Icon type="ios-arrow-right"></Icon></span></li>
+        <li v-if="!!user && !!user['whether']" @click="openOwnerPage"><p>我的分答主页</p><span><Icon type="ios-arrow-right"></Icon></span></li>
+        <li v-if="!!user && !!user['whether']" @click="openMyAnswer"><p>我答</p><span><Icon type="ios-arrow-right"></Icon></span></li>
         <li @click="opencents"><p>我的分币</p><span><Icon type="ios-arrow-right"></Icon></span></li>
         <li>兑换码<span><Icon type="ios-arrow-right"></Icon></span></li>
         <li>我的下载<span><Icon type="ios-arrow-right"></Icon></span></li>
@@ -56,8 +65,6 @@ export default {
   	getUserInfoMy: {
   		handler:function(val){
 	  		this.user = val
-
-	  		console.log(val)
 	  		this.phoneIcon = !!val? this.$accessUrl + val['head_pic'] : this.$accessUrl + 'static/sundry/avatar.jpg'
 	  	},
 	  	deep: true
@@ -74,6 +81,12 @@ export default {
     },
     opensetup:function(){
     	this.$router.push("setup")
+    },
+    openOwnerPage(){
+      this.$router.push('/answerPage/'+this.user['id']);
+    },
+    openMyAnswer(){
+      this.$router.push('/myAnswer');
     }
   }
 }
@@ -102,6 +115,7 @@ a{
 			padding: 1rem;
 			.top{
 				display: flex;
+        align-items: center;
 				height:3rem;
 				img{
 				  width: 2.5rem;
@@ -112,8 +126,13 @@ a{
 					line-height: 2rem;
 					margin-left: 1rem;
 					font-size: 0.9rem;
+          flex: 1;
 				}
-
+        .top-right{
+          width: 3rem;
+          color: #999;
+          text-align: right;
+        }
 			}
 			.tip{
 				color: #B4B4B4;
