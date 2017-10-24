@@ -1,8 +1,8 @@
 <template>
 	<div class="login">
 		<mt-header title="登录注册" class="header">
-		  	<router-link to="/" slot="left">
-		   		<mt-button icon="back">返回</mt-button>
+		  	<router-link to="" slot="left">
+		   		<mt-button icon="back" @click="callBack">返回</mt-button>
 		  	</router-link>
 		  	<mt-button icon="more" slot="right"></mt-button>
 			</mt-header>
@@ -102,6 +102,9 @@ export default {
 				this.loginClass = true
 			}
 		},
+		callBack(){
+			this.$router.back(-1)
+		},
 		sendCode(val){
 			if(val){
 				this.flag = false;
@@ -182,9 +185,10 @@ a{
 .login .item>input{
 	border: none;
 	padding-left: 0.4rem;
+	margin: 0.1rem 0;
 	outline: none;
 	width: 8rem;
-    height: 2rem;
+    height: 2.2rem;
 }
 .login .item >span{
 	float: right;

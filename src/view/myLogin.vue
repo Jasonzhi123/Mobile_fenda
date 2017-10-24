@@ -21,11 +21,15 @@ export default {
   		login: this.$store.state.login
   	}
   },
+  beforeRouteEnter(to,from,next){
+  	next(vm=>{
+  		if(vm.$store.state.login){
+  			vm.$router.push('/my');
+  		}
+  	})
+  },
   created(){
   	this.setNextPage('/my')
-  	if(!!this.login){
-  		this.$router.push('/my');
-  	}
   	this.setLogin(this.$http)
   },
   computed: {

@@ -27,8 +27,10 @@ Axios.defaults.withCredentials = true
 Vue.use(MintUI)
 Vue.use(ElementUI)
 Vue.prototype.$http = Axios
+
 // Vue.prototype.$accessUrl = 'http://localhost/07180206/php/lesson_5/Mobile_fenda_server/public/'
-Vue.prototype.$accessUrl = 'http://localhost/zoo/fd01/Mobile_fenda_server/public'
+//Vue.prototype.$accessUrl = 'http://localhost/zoo/fd01/Mobile_fenda_server/public'
+Vue.prototype.$accessUrl = accessUrl
 Vue.use(iView)
 
 Vue.use(VueTimeago, {

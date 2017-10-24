@@ -1,8 +1,8 @@
 <template>
 	<div class="cents">
 		<mt-header title="我的分币">
-		  <router-link to="/" slot="left">
-		    <mt-button icon="back">返回</mt-button>
+		  <router-link to="" slot="left">
+		    <mt-button icon="back" @click="callBack">返回</mt-button>
 		  </router-link>
 		</mt-header>
 		<div class="body">
@@ -90,6 +90,9 @@
 			...mapMutations(['setLogin']),
 			selectRecharge: function(index){
 				this.select = index+1;
+			},
+			callBack(){
+				this.$router.back(-1)
 			}
 		}
 	}
