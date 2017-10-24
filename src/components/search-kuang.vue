@@ -1,7 +1,6 @@
 <template>
 <div class="search">
   <div class="search-box">
-  	
     	<Icon class="search-icon" type="search"></Icon>
       <p>搜索感兴趣的人和内容</p>
       <slot name="chat"></slot>

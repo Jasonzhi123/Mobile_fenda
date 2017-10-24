@@ -2,7 +2,7 @@
 	<div class="ansPageSearch">
 		<div class="search">
 			<span class="searchBtn" @click="answerSearch()">搜索</span>
-			<input type="text" placeholder="搜索Ta的回答">
+			<input type="text" placeholder="搜索Ta的回答" v-model="searchContent">
 			<span class="quit" @click="rtnansPage()">取消</span>
 		</div>
 		<div class="layer" v-if="layerStatus"></div>
@@ -84,7 +84,8 @@ export default {
   data () {
     return {
       found: 2,
-      layerStatus: true // 遮盖层状态
+      layerStatus: true, // 遮盖层状态
+      searchContent: '' // 搜索输入的内容
     }
   },
   components: {
@@ -101,7 +102,12 @@ export default {
       console.log(1)
     },
     answerSearch: function () {
-      this.layerStatus = false
+      console.log(this.searchContent)
+      if (this.searchContent.length === 0) {
+        return
+      } else {
+        this.layerStatus = false
+      }
       // if 找到 this.found = 1
       // else this.found =2
     }
@@ -153,11 +159,11 @@ a{
 .ansPageSearch .search >input{
 	width: calc(100% - 6rem);
 	/*max-width: 15rem;*/
-	height: 1rem;
+	height: 1.2rem;
 	border-radius: 1rem;
 	border: 1px solid #999;
 	padding: 0.2rem 0.5rem;
-	margin-top: 0.4rem;
+	margin-top: 0.6rem;
 	outline: none;
 }
 .ansPageSearch .search >span{
@@ -267,8 +273,8 @@ a{
 .ansPageSearch .nofound .list >li.more a{
 	color: #F85F48;
 	clear: both;
-	height: 2.2rem;
-	line-height: 2.2rem;
+	/*height: 2.2rem;
+	line-height: 2.2rem;*/
 	font-size: 0.9rem;
 }
 .ansPageSearch .nofound .list >li.more a >span{
@@ -281,18 +287,18 @@ a{
 	height: 0.1rem;
 	background: #F85F48;
 	position: absolute;
-	top: 0.923rem;
+	top: 0.4rem;
 	left: -0.8rem;
-	transform: rotate(-150deg);
+	transform: rotate(-130deg);
 }
 .ansPageSearch .nofound .list >li.more a >span:after{
 	content: '';
 	width: 0.7rem;
 	height: 0.1rem;
 	background: #F85F48;
-	top: 1.25rem;
+	top: 0.9rem;
 	left: -0.8rem;
 	position: absolute;
-	transform: rotate(150deg);
+	transform: rotate(130deg);
 }
 </style>

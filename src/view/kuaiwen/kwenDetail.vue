@@ -2,52 +2,66 @@
 	<div class="kwenDetail">
 		<div class="question">
 			<div class="title">
-				<a><img src="../../assets/7.jpg">匿名用户</a>
+				<a>
+					<div class="title" v-if="kwProblem.whether==0"><img src="../../assets/7.jpg">{{kwProblem.user_name}}</div>
+					<div class="title" v-if="kwProblem.whether==1"><img src="../../assets/7.jpg">匿名用户</div>
+				</a>
 				<span>赏金￥10</span>
 			</div>
-			<p>24岁，上次经期是9.14~9.20，然后昨天又开始出血，今天出血量很大，b超显示没什么问题，医生给我开了个栓剂，医生口音太重了他说的话我没听懂。请问可能是什么病症？应该怎么办？可以吃中成药调理吗？</p>
+			<p>{{kwProblem.content}}</p>
 			<div class="foottip">
-				<div class="one" v-if="hasAnswer">
-					已解答<br>
-				共有1人抢答，抢答被选中者获得赏金。
-				</div>
-				<div class="two" v-if="!hasAnswer">
-					<a>抢答</a>
-					<br>还剩46小时<br>
-				已有0人抢答，抢答被选中者获得赏金。
+				<div class="two">
+					<a :class="{disable: badExpert}" @click="fastAnswer(badExpert)">抢答</a>
+					<br>仅特邀优质答主可答
+					<br>还剩46小时
+					<br>
+				<span v-if="countNum==0">抢答被选中者获得赏金。</span>
+				<span v-if="countNum>0">共有{{countNum}}人抢答，抢答被选中者获得赏金。</span>
 				</div>
 			</div>
 		</div>
 		<div class="topic">
-			<a href="/#/kuaiwenTopic">
+			<a @click="openKwTopic(kwCateCur.id)">
 				<img src="../../assets/7.jpg">
 				<div class="center">
-					身体小毛病，快速问医生<br>
-					<span>专业 及时解答</span>
+					{{kwCateCur.title_before}}，{{kwCateCur.title_after}}<br>
+					<span>{{kwCateCur.simple_intro}}</span>
 				</div>
 				<span class="ask"></span>
 			</a>
 		</div>
-		<div class="answer" v-if="hasAnswer">
+		<div class="answer" v-if="countNum>0" v-for="item in kwanswer">
 			<div class="title">
-				<a href="/#/answerPage">
-					<img src="../../assets/7.jpg">晨风 | 情感心理专家，20年情感节目主持人
+				<a @click="openAnswerPage(item.id)">
+					<img src="../../assets/7.jpg">{{item.expert_name}} | {{item.rank}}
 				</a>
 			</div>
-			<div class="play">
+			<div class="play" v-if="item.status==0">
 				<div class="btn" @click.stop="play()" style="display: inline-block;">
 	            <play-button class="color_blue">点击播放</play-button></div>
 	        	60"
 			</div>
+			<div class="text qw" v-if="showAllStatus && item.status==1">
+				<p>{{item.content}}</p>
+				<span @click="showAll()">全文</span>
+			</div>
+			<div class="text sq" v-if="!showAllStatus && item.status==1">
+				<p>{{item.content}}</p>
+				<span @click="showAll()">收起</span>
+			</div>
 			<div class="foot">
-			    <span class="date">5天前</span>
-			    <span class="count">
-			        <i></i>
-			        <span>0</span>
+			    <span class="date">
+					<timeago :since="parseInt(item.create_time)*1000"></timeago>
 			    </span>
 			    <span class="count">
+			        <i></i>
+			        <span>{{item.point_number}}</span>
+			    </span>
+			    <span class="count" v-if="item.status==0">
 			        <span>听过</span>
-			        <span>28</span>
+			        <span>{{item.number}}</span>
+			    </span>
+			    <span class="count" v-if="item.status==1">
 			    </span>
 			</div>
 		</div>
@@ -58,11 +72,59 @@ import PlayButton from '../../components/PlayButton'
 export default {
   data () {
     return {
-      hasAnswer: true
+      hasAnswer: true,
+      id: '', // 用来存url传过来的问题id
+      kwProblem: '',
+      kwCateCur: '',
+      kwanswer: [],
+      badExpert: false,
+      showAllStatus: true
+    }
+  },
+  computed: {
+    countNum: function () {
+      return this.kwanswer.length
     }
   },
   components: {
     PlayButton
+  },
+  created () {
+    this.id = this.$route.params.id
+    this.init()
+  },
+  methods: {
+    init: function () {
+      this.$http
+        .get('/api/kuaiwen/detail', {
+          params: {
+            kwproblemId: this.id
+          }
+        })
+        .then(rtnData => {
+          this.kwProblem = rtnData.data[0]
+          this.kwCateCur = rtnData.data[1]
+          this.kwanswer = rtnData.data[2]
+        })
+    },
+    openKwTopic: function (index) {
+      this.$router.push('/kuaiwenTopic/' + index)
+    },
+    fastAnswer: function (isbadExpert) {
+      if (!isbadExpert) {
+        alert('哇，回答的好快！')
+      }
+    },
+    showAll: function () {
+      if (this.showAllStatus === true) {
+        this.showAllStatus = false
+      } else {
+        this.showAllStatus = true
+      }
+    },
+    openAnswerPage: function (index) {
+      this.$router.push('/answerpage/' + index)
+    }
   }
 }
 </script>
@@ -80,6 +142,7 @@ a{
 .kwenDetail{
   font-size: 0.8rem;
   background: #f4f4f4;
+  margin-bottom: 2.7rem;
 }
 .kwenDetail span{
 	display: inline-block;
@@ -95,17 +158,18 @@ a{
 	height: 1.2rem;
 	line-height: 1.2rem;
 	margin-bottom: 0.8rem;
+	font-size: 0.8rem;
 }
 .kwenDetail .question .title >a{
 	font-size: 0.64rem;
 	color: #999;
 }
-.kwenDetail .question .title >a >img{
-	width: 1.2rem;
-	height: 1.2rem;
+.kwenDetail .question .title >img{
+	width: 1.5rem;
+	height: 1.5rem;
 	border-radius: 100%;
 	vertical-align: middle;
-	margin-right: 0.4rem;
+	margin-right: 0.5rem;
 }
 .kwenDetail .question .title >span{
 	float: right;
@@ -118,12 +182,14 @@ a{
 }
 .kwenDetail .question .foottip .two{
 	text-align: center;
-
+}
+.kwenDetail .question .foottip .two a.disable{
+	background: #ccc;
 }
 .kwenDetail .question .foottip .two >a{
 	background: #F85F48;
 	color: #fff;
-	padding: 0.2rem 0.5rem;
+	padding: 0.2rem 1rem;
 	border-radius: 1rem;
 	margin-bottom: 0.5rem;
 	font-size: 0.9rem;
@@ -135,7 +201,8 @@ a{
 }
 .kwenDetail .topic >a{
 	padding: 0.9rem 0.8rem;
-	width: calc(100% - 1.6rem);
+	width: 100%;
+	box-sizing: border-box;
 }
 .kwenDetail .topic a >img{
 	width: 2.4rem;
@@ -192,7 +259,7 @@ a{
 	margin-bottom: 0.3rem;
 }
 .kwenDetail .answer .title >a{
-	font-size: 0.64rem;
+	font-size: 0.7rem;
 	color: #999;
 }
 .kwenDetail .answer .title >a >img{
@@ -207,18 +274,38 @@ a{
 	color: #F85F48;
 }
 .kwenDetail .answer .play{
-	margin-left: 2.4rem;
+	margin-left: 2.6rem;
 	color: #999;
 	margin-bottom: 0.3rem;
 }
-.kwenDetail .answer .play .btn{width: 10rem;}
+.kwenDetail .answer .play .btn{
+	width: 10rem;
+	margin: 0;
+}
+.kwenDetail .answer .text{
+	margin-bottom: 0.3rem;
+}
+.kwenDetail .answer .text >p{
+	margin-left: 2.6rem;
+	margin-bottom: 0.3rem;
+}
+.kwenDetail .answer .text.qw >p{
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 3;
+	overflow: hidden;
+}
+.kwenDetail .answer .text >span{
+	margin-left: 2.6rem;
+	color: #7da4c6
+}
 .kwenDetail .answer .foot{
-  font-size: 0.56rem;
+  font-size: 0.64rem;
   color: #999;
   clear: both;
   height: 1.6rem;
   line-height: 1.6rem;
-  margin-left: 2.4rem;
+  margin-left: 2.6rem;
 }
 .kwenDetail .answer .foot .date{
   float: left;

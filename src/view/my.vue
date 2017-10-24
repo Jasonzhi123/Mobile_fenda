@@ -107,6 +107,7 @@ a{
   text-decoration: none;
 }
 .my{
+
 	.after{
 		margin-bottom: 3rem;
 		background: #F5F5F5;
