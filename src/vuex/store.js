@@ -40,6 +40,9 @@ const Store = new Vuex.Store({
     },
     setNextPage: function (state, content) {
       state.nextPage = content
+    },
+    setChangePhone: function (state, content) {
+      state.changePhone = content
     }
   }
 })

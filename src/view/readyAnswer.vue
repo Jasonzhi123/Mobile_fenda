@@ -1,8 +1,8 @@
 <template>
 	<div class="ready-answer">
 		<mt-header fixed title="问题详情">
-			<router-link to="/my" slot="left">
-	    		<mt-button icon="back"></mt-button>
+			<router-link to="" slot="left">
+	    		<mt-button icon="back" @click="callBack"></mt-button>
 	  		</router-link>
 		</mt-header>
 		<div class="question-content">
@@ -29,6 +29,11 @@
 		data(){
 			return {
 
+			}
+		},
+		methods:{
+			callBack: function(){
+				this.$router.back(-1);
 			}
 		}
 	}

@@ -74,6 +74,10 @@
 			}
 			this.setLogin(this.$http)
 		},
+		beforeRouteLeave(to,from,next){
+			this.$destroy(true);
+		    next()
+		},
 		computed: {
 			getUserInfo(){
 				return this.$store.state.login
@@ -91,6 +95,7 @@
 		},
 		methods:{
 			...mapMutations(['setLogin']),
+			...mapMutations(['setChangePhone']),
 			service:function(){
 				this.tip = !this.tip
 			},
@@ -116,7 +121,8 @@
 					'code': this.phoneCode
 				}).then((response)=>{
 					if(response.data.status == 0){
-						this.$store.state.changePhone = true
+						this.setChangePhone(true)
+						console.log(this.$store.state.changePhone)
 						this.$router.push('/binding')
 					}else if(response.data.status == 3){
 						this.$router.push('/my');

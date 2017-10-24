@@ -118,7 +118,6 @@
     },
     computed:{
       pullUpTxt(){
-        console.log('sfhdsjdfhjgh')
         const moreTxt = this.pullUpLoad && this.pullUpLoad.txt && this.pullUpLoad.txt.more;
         const noMoreTxt = this.pullUpLoad && this.pullUpLoad.txt && this.pullUpLoad.txt.noMore;
         return this.pullUpDirty ? moreTxt : noMoreTxt

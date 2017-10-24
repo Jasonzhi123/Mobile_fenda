@@ -36,12 +36,12 @@
 		<div class="box" @click.stop>
 			<p class="title">设置头像</p>
 			<div class="pic">
-				<div class="left" >
+				<div class="left"  @click="openCamera">
 					<Icon type="camera"></Icon>
 					<!-- <img @click="openCamera" src="../../assets/kang.png"/> -->
 					<p>拍摄新照片</p>
 				</div>
-				<div class="left">
+				<div class="left" @click="selectPic">
 					<Icon type="image"></Icon>
 					<!-- <img @click="selectPic" src="../../assets/kang.png"/> -->
 					<p>从相片库选取</p>
@@ -125,13 +125,17 @@
 						text: '上传中',
 						spinnerType: 'fading-circle'
 					});
-					var task = plus.uploader.createUpload(this.$accessUrl + 'api/user/uploadProfile',{
+					var task = plus.uploader.createUpload(this.$accessUrl + 'api/user/upload',{
 						method: 'POST',
 						blocksize: 0
-					}, function( t, status){
+					}, ( t, status)=>{
 						// 上传完成
 						if(status == 200){
-							Toast(t.responseTex);
+							var result = JSON.parse(t.responseText);
+							Toast(result.message);
+							if(result.status === 0){
+								this.phoneIcon = this.$accessUrl + result.src
+							}
 						}else{
 							Toast('上传失败！');
 						}
@@ -139,8 +143,8 @@
 					});
 					task.addFile(path, {key: 'image'});
 					task.start();
-				},function(error){
-					Toast(error.message);
+				},function(){
+					
 				},{
 					resolution:res,
 					format:fmt
@@ -353,6 +357,7 @@
 							width: 2.5rem;
 							height: 2.5rem;
 							color: red;
+							font-size: 3rem;
 						}
 						p{
 							font-size: 0.6rem;

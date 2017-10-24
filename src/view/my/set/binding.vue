@@ -1,5 +1,5 @@
 <template>
-	<div class="validate">
+	<div class="binding">
 		<mt-header fixed title="全部头条">
 		  <router-link to="/validate" slot="left">
 		    <mt-button icon="back">返回</mt-button>
@@ -25,7 +25,7 @@
 			</div>
 		</form>
 		
-		<a class="btn" @click="changePhoneClick">
+		<a :class="phone && phoneCode && getCheckStatus?'btn cur':'btn'" @click="changePhoneClick">
 			确认更换
 		</a>
 		
@@ -47,20 +47,28 @@
 				isCheck: false,
 				flag: false,
 				block: false,
-				clock: false
+				clock: false,
+				getCheckStatus: false
 			}
 		},
-		beforeCreate(){
-			if(!this.$store.state.changePhone){
-				this.$router.push('/my')
-			}
+		beforeRouteEnter(to, from, next){
+			next(vm =>{
+				if(!vm.$store.state.changePhone || !vm.$store.state.login){
+					vm.$router.push('/my')
+				}
+				vm.$store.state.changePhone = false
+			})
+		},
+		beforeRouteLeave(to,from,next){
+		    next(vm=>{
+		      vm.$destroy(true);
+		    })
 		},
 		created(){
 			if(!(!!this.login)){
 				this.$router.push('/my');
 			}
 			this.setLogin(this.$http)
-			this.$store.state.changePhone = false
 		},
 		computed: {
 			getUserInfo(){
@@ -95,12 +103,13 @@
 						  text: '发送中...',
 						  spinnerType: 'fading-circle'
 						});
-						this.$http.post('/api/user/phone',{
+						this.$http.post('/api/user/userCheckPhone',{
 							'phone': this.phone
 						}).then((response)=>{
 							Indicator.close();
 							if(response.data.status == 0){
 								this.flag = true;
+								this.getCheckStatus = true;
 								Toast(response.data.message);
 							}else if(response.data.status == 3){
 								this.$router.push('my')
@@ -119,6 +128,9 @@
 					
 			},
 			changePhoneClick: function(){
+				if(this.phone === '' || this.phoneCode === ''){
+					return;
+				}
 				if(/^1[34578]\d{9}/.test(this.phone) && this.phoneCode.length === 6){
 					if(this.clock){
 						return;
@@ -166,7 +178,7 @@
 	p{
 		font-size: 0.8rem;
 	}
-	.validate{
+	.binding{
 		padding: 1rem;
 		header{
 			top: 0;
@@ -223,12 +235,16 @@
 				justify-content: space-between;
 				width: 100%;
 				border-bottom: 1px solid #E5E5E5;
-				height: 2rem;
+				height: 2.2rem;
 				align-items: center;
+				.countdown{
+					flex: none;
+				}
 				input{
 					border: none;
 				outline: none;
 				line-height: 2rem;
+				margin: 0.1rem 0;
 				}
 				p{
 				line-height: 2rem;
@@ -239,14 +255,17 @@
 		}
 		.btn{
 			width: 90%;
-			margin:4rem 5% 2rem;
+			margin:4rem 5% 0;
 			height: 2rem;
-			background: red;
+			background: #ccc;
 			color: #fff;
 			line-height: 2rem;
 			display: block;
 			text-align: center;
 			border-radius: 0.5rem;
+			&.cur{
+				background: red;
+			}
 		}
 		
 	}

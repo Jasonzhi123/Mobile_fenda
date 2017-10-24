@@ -1,8 +1,8 @@
 <template>
 	<div class="myanswer" @click="check=false">
 		<mt-header fixed title="我答">
-			<router-link to="/my" slot="left">
-	    		<mt-button icon="back"></mt-button>
+			<router-link to="" slot="left">
+	    		<mt-button icon="back" @click="callBack"></mt-button>
 	  		</router-link>
 		</mt-header>
 		<mt-navbar v-model="selected">
@@ -29,9 +29,9 @@
 							</div>
 							<div class="user-name">{{item.user_name}}</div>
 							<div class="money">{{item.price}}</div>
-							<div class="state" v-if="item.parent_id == 0 && ((new Date(item.create_time)*1000 <= (new Date().getTime() - 2*24*60*60*1000)) || item.state != 0) ">{{item.state=4?'未审核':(item.state==3?'未过审':(item.state==1?'已回答':(item.state==2?'已拒绝':'已过期')))}}</div>
+							<div class="state" v-if="item.parent_id == 0 && ((new Date(item.create_time).getTime() <= (new Date().getTime() - 2*24*60*60*1000)) || item.state != 0) ">{{item.state==4?'未审核':(item.state==3?'未过审':(item.state==1?'已回答':(item.state==2?'已拒绝':'已过期')))}}</div>
 							<div class="state" v-if="item.parent_id != 0">&nbsp;追问</div>
-							<div class="state" v-if="item.parent_id == 0 && ((new Date(item.create_time)*1000 > (new Date().getTime() - 2*24*60*60*1000)) && item.state == 0) ">
+							<div class="state" v-if="item.parent_id == 0 && ((new Date(item.create_time).getTime() > (new Date().getTime() - 2*24*60*60*1000)) && item.state == 0) ">
 								<a :href="'/#/readyAnswer/'">待回答</a>
 							</div>
 						</div>
@@ -237,6 +237,9 @@
 			},
 			pullingUp(){
 				this.init(this.questionId, this.state)
+			},
+			callBack(){
+				this.$router.back(-1);
 			}
 		},
 		components: {
@@ -333,6 +336,13 @@
 			position: relative;
 			height: calc(100% - 4.4rem);
 			overflow: hidden;
+			.pulldown-wrapper{
+				z-index: 0;
+			}
+			.scroll-content{
+				position: relative;
+				z-index: 1;
+			}
 			ul{
 				background-color: #efefef;
 				li{
