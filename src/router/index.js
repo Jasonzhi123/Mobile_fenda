@@ -17,6 +17,7 @@ import my from '@/view/my'
 import myLogin from '@/view/myLogin'
 import answerPage from '@/view/answerPage'
 import ansPageSearch from '@/view/ansPageSearch'
+import answerAsk from '@/view/answerAsk'
 import kuaiwen from '@/view/kuaiwen/kuaiwen'
 import kuaiwenTopic from '@/view/kuaiwen/kuaiwenTopic'
 import kwenDetail from '@/view/kuaiwen/kwenDetail'
@@ -81,15 +82,15 @@ export default new Router({
           component: kuaiwen
         },
         {
-          path: '/kuaiwenTopic',
+          path: '/kuaiwenTopic/:id',
           component: kuaiwenTopic
         },
         {
-          path: '/kwenDetail',
+          path: '/kwenDetail/:id',
           component: kwenDetail
         },
         {
-          path: '/kwenAsk',
+          path: '/kwenAsk/:id',
           component: kwenAsk
         }
       ]
@@ -136,6 +137,10 @@ export default new Router({
     {
       path: '/ansPageSearch',
       component: ansPageSearch
+    },
+    {
+      path: '/answerAsk/:id',
+      component: answerAsk
     },
     {
       path: '/expert',

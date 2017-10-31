@@ -1,27 +1,28 @@
 <template>
-	<div class="kwenAsk">
+	<div class="answerAsk">
 		<div class="header">
-			<span class="kwenAskQx" @click="kwenAskQx()">取消</span>
-			<span class="kwenAskFb" :class="{showcolor:inputVal.length>0}" @click="kwenAskFb()">发布</span>
+			<span class="answerAskQx" @click="answerAskQx()">取消</span>
+			<span class="answerAskFb" :class="{showcolor:inputVal.length>0}" @click="answerAskTw()">提问</span>
 		</div>
 		<div class="input">
-			<textarea :placeholder="cateData.introduction + '48小时内无人抢答，将按支付路径全额退款。'" 
-			maxlength="300" v-model="inputVal"></textarea>
-			<p>￥10	
+			<textarea placeholder="提问可选公开或私密，公开提问的回答每被偷听1次，你分成￥0.5。" 
+			maxlength="80" v-model="inputVal"></textarea>
+			<p>￥{{expertInfo.worth}}	
 				<span>
 					<div class="image">
-					<img src="../../assets/pic.png"></div>
+						<img src="../assets/pic.png">
+					</div>
 					<span>{{inputVal.length}}</span>
-				/300</span>
+				/80</span>
 			</p>
 		</div>
 		<div class="foot">
 			<div class="niMing">
-				匿名
+				公开提问
 				<mt-switch v-model="value" class="btn" @change="turn()"></mt-switch>
 			</div>
 			<div class="introduction">
-				查看问答细则及责任声明
+				提问须知
 				<span></span>
 			</div>
 		</div>
@@ -33,10 +34,11 @@ export default {
   data () {
     return {
       value: true,
-      inputVal: '',
+      inputVal: '', // 提问的内容
       id: '',
-      cateData: '', // 接收的数据
-      whether: 1
+      expertInfo: '', // 专家的身价
+      whether: 1, // 是否公开，1为公开，0为私密
+      parentId: 0
     }
   },
   created () {
@@ -45,44 +47,51 @@ export default {
   },
   methods: {
     init: function () {
+      console.log(this.id)
       this.$http
-        .get('/api/kuaiwen/index')
+        .get('/api/answerpage/index', {
+          params: {
+            expertUid: this.id
+          }
+        })
         .then(rtnData => {
-          this.cateData = rtnData.data[this.id - 1]
-          // console.log(this.cateData)
+          this.expertInfo = rtnData.data
         })
     },
-    kwenAskQx: function () {
+    answerAskQx: function () {
       this.$router.back(-1)
     },
-    kwenAskFb: function () {
-      if (this.inputVal.length > 0) {
-        // this.$router.push('/pay')
+    answerAskTw: function () {
+      if (this.inputVal.length === 0) {
+        return
+      } else {
+        // console.log(1)
         this.$http
-        .post('/api/kuaiwen/ask', {
+        .post('/api/answerpage/ask', {
           content: this.inputVal,
           // picture
+          price: this.expertInfo.worth,
+          expertId: this.expertInfo.id,
           whether: this.whether,
-          userId: 2, // 暂时设为2
-          kwCateId: this.cateData.id
+          userId: 2, // 当前登录的用户id，暂时定为2
+          parentId: this.parentId
         })
         .then(rtnData => {
+          console.log(rtnData.data)
           if (rtnData.data['status'] === 0) {
-            this.$router.push('/kuaiwen')
+            this.$router.push('/lisDetailQue/' + rtnData.data.problemId)
           } else {
             Toast(rtnData.data['message'])
           }
         })
-      } else {
-        Toast('提出的问题不能为空')
       }
     },
     turn: function () {
-      if (this.value === true) {
-        this.whether = 1
-        Toast('匿名后您的个人信息将保密~')
-      } else {
+      if (this.value === false) {
         this.whether = 0
+        Toast('私密提问，获取他的专属语音回答')
+      } else {
+        this.whether = 1
       }
     }
   }
@@ -99,11 +108,11 @@ a{
   color: #191919;
   display: inline-block;
 }
-.kwenAsk{
+.answerAsk{
   font-size: 0.8rem;
   background: #f4f4f4;
 }
-.kwenAsk .header{
+.answerAsk .header{
 	position: fixed;
 	left: 0;
 	right: 0;
@@ -116,72 +125,72 @@ a{
 	color: #F85F48;
 	clear: both;
 }
-.kwenAsk .header .kwenAskFb{
+.answerAsk .header .answerAskFb{
 	float: right;
 	color: #999;
 }
-.kwenAsk .header .kwenAskFb.showcolor{
+.answerAsk .header .answerAskFb.showcolor{
 	color: #F85F48;
 }
-.kwenAsk .input{
+.answerAsk .input{
 	margin-top: 2.5rem;
 	padding: 0.8rem 0.8rem 0 0.8rem;
 	background: #fff;
 	margin-bottom: 0.5rem;
 }
-.kwenAsk .input >textarea{
+.answerAsk .input >textarea{
 	width: 100%;
 	height: 6rem;
 	border: none;
 	resize: none;
 	outline: none;
 }
-.kwenAsk .input >p{
+.answerAsk .input >p{
 	height: 2rem;
 	line-height: 2rem;
 	color: #F85F48;
 }
-.kwenAsk .input >p >span{
+.answerAsk .input >p >span{
 	float: right;
 	color: #999;
 }
-.kwenAsk .input >p >span .image{
+.answerAsk .input >p >span .image{
 	display: inline-block;
 }
-.kwenAsk .input >p >span .image >img{
+.answerAsk .input >p >span .image >img{
 	height: 1rem;
 	vertical-align: middle;
 	margin-top: -0.5rem;
 }
-.kwenAsk .foot{
+.answerAsk .foot{
 	background: #fff;
 	
 }
-.kwenAsk .foot .niMing{
+.answerAsk .foot .niMing{
 	clear: both;
 	height: 2.5rem;
 	line-height: 2.5rem;
 	border-bottom: 1px solid #DED9D9;
 	padding: 0 0.8rem;
 }
-.kwenAsk .foot .niMing .btn{
+.answerAsk .foot .niMing .btn{
 	display: inline-block;
 	float: right;
 	margin-top: 0.4rem;
 	width: 2.53rem;
 	height: 2rem;
 }
-.kwenAsk .foot .introduction{
+.answerAsk .foot .introduction{
 	clear: both;
 	padding: 0 0.8rem;
 	height: 2.5rem;
 	line-height: 2.5rem;
 }
-.kwenAsk .foot .introduction >span{
+.answerAsk .foot .introduction >span{
 	float: right;
 	position: relative;
 }
-.kwenAsk .foot .introduction >span:before{
+.answerAsk .foot .introduction >span:before{
 	content: '';
 	width: 0.7rem;
 	height: 0.1rem;
@@ -191,7 +200,7 @@ a{
 	left: -0.8rem;
 	transform: rotate(-150deg);
 }
-.kwenAsk .foot .introduction >span:after{
+.answerAsk .foot .introduction >span:after{
 	content: '';
 	width: 0.7rem;
 	height: 0.1rem;

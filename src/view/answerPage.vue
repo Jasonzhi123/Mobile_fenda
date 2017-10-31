@@ -1,23 +1,23 @@
 <template>
   <div class="answerPage">
-  	<mt-header title="于哲的分答" :fixed="true" class="header">
+  	<mt-header title="" class="header">
 	  <router-link to="" slot="left">
 	  <mt-button icon="back" @click="rtnLastPage()">返回</mt-button>
 	  </router-link>
 	  <mt-button icon="more" slot="right"></mt-button>
 	</mt-header>
 	<div class="box">
-		<div class="title" v-for="item in expert">
-			<!-- 不用"item in expert",直接expert[0]有数据但会报错， -->
+		<div class="title">
 		  <div class="answer">
 		    <img src="../assets/7.jpg">
-		    <p class="name">{{item.expert_name}}<br><span>49670人收听</span></p>
+		    <p class="name">{{expert.expert_name}}<br><span>49670人收听</span></p>
+		  <!--   <p class="name">{{item.expert_name}}<br><span>49670人收听</span></p> -->
 		    <div v-if="footWordShow==1 && (!login || item['user_id'] != login['id'])" class="listen" @click="footWord()"></div>
 		    <div v-if="footWordShow==2 && (!login || item['user_id'] != login['id'])" class="listened" @click="footWord()"></div>
 		  </div>
-		  <p><span>{{item.rank}}</span><br>{{expert[0].introduction}}</p>
-		  <a href="#">{{item.begoodat}}</a>
-		  <div class="askBtn">￥{{item.worth}} 提问</div>
+		  <p><span>{{expert.rank}}</span><br>{{expert.introduction}}</p>
+		  <a href="#">{{expert.begoodat}}</a>
+		  <div class="askBtn" @click="openAsk(expert.user_id)">￥{{expert.worth}} 提问</div>
 		</div>
 		<div class="ask">
 			<p class="title">问答
@@ -33,53 +33,43 @@
 				</span>
 				<a href="/#/ansPageSearch"><img src="../assets/search.png">搜索Ta的回答</a>
 			</p>
-			<span>168问答&nbsp;听过56650</span>
+			<span>{{totalNum[0]}}&nbsp;问答&nbsp;&nbsp;听过&nbsp;{{totalNum[1]}}</span>
 			<ul class="askQue">
-				<li @click="opendetailQue()">
+				<li @click="opendetailQue(item.id, item.kwcate_id)" v-for="(item, index) in expertQue">
 					<div class="asker">
 						<img src="../assets/7.jpg">
-						<p>老师好，男宝两岁半（有个龙凤胎妹妹）从来不肯承认自己输了一直说自己是第一名，如果他第一眼看了不喜欢的就会一直否定这样东西或是这个人，说它是不好的，解释再多都没用</p>
+						<p>{{item.content}}</p>
 					</div>
-					<p class="price">￥100</p>
+					<p class="price" v-if="item.kwcate_id==null">￥{{expert.worth}}</p>
+					<p class="price" v-if="item.kwcate_id!=null">￥10</p>
 					<div class="answerP">
 						<img src="../assets/7.jpg">
-	                    <div class="btn" @click.stop="play()" style="display: inline-block;">
-	               			<play-button class="color_green">1元偷偷听</play-button></div>
-	                    60"
+	                    <div class="btn" @click.stop="play()" style="display: inline-block;" v-if="item.status==0">
+	               			<play-button class="{color_green:timeover[index]==1}" v-if="item.status==0 && timeover[index]==1">1元偷偷听</play-button>  <span v-if="item.status==0 && timeover[index]==1">60"</span>
+	               			<play-button class="{color_green:timeover[index]==1}" v-if="item.status==0 && timeover[index]==0">点击播放</play-button>  <span v-if="item.status==0 && timeover[index]==0">60"</span>
+	               		</div>
+	                    <div class="text qw" v-if="showAllStatus && item.status==1">
+							<p>{{item.anscontent}}</p>
+							<span @click.stop="showAll()">全文</span>
+						</div>
+						<div class="text sq" v-if="!showAllStatus && item.status==1">
+							<p>{{item.anscontent}}</p>
+							<span @click.stop="showAll()">收起</span>
+						</div>
 					</div>
 					<div class="foot">
-			          <span class="date">5天前</span>
+			          <span class="date">
+						<timeago :since="parseInt(item.create_time)*1000"></timeago>
+			          </span>
 			          <span class="count">
 			            <i></i>
-			            <span>0</span>
+			            <span>{{item.point_number}}</span>
 			          </span>
-			          <span class="count">
+			          <span class="count" v-if="item.status==0">
 			            <span>听过</span>
-			            <span>28</span>
+			            <span>{{item.number}}</span>
 			          </span>
-			        </div>
-				</li>
-				<li>
-					<div class="asker">
-						<img src="../assets/7.jpg">
-						<p>老师好，男宝两岁半（有个龙凤胎妹妹）从来不肯承认自己输了一直说自己是第一名，如果他第一眼看了不喜欢的就会一直否定这样东西或是这个人，说它是不好的，解释再多都没用</p>
-					</div>
-					<p class="price">￥100</p>
-					<div class="answerP">
-						<img src="../assets/7.jpg">
-	                    <div class="btn" @click.stop="play()" style="display: inline-block;">
-	               			<play-button class="color_green">1元偷偷听</play-button></div>
-	                    60"
-					</div>
-					<div class="foot">
-			          <span class="date">5天前</span>
-			          <span class="count">
-			            <i></i>
-			            <span>0</span>
-			          </span>
-			          <span class="count">
-			            <span>听过</span>
-			            <span>28</span>
+			          <span class="count"  v-if="item.status==1">
 			          </span>
 			        </div>
 				</li>
@@ -99,7 +89,35 @@ export default {
       iscur: 1,
       iscurArr: ['默认', '最新', '热门'],
       expert: '',
-      login: this.$store.state.login
+      expertQue: [],
+      showAllStatus: true,
+      login: this.$store.state.login,
+      total: [],
+      overtime: []
+    }
+  },
+  computed: {
+    totalNum: function () {
+      this.total[0] = this.expertQue.length
+      this.total[1] = 0
+      for (var i=0; i < this.expertQue.length; i++) {
+        this.total[1] += this.expertQue[i]['number']
+      }
+      return this.total
+    },
+    timeover: function () {
+        for (var j=0; j< this.expertQue.length; j++) {
+      	  if (this.expertQue[j].path !== null) {
+	        if ((this.expertQue[j]['create_time'] + 30*60)*1000 < new Date().getTime()) {
+	          this.overtime[j] = 1 // 1元偷偷听
+	        } else {
+	          this.overtime[j] = 0 // 限时免费听
+	        }
+      	  } else {
+      	    this.overtime[j] = '文字'
+      	  }
+      }
+      return this.overtime
     }
   },
   components: {
@@ -116,6 +134,7 @@ export default {
   created () {
     this.id = this.$route.params.id
     this.init()
+    console.log(1)
   },
   methods: {
     ...mapMutations(['setLogin']),
@@ -123,11 +142,21 @@ export default {
       this.$http
         .get('api/answerpage/index', {
           params: {
-            expertId: this.id
+            expertUid: this.id
           }
         })
         .then(rtnData => {
           this.expert = rtnData.data
+        })
+      this.$http
+        .get('api/answerpage/question', {
+          params: {
+            expertUid: this.id
+          }
+        })
+        .then(rtnData => {
+          this.expertQue = rtnData.data
+          console.log(this.expertQue)
         })
     },
     defaultShow: function () {
@@ -144,8 +173,13 @@ export default {
         this.footWordShow = 1
       }
     },
-    opendetailQue: function () {
-      this.$router.push('/lisdetailQue/3')
+    opendetailQue: function (index, kwcateId) {
+      // alert(kwcateId)
+      if (kwcateId === undefined) {
+        this.$router.push('/lisdetailQue/' + index)
+      } else {
+        this.$router.push('/kwendetail/' + index)
+      }
     },
     play: function () {
 
@@ -155,6 +189,18 @@ export default {
     },
     rtnLastPage: function () {
       this.$router.back(-1)
+      console.log(1)
+    },
+    showAll: function () {
+      if (this.showAllStatus === true) {
+        this.showAllStatus = false
+      } else {
+        this.showAllStatus = true
+      }
+    },
+    openAsk: function (index) {
+    // 进入提问页面
+      this.$router.push('/answerAsk/' + index)
     }
   }
 }
@@ -192,6 +238,10 @@ a{
 	background: #fff;
 	color: #3f3f3f;
 	border-bottom: 1px solid #DED9D9;
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
 }
 /*title*/
 .answerPage .box{
@@ -286,12 +336,12 @@ a{
 	float: right;
 	width: 80%;
 	max-width: 8rem;
-	height: 1rem;
-	line-height: 1rem;
+	height: 1.3rem;
+	line-height: 1.3rem;
 	border: 1px solid #999;
 	border-radius: 1rem;
-	padding: 0.1rem 0.3rem;
-	margin: 0;
+	padding: 0rem 0.3rem;
+	margin: 0rem 0 0 0;
 	color: #ccc;
 }
 .answerPage .ask >p.title >a>img{
@@ -299,7 +349,7 @@ a{
 	height: 0.7rem;
 	border-radius: unset;
 	margin-right: 0.2rem;
-	margin-top: 0.1rem;
+	margin-top: 0.3rem;
 }
 .answerPage .ask >p.title >span{
 	float: right;
@@ -355,10 +405,34 @@ a{
 .answerPage .ask .askQue >li .asker >p{
 	display: block;
 	margin-left: 2.24rem;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 3;
+	overflow: hidden;
+	/*margin-bottom: 0.1rem;*/
+	color: #3a3636;
 }
 .answerPage .ask .askQue .price{
-	margin: 0.5rem 0;
+	margin: 0.2rem 0;
 	color: #F85F48;
+	margin-left: 2.2rem;
+}
+.answerPage .ask .askQue >li .text{
+	margin-bottom: 0.3rem;
+}
+.answerPage .ask .askQue >li .text >p{
+	margin-left: 2.24rem;
+	margin-bottom: 0.3rem;
+}
+.answerPage .ask .askQue >li .text.qw >p{
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 3;
+	overflow: hidden;
+}
+.answerPage .ask .askQue >li .text >span{
+	margin-left: 2.24rem;
+	color: #7da4c6
 }
 .answerPage .ask .askQue .foot{
   font-size: 0.56rem;

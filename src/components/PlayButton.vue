@@ -1,6 +1,6 @@
 <!-- 添加不同类名对应不同颜色
-	 现在只有：blue #28AEF5
-	 		   green #1CCDA6
+	 现在只有：color_blue #28AEF5
+	 		   color_green #1CCDA6
  -->
 <template>
 	<div class="playButton">
@@ -19,8 +19,8 @@
 }
 .playButton >a{
 	display: inherit;
-	height: 1.6rem;
-	line-height: 1.6rem;
+	height: 2rem;
+	line-height: 1.4rem;
 	position: relative;
 	padding: 0.3rem 2.4rem;
 	text-align: center;
@@ -53,7 +53,7 @@
 	left: -0.88rem;
 	background: url(../assets/voice_1.png) no-repeat center;
 	background-size: 100% 100%;
-	border-right: 0.88rem solid transparent;
+	border-right: 0.88rem solid transparent;/*有点问题*/
 	filter: drop-shadow(0.88rem 0 #28AEF5);/*默认色*/
 }
 .playButton >a >.text-show{
