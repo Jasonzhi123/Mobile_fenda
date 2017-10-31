@@ -3,25 +3,25 @@
 		<router-view></router-view>
 
 		<mt-tabbar  :fixed="true" class="footer">
-		 	<div @click="openstart" class="menu" :class="{active :activeName == 'a'}" >
+		 	<div @click="openstart" class="menu" :class="{active :activeName == '/start'}" >
 	      		<mt-tab-item>
 	        		<Icon slot="icon" size="20" class="icon" type="home"></Icon>
 	        		<span>首页</span>
 	      		</mt-tab-item>
 	  		</div> 
-	  		<div @click="openlisten" class="menu " :class="{active :activeName == 'b'}">
+	  		<div @click="openlisten" class="menu " :class="{active :activeName == '/listen'}">
 		      <mt-tab-item>
 		        <Icon slot="icon" size="20" class="icon" type="headphone"></Icon>
 		       	<span>收听</span>
 		      </mt-tab-item>
 		  	</div>
-		  	<div @click="openlogin" class="menu" :class="{active :activeName == 'c'}" >
+		  	<div @click="openlogin" class="menu" :class="{active :activeName == '/bought'}" >
 		      	<mt-tab-item >
 			        <Icon slot="icon" size="20" class="icon"  type="ios-checkmark-outline"></Icon>
 			        <span>已购</span>
 			     </mt-tab-item>
 	      	</div>
-	      	<div @click="openmy" class="menu" :class="{active :activeName == 'd'}">
+	      	<div @click="openmy" class="menu" :class="{active :(activeName == '/my' || activeName == '/myLogin')}">
 		      <mt-tab-item >
 		        <Icon slot="icon"  size="20" class="icon" type="person"></Icon>
 		        <span>我的</span>
@@ -32,33 +32,31 @@
 </template>
 
 <script type="es6">
+	import {mapState} from 'vuex'
 	export default {
 		data(){
 			return {
-				activeName: ''
 			}
-		},
-		created(){
-			this.openstart();
 		},
 		methods:{
 			openstart:function(){
-				this.activeName = 'a'
-				this.$router.push('/')
+				this.$router.push('/start')
 			},
 			openlisten:function(){
-				this.activeName = 'b'
 				this.$router.push('/listen')	
 			},
 			openlogin:function(){
-				this.activeName = 'c'
 				this.$router.push('/bought')
 			},
 			openmy:function(){
-				this.activeName = 'd'
-				this.$router.push('my')
+				this.$router.push('/my')
 			}
-		}	
+		},
+		computed: {
+			activeName(){
+				return this.$store.state.tabBar
+			}
+		}
 	}
 </script>
 

@@ -8,6 +8,7 @@
 			<img src="../assets/voice.png">
 			<slot></slot>
 			<span><i></i></span>
+			<div class="text-show">{{textShow}}</div>
 		</a>
 	</div>
 </template>
@@ -55,7 +56,12 @@
 	border-right: 0.88rem solid transparent;
 	filter: drop-shadow(0.88rem 0 #28AEF5);/*默认色*/
 }
-
+.playButton >a >.text-show{
+	display: inline-block;
+	font-size: 0.8rem;
+	line-height: 100%;
+	height: 100%;
+}
 .playButton.color_blue >a{background: #28AEF5;}
 .playButton.color_blue >a>span i{
 	filter: drop-shadow(0.88rem 0 #28AEF5);
@@ -65,8 +71,14 @@
 	filter: drop-shadow(0.88rem 0 #1CCDA6);
 }
 </style>
-<script type="text/javascript">
+<script type="es6">
 export default{
+  props:{
+  	textShow:{
+  		type: String,
+  		default: ''
+  	}
+  },
   data () {
     return {
     }

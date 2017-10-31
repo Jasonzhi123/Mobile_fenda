@@ -97,7 +97,7 @@
   </div>
 </template>
 
-<script>
+<script type='es6'>
 import PlayButton from '../../components/PlayButton'
 import loginlayer from '../../components/Loginlayer'
 import Vue from 'vue'
@@ -143,6 +143,11 @@ export default {
   components: {
     loginlayer,
     PlayButton
+  },
+  beforeRouteEnter(to, from, next){
+    next(vm=>{
+      vm.$store.state.tabBar = to.path;
+    })
   },
   created: function () {
     this.init()

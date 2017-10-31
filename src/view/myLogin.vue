@@ -26,6 +26,7 @@ export default {
   		if(vm.$store.state.login){
   			vm.$router.push('/my');
   		}
+  		vm.$store.state.tabBar = to.path;
   	})
   },
   created(){

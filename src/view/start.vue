@@ -185,6 +185,11 @@ import searchKuang from 'components/search-kuang'
 				smallList: []
 			}
 		},
+		beforeRouteEnter(to, from, next){
+			next(vm=>{
+				vm.$store.state.tabBar = to.path;
+			})
+		},
 		created(){
 			this.init();
 		},

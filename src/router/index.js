@@ -170,7 +170,7 @@ export default new Router({
       component: openmyanswer
     },
     {
-      path: '/readyAnswer',
+      path: '/readyAnswer/:id',
       component: readyAnswer
     },
     {

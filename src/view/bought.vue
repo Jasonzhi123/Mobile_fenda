@@ -13,7 +13,7 @@
         <mt-tab-container-item id="bought1">
           <ul>
             <li>
-
+              
             </li>
           </ul>
         </mt-tab-container-item>
@@ -42,11 +42,19 @@ export default {
       selected: 'bought1'
     }
   },
+  beforeRouteEnter(to, from, next){
+    next(vm=>{
+      if(from.path === '/login' && !vm.$store.state.login){
+        vm.$router.push('/my');
+      }else if(!vm.$store.state.login){
+        vm.$router.push('/login');
+      }
+      
+      vm.$store.state.tabBar = to.path;
+    });
+  },
   created(){
     this.setNextPage('/bought')
-    if(!(!!this.login)){
-     this.$router.push('/login');
-    }
     this.setLogin(this.$http)
   },
   computed: {
