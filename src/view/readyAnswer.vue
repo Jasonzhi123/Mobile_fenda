@@ -21,17 +21,9 @@
 				<div class="avatar">
 					<img :src="$accessUrl+login['head_pic']">
 				</div>
-				<play-button textShow="点击播放" @click.native="audioPlay(0)"></play-button>
+				<play-button :textShow="showText" @click.native="audioPlay(0,$accessUrl + questDetail[0].path)"></play-button>
 				<div class="audio-time">{{audioTime}}"</div>
-				 <object height="100%" width="100%">
-				 	<param name="src" :value="$accessUrl+questDetail[0].path">
-				 	<param name="controller" value="true">
-				 	<param name="autoplay" value="true">
-				 </object>
-				<!-- <audio class="audio" :ref="'audio' + 0" controls src="http://www.baidu190.com/plug/uplay.php?code=49859"> -->
-					<!-- <source :src="$accessUrl+questDetail[0].path" type="audio/amr">
-					<source :src="$accessUrl+questDetail[0].path" type="audio/wav"> -->
-				<!-- </audio> -->
+				<div hide><audio :ref="'audio'+0"></audio></div>
 			</div>
 			<div class="msg-foot">
 				<span>{{questDetail[0].quest_time*1000 | formatDate}}</span>
@@ -64,7 +56,7 @@
 				hasPostAudio: false,
 				login: this.$store.state.login,
 				audioTime: 0,
-				curentTime: new Date()
+				showText: '点击播放'
 			}
 		},
 		beforeRouteEnter(to, from, next){
@@ -88,15 +80,34 @@
 
 				})
 			},
-			audioPlay(index){
-				if(new Date - this.currentTime<500){
-					return;
-				}
-				if(this.$refs['audio'+index].paused){
-					this.$refs['audio'+index].play();
+			audioPlay(index, src){
+				var audio = this.$refs['audio'+index]
+				if(audio.src === ''){
+					this.showText = '正在加载'
+					audio.addEventListener('progress',(val)=>{
+						
+					})
+					audio.addEventListener('canplaythrough',()=>{
+						this.showText = '正在播放'
+						audio.play()
+					})
+					audio.addEventListener('ended',()=>{
+						this.showText = '点击重播'
+					})
+					audio.src=src
+					audio.load()
 				}else{
-					this.$refs['audio'+index].pause();
+					if(!audio.paused){
+						this.showText = '点击播放'
+						audio.pause()
+			      	}else{
+			      		this.showText = '正在播放'
+			      		audio.play()
+			      	}
 				}
+				
+			      
+
 			},
 			...mapMutations(['setLogin']),
 			// 获取录音时间

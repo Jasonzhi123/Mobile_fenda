@@ -14,13 +14,8 @@ import 'iview/dist/styles/iview.css'
 import 'element-ui/lib/theme-default/index.css'
 import VueTimeago from 'vue-timeago'
 
-Axios.defaults.baseURL = 'http://localhost/zoo/fd01/Mobile_fenda_server/public'
-
-// const accessUrl = 'http://localhost/20170918/Mobile_fenda_server/public'
-// Axios.defaults.baseURL = accessUrl
-
-// const accessUrl = 'http://192.168.20.40/group/fenda/public/'
-// Axios.defaults.baseURL = accessUrl
+const accessUrl = 'http://localhost/group/fenda/public/'
+Axios.defaults.baseURL = accessUrl
 
 Axios.defaults.withCredentials = true
 
@@ -28,8 +23,6 @@ Vue.use(MintUI)
 Vue.use(ElementUI)
 Vue.prototype.$http = Axios
 
-// Vue.prototype.$accessUrl = 'http://localhost/07180206/php/lesson_5/Mobile_fenda_server/public/'
-//Vue.prototype.$accessUrl = 'http://localhost/zoo/fd01/Mobile_fenda_server/public'
 Vue.prototype.$accessUrl = accessUrl
 Vue.use(iView)
 
@@ -46,11 +39,13 @@ Vue.use(VueLazyload, {
 })
 
 Vue.config.productionTip = false
-/* eslint-disable no-new */
+  /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   store,
   template: '<App/>',
-  components: { App }
+  components: {
+    App
+  }
 })

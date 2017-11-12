@@ -11,12 +11,8 @@
 				<mt-tab-item id="myanswer1">问题</mt-tab-item>
 			</span></div>
 			<div class="quickFind"><span @click='changeQuickSelect' :class="selectQuest?'':'cur'"><mt-tab-item id="myanswer2">快问</mt-tab-item></span></div>
-			<div class="queryFind" v-if='selectQuest'>
-				<span @click.stop='selectCate'>{{this.option[this.state].val}}<Icon :type="check?'chevron-up':'chevron-down'"></Icon></span>
-				<ul :class="check?'cur':''">
-					<li v-for="(item, index) in option" @click="queryCate(index)">{{item.val}}</li>
-				</ul>
-			</div>
+			<queryfind :option="option" :check="check" @selectCate="selectCate" @queryCate="queryCate" :state="state" v-if='selectQuest'>
+			</queryfind>
 		</div>
 		</mt-navbar>
 		<div class="questionContent" v-if='selectQuest'>
@@ -86,6 +82,7 @@
 	import {mapState, mapMutations} from 'vuex'
 	import {Toast} from 'mint-ui'
 	import scroll from '../../components/scroll.vue'
+	import queryfind from '../../components/queryFind.vue'
 
 	export default{
 		data(){
@@ -255,7 +252,8 @@
 			}
 		},
 		components: {
-			scroll
+			scroll,
+			queryfind
 		}
 	}
 </script>
@@ -295,38 +293,10 @@
 				}
 			}
 			.queryFind{
-				width: 4rem;
-				text-align: center;
-				position: relative;
 				span{
-					font-size: 0.6rem;
 					color: skyblue;
 					width: 3rem;
 					text-align: right;
-				}
-				ul{
-					display: none;
-					position: absolute;
-					font-size: 0.6rem;
-					left: 0.7rem;
-					top: 3rem;
-					width: 3rem;
-					background-color: #fff;
-					padding: 0 0.5rem;
-					box-shadow: 0 0.2rem 0.5rem 0 #aaa;
-					z-index: 3;
-					li{
-						padding: 0.5rem 0;
-						&+li{
-							border-top: 1px solid #ccc;
-						}
-						&.cur{
-							color: #ff0000;
-						}
-					}
-					&.cur{
-						display: block;
-					}
 				}
 			}
 			&>div{
