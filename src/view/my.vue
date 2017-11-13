@@ -120,8 +120,11 @@ a{
 			padding: 1rem;
 			.top{
 				display: flex;
+        width: 100%;
+        padding: 0;
         align-items: center;
 				height:3rem;
+        border-bottom: none;
 				img{
 				  width: 2.5rem;
 				  height: 2.5rem;

@@ -14,7 +14,7 @@ import 'iview/dist/styles/iview.css'
 import 'element-ui/lib/theme-default/index.css'
 import VueTimeago from 'vue-timeago'
 
-const accessUrl = 'http://localhost/group/fenda/public/'
+const accessUrl = 'https://www.fengguihu.xin/fenda/public/'
 Axios.defaults.baseURL = accessUrl
 
 Axios.defaults.withCredentials = true
