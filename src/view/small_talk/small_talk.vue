@@ -17,7 +17,7 @@
 
             <div class="topicshow">
                 <div class="topicshowbox" v-for=" n in topicshow">
-                    <img :src="n.imgPath"  @click="to_topic(n.id)">
+                    <img :src="$accessUrl + n.imgPath"  @click="to_topic(n.id)">
                 </div>
 
             </div>

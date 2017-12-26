@@ -1,8 +1,8 @@
 <template>
 	<div class="myanswer" @click="check=false">
 		<mt-header fixed title="我答">
-			<router-link to="" slot="left">
-	    		<mt-button icon="back" @click="callBack"></mt-button>
+			<router-link to="/my" slot="left">
+	    		<mt-button icon="back"></mt-button>
 	  		</router-link>
 		</mt-header>
 		<mt-navbar v-model="selected">
@@ -11,18 +11,14 @@
 				<mt-tab-item id="myanswer1">问题</mt-tab-item>
 			</span></div>
 			<div class="quickFind"><span @click='changeQuickSelect' :class="selectQuest?'':'cur'"><mt-tab-item id="myanswer2">快问</mt-tab-item></span></div>
-			<div class="queryFind" v-if='selectQuest'>
-				<span @click.stop='selectCate'>{{this.option[this.state].val}}<Icon :type="check?'chevron-up':'chevron-down'"></Icon></span>
-				<ul :class="check?'cur':''">
-					<li v-for="(item,index) in option" @click="queryCate(index)">{{item.val}}</li>
-				</ul>
-			</div>
+			<queryfind :option="option" :check="check" @selectCate="selectCate" @queryCate="queryCate" :state="state" v-if='selectQuest'>
+			</queryfind>
 		</div>
 		</mt-navbar>
 		<div class="questionContent" v-if='selectQuest'>
 			<scroll :pullUpLoad="pullUpLoad" :pullDownRefresh="pullDownRefresh" :data="inputData" @pullingDown="pullingDown" :dataMore="dataMore" @pullingUp="pullingUp">
 				<ul>
-					<li v-for="item in questionData">
+					<li v-for="item in questionData" @click='jumpDetail(item.id)'>
 						<div class="quest-head">
 							<div class="avatar">
 								<img :src="$accessUrl+item.head_pic">
@@ -32,7 +28,7 @@
 							<div class="state" v-if="item.parent_id == 0 && ((new Date(item.create_time).getTime() <= (new Date().getTime() - 2*24*60*60*1000)) || item.state != 0) ">{{item.state==4?'未审核':(item.state==3?'未过审':(item.state==1?'已回答':(item.state==2?'已拒绝':'已过期')))}}</div>
 							<div class="state" v-if="item.parent_id != 0">&nbsp;追问</div>
 							<div class="state" v-if="item.parent_id == 0 && ((new Date(item.create_time).getTime() > (new Date().getTime() - 2*24*60*60*1000)) && item.state == 0) ">
-								<a :href="'/#/readyAnswer/'">待回答</a>
+								<a>待回答</a>
 							</div>
 						</div>
 						<div class="quest-msg">
@@ -86,6 +82,7 @@
 	import {mapState, mapMutations} from 'vuex'
 	import {Toast} from 'mint-ui'
 	import scroll from '../../components/scroll.vue'
+	import queryfind from '../../components/queryFind.vue'
 
 	export default{
 		data(){
@@ -98,12 +95,12 @@
 				inputData:[],
 				questionId: 1,
 				quuickId: 1,
-				questionclock: false,
 				quuickclock: false,
 				dataMore: true,
 				login: this.$store.state.login,
 				state: 0,
 				selected: 'myanswer1',
+				source: null,
 				pullDownRefresh: {
 					threshold: 80,
 					stop: 40,
@@ -148,47 +145,59 @@
 				]
 			}
 		},
+		beforeRouteLeave(to, from, next){
+			this.source.cancel();
+			if(to.path == '/my'){
+				this.$destroy();
+			}
+			next();
+		},
 		created(){
 			if(!(!!this.login)){
 				this.$router.push('/my');
 			}
+			var CancelToken = this.$http.CancelToken;
+			this.source = CancelToken.source();
 			this.init();
 			this.initQuick();
 		},
 		methods:{
 			init(id=1,state=5){
-				if(this.questionclock){
-					return;
-				}
-				this.questionclock = true;
+				this.source.cancel()
+				var CancelToken = this.$http.CancelToken;
+				this.source = CancelToken.source();
 				this.$http.post('/api/myanswer/questionList',{
 					id: id,
 					state: state
+				},{
+					cancelToken: this.source.token
 				}).then((response)=>{
 					if(!!response && !!response.data && !!response.data.length){
-						if(id !=1){
-							this.questionData = response.data.reduceRight(function(col,item){
-								col.push(item);
-								return col;
-							},this.questionData);
+						if(id !== 1){
+							// this.questionData = response.data.reduceRight(function(col,item){
+							// 	col.push(item);
+							// 	return col;
+							// },this.questionData);
+							this.questionData = this.questionData.concat(response.data);
 							this.questionId ++;
 						}else{
 							this.questionData = response.data;
 							this.questionId = 2;
 						}
-						this.inputData = response.data
+						this.inputData = this.questionData
 						if(response.data.length<10){
 							this.dataMore = false
 						}else{
 							this.dataMore = true
 						}
-					}else{
-						this.inputData = []
+					}else if(!!response.data){
+						if(id === 1){
+							this.questionData = [];
+						}
+						this.inputData = [];
 						this.dataMore = false;
 					}
-					this.questionclock = false;
 				}).catch(function(){
-					this.questionclock = false;
 				})
 			},
 			initQuick(id=1){
@@ -227,7 +236,7 @@
 			},
 			queryCate(index){
 				this.state = index;
-				this.init(1,this.option[this.state].state);
+				this.init(1,this.option[index].state);
 			},
 			goKuaiwen(){
 				this.$router.push('/kuaiwen');
@@ -236,14 +245,15 @@
 				this.init();
 			},
 			pullingUp(){
-				this.init(this.questionId, this.state)
+				this.init(this.questionId, this.option[this.state].state)
 			},
-			callBack(){
-				this.$router.back(-1);
+			jumpDetail(id){
+				this.$router.push('/readyAnswer/'+id);
 			}
 		},
 		components: {
-			scroll
+			scroll,
+			queryfind
 		}
 	}
 </script>
@@ -283,38 +293,10 @@
 				}
 			}
 			.queryFind{
-				width: 4rem;
-				text-align: center;
-				position: relative;
 				span{
-					font-size: 0.6rem;
 					color: skyblue;
 					width: 3rem;
 					text-align: right;
-				}
-				ul{
-					display: none;
-					position: absolute;
-					font-size: 0.6rem;
-					left: 0.7rem;
-					top: 3rem;
-					width: 3rem;
-					background-color: #fff;
-					padding: 0 0.5rem;
-					box-shadow: 0 0.2rem 0.5rem 0 #aaa;
-					z-index: 3;
-					li{
-						padding: 0.5rem 0;
-						&+li{
-							border-top: 1px solid #ccc;
-						}
-						&.cur{
-							color: #ff0000;
-						}
-					}
-					&.cur{
-						display: block;
-					}
 				}
 			}
 			&>div{
@@ -350,12 +332,14 @@
 					.quest-head{
 						display: flex;
 						align-items: center;
-						height: 3rem;
+						padding-top: 0.3rem;
 						.avatar{
 							width: 3rem;
 							text-align: center;
 							img{
 								width: 1.6rem;
+								height: 1.6rem;
+								border-radius: 50%;
 							}
 						}
 						.user-name{

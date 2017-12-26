@@ -9,7 +9,8 @@ const Store = new Vuex.Store({
     askContent: '',
     joincoursestatus: '',
     nextPage: '/my',
-    changePhone: false
+    changePhone: false,
+    tabBar: '/start'
   },
   mutations: {
     setAskContent: function (state, content) {

@@ -19,7 +19,7 @@
       </div>
       <ul class="list">
         <li v-if="!!user && !user['whether']" @click="openandanswer"><p>开通答主</p><span><Icon type="ios-arrow-right"></Icon></span></li>
-        <li v-if="!!user && !!user['whether']" @click="openOwnerPage"><p>我的分答主页</p><span><Icon type="ios-arrow-right"></Icon></span></li>
+        <li v-if="!!user && !!user['whether']" @click="openOwnerPage"><p>我的主页</p><span><Icon type="ios-arrow-right"></Icon></span></li>
         <li v-if="!!user && !!user['whether']" @click="openMyAnswer"><p>我答</p><span><Icon type="ios-arrow-right"></Icon></span></li>
         <li @click="opencents"><p>我的分币</p><span><Icon type="ios-arrow-right"></Icon></span></li>
         <!-- <li>兑换码<span><Icon type="ios-arrow-right"></Icon></span></li> -->
@@ -46,6 +46,7 @@ export default {
   },
   beforeRouteEnter(to,from,next){
     next(vm=>{
+      vm.$store.state.tabBar = to.path;
       if(!vm.$store.state.login){
         vm.$router.push('/myLogin');
       }
@@ -119,8 +120,11 @@ a{
 			padding: 1rem;
 			.top{
 				display: flex;
+        width: 100%;
+        padding: 0;
         align-items: center;
 				height:3rem;
+        border-bottom: none;
 				img{
 				  width: 2.5rem;
 				  height: 2.5rem;
