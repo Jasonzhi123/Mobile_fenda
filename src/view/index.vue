@@ -2,6 +2,7 @@
 	<div class="index" >
 		<router-view></router-view>
 
+
 		<mt-tabbar  :fixed="true" class="footer">
 		 	<div @click="openstart" class="menu" :class="{active :activeName == '/start'}" >
 	      		<mt-tab-item>
