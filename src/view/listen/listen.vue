@@ -244,6 +244,7 @@ a{
   background: #f4f4f4;
   margin-bottom: 2.5rem;
 }
+
 .listen_content_list>li{
   padding: 1rem 0.8rem;
   margin-bottom: 0.5rem;
@@ -276,7 +277,7 @@ a{
   line-height: 1.6rem;
 }
 .listen_content_list .listen_title span>a{
-  color: #999;
+  color: #999999;
 }
 .listen_content_list .listen_content{
   font-size: 0.8rem;
